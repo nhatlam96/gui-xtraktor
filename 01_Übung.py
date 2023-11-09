@@ -2,6 +2,12 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
 
+def sayit(msg):
+    message = QMessageBox()
+    message.setText(msg)
+    message.exec_()
+
+
 class LoginWindow(QMainWindow):
 
     def __init__(self):
@@ -10,7 +16,7 @@ class LoginWindow(QMainWindow):
         self.show()
 
         self.login_Button.clicked.connect(self.login)
-        self.message_Button.clicked.connect(lambda: self.sayit(self.message_textEdit.toPlainText()))
+        self.message_Button.clicked.connect(lambda: sayit(self.message_textEdit.toPlainText()))
         self.actionClose.triggered.connect(exit)
 
     def login(self):
@@ -22,11 +28,6 @@ class LoginWindow(QMainWindow):
             message = QMessageBox()
             message.setText("invalid login!")
             message.exec_()
-
-    def sayit(self, msg):
-        message = QMessageBox()
-        message.setText(msg)
-        message.exec_()
 
 
 def main():
