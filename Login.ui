@@ -54,22 +54,22 @@
     </property>
     <item>
      <property name="text">
-      <string>Käufer Neuware</string>
+      <string>Käufer (Neuware)</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Verkäufer Neuware</string>
+      <string>Verkäufer (Neuware)</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Käufer Gebraucht</string>
+      <string>Käufer (Gebrauchtware)</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Verkäufer Gebraucht</string>
+      <string>Verkäufer (Gebrauchtware)</string>
      </property>
     </item>
    </widget>
