@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Login</string>
+   <string>Register</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="usernameLineEdit">
@@ -40,7 +40,7 @@
      <string>Password</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="loginAsComboBox">
+   <widget class="QComboBox" name="registerAsComboBox">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -49,11 +49,11 @@
       <height>31</height>
      </rect>
     </property>
-    <property name="currentText">
-     <string>Please select profile...</string>
-    </property>
     <property name="currentIndex">
      <number>0</number>
+    </property>
+    <property name="placeholderText">
+     <string>Register as...</string>
     </property>
     <item>
      <property name="text">
@@ -81,7 +81,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="loginButton">
+   <widget class="QPushButton" name="registerButton">
     <property name="geometry">
      <rect>
       <x>300</x>
@@ -91,20 +91,42 @@
      </rect>
     </property>
     <property name="text">
-     <string>Login</string>
+     <string>Register</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="goToRegisterButton">
+   <widget class="QLineEdit" name="budgetLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>Budget in €</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="goToLoginButton">
     <property name="geometry">
      <rect>
       <x>300</x>
       <y>110</y>
-      <width>181</width>
+      <width>151</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>No Account? Register here!</string>
+     <string>Back to login!</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
     </property>
     <property name="flat">
      <bool>true</bool>
