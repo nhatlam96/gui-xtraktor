@@ -6,151 +6,134 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>513</width>
-    <height>213</height>
+    <width>340</width>
+    <height>161</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Register</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="usernameLineEdit">
+   <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>60</y>
-      <width>231</width>
-      <height>31</height>
+      <x>0</x>
+      <y>0</y>
+      <width>338</width>
+      <height>158</height>
      </rect>
     </property>
-    <property name="placeholderText">
-     <string>Username</string>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
     </property>
-   </widget>
-   <widget class="QLineEdit" name="passwordLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>100</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
-    <property name="placeholderText">
-     <string>Password</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="registerAsComboBox">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>20</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <property name="placeholderText">
-     <string>Register as...</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>Please select profile...</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Käufer (Neuware)</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Verkäufer (Neuware)</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Käufer (Gebraucht)</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Verkäufer (Gebraucht)</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QPushButton" name="registerButton">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>20</y>
-      <width>151</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Register</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="budgetLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>140</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string>Budget in €</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="goToLoginButton">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>110</y>
-      <width>151</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Back to login!</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QComboBox" name="registerAsComboBox">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="placeholderText">
+           <string>Register as...</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Please select profile...</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Käufer (Neuware)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Käufer (Gebraucht)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Verkäufer (Gebraucht)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="usernameLineEdit">
+          <property name="placeholderText">
+           <string>Username</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="passwordLineEdit">
+          <property name="placeholderText">
+           <string>Password</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="budgetLineEdit">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Budget in €</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="registerButton">
+          <property name="text">
+           <string>Register</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="goToLoginButton">
+          <property name="text">
+           <string>Back to login!</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>513</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionClose"/>
-   </widget>
-   <addaction name="menuFile"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
