@@ -1,56 +1,55 @@
 import os.path
-
+import Startseite
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
-
-# Global variables for both login and register instances to be used in the switchToRegister and switchToLogin slots
-login = None
-register = None
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QStackedWidget
 
 
 class Login(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, stacked_widget):
+        super(Login, self).__init__()
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
-        self.show()
 
-        # Connect the push button click event to the slot
+        self.stacked_widget = stacked_widget
+
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
-        self.goToRegisterButton.clicked.connect(self.switchToRegister)
+        self.goToRegisterButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
 
-    # noinspection PyUnresolvedReferences
-    @staticmethod
-    def switchToRegister():
-        global login, register  # Use the global instances
-        login.hide()
-        register.show()
+        self.loginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(2))
 
 
 class Register(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, stacked_widget):
+        super(Register, self).__init__()
         uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
-        self.hide()  # Hide the register form initially
 
-        # Connect the push button click event to the slot
+        self.stacked_widget = stacked_widget
+
         self.goToLoginButton = self.findChild(QPushButton, "goToLoginButton")
-        self.goToLoginButton.clicked.connect(self.switchToLogin)
-
-    # noinspection PyUnresolvedReferences
-    @staticmethod
-    def switchToLogin():
-        global login, register  # Use the global instances
-        register.hide()
-        login.show()
+        self.goToLoginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
 
 def main():
     app = QApplication([])
 
-    global login, register  # Declare global variables
-    # Create instances for both login and register forms
-    login = Login()
-    register = Register()
+    stacked_widget = QStackedWidget()
+
+    login = Login(stacked_widget)
+    register = Register(stacked_widget)
+    start = Startseite.Mainwindow(stacked_widget)
+
+    stacked_widget.addWidget(login)
+    stacked_widget.addWidget(register)
+    stacked_widget.addWidget(start)
+
+    widget = QWidget()
+    layout = QVBoxLayout(widget)
+    layout.addWidget(stacked_widget)
+
+    main_window = QMainWindow()
+    main_window.setCentralWidget(widget)
+    main_window.setFixedWidth(420)
+    main_window.setFixedHeight(300)
+    main_window.show()
 
     app.exec_()
 
