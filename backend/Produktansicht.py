@@ -1,5 +1,6 @@
 import locale
-import os
+import os.path
+import sys
 import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
@@ -13,9 +14,9 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 class ProductWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
-        # uic.loadUi(r"..\frontend\ProductWindow.ui", self)
+        super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
+        
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
@@ -231,11 +232,9 @@ class ProductWindow(QMainWindow):
     def change_widget(self, acc, page):  # page = wohin als nächstes
         pass
 
-
-def main():
-    app = QApplication([])
+# if main program, run app, otherwise just import class
+if __name__ == "__main__":
+    app = QApplication(sys.argv) # construct QApp before QWidget
     window = ProductWindow()
-    app.exec_()
-
-
-main()
+    window.show()  # class Mainwindow aufrufen
+    sys.exit(app.exec_()) # exit cleanly

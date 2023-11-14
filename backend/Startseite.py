@@ -5,11 +5,10 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
 class StartpageWindow(QMainWindow):  
-    def __init__(self):
+    def __init__(self, stacked_widget):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
-        self.show()
-          
+                  
         # fuegen Typ von Traktor hinzu
         self.typ_comboBox.addItem("Traktor 1")
         self.typ_comboBox.addItem("Traktor 2")
@@ -23,6 +22,10 @@ class StartpageWindow(QMainWindow):
         # self.lineEdit.editingFinished()         # press "enter" to finish
         # self.lineEdit.returnPressed()           # return content if you press "enter"
 
+        self.stacked_widget = stacked_widget
+
+        self.show()
+        
     # loeschen alle Eintraege, in den User Suchinformation drauf schreiben
     def empty_search_info(self):
         self.katergorie_lineedit.clear()
