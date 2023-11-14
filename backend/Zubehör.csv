@@ -1,0 +1,19 @@
+Zubehör,Hersteller,Preis,Bestand
+Pflug_1,John Deere,Fendt,Class,New Holland,Steyr,JCB,1080,95
+Pflug_2,John Deere,Fendt,Class,New Holland,Steyr,JCB,3535,42
+Mulcher_1,New Holland,Valtra,Deutz,JCB,3815,12
+Mulcher_2,Valtra,Lindner,Class,New Holland,John deere,Fendt,Deutz,JCB,4690,78
+Bodenfraese_1,Claas,Steyr,John Deere,Deutz,Fendt,Valtra,Kubota,New Holland,2075,74
+Bodenfraese_2,John Deere,Lindner,Valtra,Claas,Steyr, Deutz,JCB,2475,38
+Maehwerk_1,Fendt,Claas,John Deere,Steyr,Deutz,Kubota,New Holland,JCB,2125,32
+Maehwerk_2,Fendt,Claas,John Deere,Steyr,Deutz,Kubota,New Holland,Massey Ferguson,Valtra,3790,22
+Heuwender_1,Deutz,Claas,Fendt,2370,12
+Heuwender_2,Claas,Johne Deere,Kubota,JCB,Steyr,New Holland,2950,4
+Heuwender_3,Massey Ferguson,John Deere,Fendt,Deutz,Claas,New Holland,JCB,2265,2
+Kartoffelhaeufler_1,Deutz,John Deere,New Holland,Claas,Massey,Ferguson,665,28
+Kartoffelhaeufler_2,Massey Ferguson,John Deere,Fendt,Deutz,Claas,New Holland,JCB,1035,14
+Ballenpresse_1,Claas,John Deere,Kubota,Lindner,2740,12
+Ballenpresse_2,New Holland,Valtra,Deutz,JCB,3249,9
+Ballenpresse_3,John Deere,Deutz,Steyr,3789,8
+Ballenpresse_4,New Holland,JCB,Deutz,Claas,Steyr,2357,7
+

@@ -1,0 +1,82 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>icons/check.svg</file>
+    <file>icons/cross.svg</file>
+    <file>icons/home.svg</file>
+    <file>icons/plus-small.svg</file>
+    <file>icons/shopping-cart.svg</file>
+    <file>icons/user.svg</file>
+  </qresource>
+  <qresource prefix="Traktoren">
+    <file>pictures/Traktoren/Claas_95E.jpg</file>
+    <file>pictures/Traktoren/Claas_Axion_900.jpg</file>
+    <file>pictures/Traktoren/Claas_Axion_950.jpg</file>
+    <file>pictures/Traktoren/Claas_Axos_340_CX.jpg</file>
+    <file>pictures/Traktoren/Claas_Xerion_5000.jpg</file>
+    <file>pictures/Traktoren/Deutz_9340_TTV_Warrior.jpg</file>
+    <file>pictures/Traktoren/Deutz_11440_TTV.jpg</file>
+    <file>pictures/Traktoren/Deutz_Agroton_M_600.jpg</file>
+    <file>pictures/Traktoren/Deutz_Agroton_TTV_7250.jpg</file>
+    <file>pictures/Traktoren/Deutz_AgroXXL_1630.jpg</file>
+    <file>pictures/Traktoren/Fendt_Vario_500.jpg</file>
+    <file>pictures/Traktoren/Fendt_Vario_828.jpg</file>
+    <file>pictures/Traktoren/Fendt_Vario_1038.jpg</file>
+    <file>pictures/Traktoren/Fendt_Vario_1050.jpg</file>
+    <file>pictures/Traktoren/Fendt_Vario_1100.jpg</file>
+    <file>pictures/Traktoren/JCB_3220_Plus.jpg</file>
+    <file>pictures/Traktoren/JCB_7270.jpg</file>
+    <file>pictures/Traktoren/JCB_8280.jpg</file>
+    <file>pictures/Traktoren/JCB_8330.jpg</file>
+    <file>pictures/Traktoren/John Deere_7R.jpg</file>
+    <file>pictures/Traktoren/John Deere_9R_640.jpg</file>
+    <file>pictures/Traktoren/John Deere_9R_RT.jpg</file>
+    <file>pictures/Traktoren/John Deere_9RX_640.jpg</file>
+    <file>pictures/Traktoren/John Deere_7020.jpg</file>
+    <file>pictures/Traktoren/John Deere_8030.jpg</file>
+    <file>pictures/Traktoren/Kubota M5001-N.jpg</file>
+    <file>pictures/Traktoren/Kubota M7003.jpg</file>
+    <file>pictures/Traktoren/Kubota_M_135.jpg</file>
+    <file>pictures/Traktoren/Lindnder Lintrac 95_LS_Alpin.jpg</file>
+    <file>pictures/Traktoren/Lindner Lintrac_90.jpg</file>
+    <file>pictures/Traktoren/Lindner_Lintrac_130.jpg</file>
+    <file>pictures/Traktoren/Massey Ferguson MF_5713M.jpg</file>
+    <file>pictures/Traktoren/Massey_Ferguson_MF_8400.jpg</file>
+    <file>pictures/Traktoren/New Holland T5_120.jpg</file>
+    <file>pictures/Traktoren/New Holland T7_Heavy_Duty.jpg</file>
+    <file>pictures/Traktoren/New_Holland_T6_180.jpg</file>
+    <file>pictures/Traktoren/New_Holland_T8.jpg</file>
+    <file>pictures/Traktoren/New_Holland_T9.jpg</file>
+    <file>pictures/Traktoren/Steyr_6240_CVT.jpg</file>
+    <file>pictures/Traktoren/Steyr_6300_Terrus_CVT.jpg</file>
+    <file>pictures/Traktoren/Steyr_Multi_4120.jpg</file>
+    <file>pictures/Traktoren/Steyr_Profi_6000.jpg</file>
+    <file>pictures/Traktoren/Valtra A85.jpg</file>
+    <file>pictures/Traktoren/Valtra S294.jpg</file>
+    <file>pictures/Traktoren/Valtra_S394.jpg</file>
+  </qresource>
+  <qresource prefix="Zubehör">
+    <file>pictures/Zubehör/Anbauegge_1.jpg</file>
+    <file>pictures/Zubehör/Ballenpresse_1.jpg</file>
+    <file>pictures/Zubehör/Ballenpresse_2.jpg</file>
+    <file>pictures/Zubehör/Ballenpresse_3.jpg</file>
+    <file>pictures/Zubehör/Ballenpresse_4.jpg</file>
+    <file>pictures/Zubehör/Bodenfräse_1.jpg</file>
+    <file>pictures/Zubehör/Bodenfräse_2.jpg</file>
+    <file>pictures/Zubehör/Heuwender_1.jpg</file>
+    <file>pictures/Zubehör/Heuwender_2.jpg</file>
+    <file>pictures/Zubehör/Heuwender_3.jpg</file>
+    <file>pictures/Zubehör/Kartoffelhäufler_1.jpg</file>
+    <file>pictures/Zubehör/Kartoffelhäufler_2.jpg</file>
+    <file>pictures/Zubehör/Mähwerk_1.jpg</file>
+    <file>pictures/Zubehör/Mähwerk_2.jpg</file>
+    <file>pictures/Zubehör/Mulcher_1.jpg</file>
+    <file>pictures/Zubehör/Mulcher_2.jpg</file>
+    <file>pictures/Zubehör/Pflug_1.jpg</file>
+    <file>pictures/Zubehör/Pflug_2.jpg</file>
+    <file>pictures/Zubehör/Scheibenegge_1.jpg</file>
+    <file>pictures/Zubehör/Scheibenpflug_1.jpg</file>
+    <file>pictures/Zubehör/Striegel_1.jpg</file>
+    <file>pictures/Zubehör/Wiesenschleppe_1.jpg</file>
+    <file>pictures/Zubehör/Wiesenschleppe_2.jpg</file>
+  </qresource>
+</RCC>
