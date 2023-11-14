@@ -39,6 +39,7 @@ if __name__ == "__main__":
     loginWidget = LoginWindow(stacked_widget)
     register = Register(stacked_widget)
     start = Startseite.StartpageWindow(stacked_widget)
+    start = Startseite.StartpageWindow(stacked_widget)
 
     stacked_widget.addWidget(loginWidget)
     stacked_widget.addWidget(register)
@@ -50,7 +51,7 @@ if __name__ == "__main__":
 
     window = LoginWindow()
     window.setCentralWidget(widget)
-    window.setFixedWidth(420)
-    window.setFixedHeight(300)
+    window.setFixedWidth(2000)
+    window.setFixedHeight(2000)
     window.show()  # class Mainwindow aufrufen
     sys.exit(app.exec_()) # exit cleanly
