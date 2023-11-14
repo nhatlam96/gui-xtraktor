@@ -1,8 +1,9 @@
 import os.path
 import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QPushButton, QMessageBox
+from Helper import showToast, updateMainWindowSize, checkCredentials, usernameExists, addUserToCSV, validateInputs
 import Startseite
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QStackedWidget
 
 
 class Login(QMainWindow):
@@ -15,16 +16,26 @@ class Login(QMainWindow):
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
         self.goToRegisterButton.clicked.connect(lambda: self.switchToRegister())
 
-        self.loginButton.clicked.connect(lambda: self.switchToStartseite())
+        self.loginButton.clicked.connect(lambda: self.loginCheck())
         self.show()
 
     def switchToRegister(self):
         self.stacked_widget.setCurrentIndex(1)
-        self.stacked_widget.main_window.setFixedSize(540, 220)  # Update main window size
+        updateMainWindowSize(self.stacked_widget.main_window, 540, 220)
 
     def switchToStartseite(self):
         self.stacked_widget.setCurrentIndex(2)
-        self.stacked_widget.main_window.setFixedSize(888, 666)  # Update main window size
+        updateMainWindowSize(self.stacked_widget.main_window, 888, 666)
+        showToast("Login successful!", QMessageBox.Information)
+
+    def loginCheck(self):
+        username = self.usernameLineEdit.text()
+        password = self.passwordLineEdit.text()
+
+        if checkCredentials(username, password):
+            self.switchToStartseite()
+        else:
+            showToast("Invalid credentials!", QMessageBox.Warning)
 
 
 class Register(QMainWindow):
@@ -36,6 +47,27 @@ class Register(QMainWindow):
 
         self.goToLoginButton = self.findChild(QPushButton, "goToLoginButton")
         self.goToLoginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+
+        self.registerButton = self.findChild(QPushButton, "registerButton")
+        self.registerButton.clicked.connect(lambda: self.registerUser())
+
+    def registerUser(self):
+        username = self.usernameLineEdit.text()
+        password = self.passwordLineEdit.text()
+        budget = self.budgetLineEdit.text()
+        role = self.registerAsComboBox.currentText()
+
+        validation_result = validateInputs(username, password, budget, role)
+
+        if validation_result == "success":
+            if not usernameExists(username):
+                addUserToCSV(username, password, int(budget), role)
+                showToast("Registration successful!", QMessageBox.Information)
+                self.stacked_widget.setCurrentIndex(0)
+            else:
+                showToast("Username already exists!", QMessageBox.Warning)
+        else:
+            showToast(validation_result, QMessageBox.Warning)
 
 
 def main():
@@ -61,7 +93,7 @@ def main():
     main_window.setWindowTitle("X-Traktor")
     main_window.show()
 
-    stacked_widget.main_window = main_window  # Assign main_window to stacked_widget
+    stacked_widget.main_window = main_window
     sys.exit(app.exec_())
 
 
