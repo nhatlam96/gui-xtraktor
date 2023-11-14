@@ -4,7 +4,7 @@ from PyQt5 import uic
 class ProfileWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('Nutzerprofil.ui', self)
+        uic.loadUi('../frontend/Nutzerprofil.ui', self)
         self.show()
 
 def main():
