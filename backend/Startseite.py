@@ -16,7 +16,7 @@ class Mainwindow:
         self.uic.typ_comboBox.addItem("Traktor 3")
         self.uic.typ_comboBox.addItem("Traktor 4")
 
-        # ## Button deklarieren
+        # ### Button deklarieren
 
         self.uic.bufferleer_button.clicked.connect(self.such_infor_leermachen)
         self.uic.such_infor_commit.clicked.connect(self.such_infor_bestatigen)

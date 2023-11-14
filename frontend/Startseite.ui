@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Startseite</class>
+ <widget class="QMainWindow" name="Startseite">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -20,7 +20,7 @@
       <x>9</x>
       <y>9</y>
       <width>841</width>
-      <height>601</height>
+      <height>631</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -112,7 +112,7 @@
        <x>10</x>
        <y>141</y>
        <width>821</width>
-       <height>451</height>
+       <height>471</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -126,8 +126,8 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>281</width>
-        <height>415</height>
+        <width>241</width>
+        <height>456</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -137,116 +137,6 @@
        <enum>QFrame::Plain</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QFrame" name="frame_15">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QLabel" name="katergorie_label">
-            <property name="text">
-             <string>Katergorie</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="katergorie_lineedit"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_14">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <widget class="QLabel" name="zustand_label">
-            <property name="text">
-             <string>Zustand</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="zustand_lineedit"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_13">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
-          <item>
-           <widget class="QLabel" name="baujahr_label">
-            <property name="text">
-             <string>Baujahr</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="baujahr_lineEdit"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_12">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
-          <item>
-           <widget class="QLabel" name="leistung_label">
-            <property name="text">
-             <string>Leistung</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="leistung_linedit"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_11">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
-           <widget class="QLabel" name="km_label">
-            <property name="text">
-             <string>Km/h</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="km_lineedit"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item>
         <widget class="QFrame" name="frame_10">
          <property name="frameShape">
@@ -264,7 +154,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="hersteller_lineedit"/>
+           <widget class="QComboBox" name="comboBox_2"/>
           </item>
          </layout>
         </widget>
@@ -292,6 +182,150 @@
         </widget>
        </item>
        <item>
+        <widget class="QFrame" name="frame_14">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="zustand_label">
+            <property name="text">
+             <string>Zustand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_13">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="baujahr_label">
+            <property name="text">
+             <string>Baujahr</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="baujahr_spinBox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_12">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QLabel" name="leistung_label">
+            <property name="text">
+             <string>Leistung</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_11">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="km_label">
+            <property name="text">
+             <string>Km/h</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_15">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Preis</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_16">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Auf Lager</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="auf_lager_spinBox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QFrame" name="frame_6">
          <property name="frameShape">
           <enum>QFrame::Box</enum>
@@ -303,14 +337,14 @@
           <item>
            <widget class="QPushButton" name="bufferleer_button">
             <property name="text">
-             <string>PushButton</string>
+             <string>zurücksetzen</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="such_infor_commit">
             <property name="text">
-             <string>PushButton</string>
+             <string>bestätigen</string>
             </property>
            </widget>
           </item>
@@ -322,9 +356,9 @@
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>320</x>
-        <y>10</y>
-        <width>491</width>
+        <x>270</x>
+        <y>20</y>
+        <width>541</width>
         <height>431</height>
        </rect>
       </property>
@@ -339,7 +373,7 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>451</width>
+         <width>511</width>
          <height>44</height>
         </rect>
        </property>
@@ -367,7 +401,7 @@
         <rect>
          <x>10</x>
          <y>70</y>
-         <width>451</width>
+         <width>511</width>
          <height>341</height>
         </rect>
        </property>
