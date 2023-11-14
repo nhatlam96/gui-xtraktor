@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/nhatlamluong/Projects/hs_wo_gui_2023/Startseite.ui'
+# Form implementation generated from reading ui file '/home/nhatlamluong/Projects/hs_wo_gui_2023/frontend/Startseite.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -204,7 +204,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Startseite"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
         self.label_2.setText(_translate("MainWindow", "TextLabel"))
@@ -220,3 +220,4 @@ class Ui_MainWindow(object):
         self.bufferleer_button.setText(_translate("MainWindow", "PushButton"))
         self.such_infor_commit.setText(_translate("MainWindow", "PushButton"))
         self.pushButton_4.setText(_translate("MainWindow", "PushButton"))
+import image_rc
