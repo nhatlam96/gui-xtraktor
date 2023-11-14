@@ -3,12 +3,14 @@ from PyQt5.QtWidgets import *
 from frontend.Startseite_ui import Ui_MainWindow
 
 
-class Mainwindow:
-    def __init__(self):
+class Mainwindow(QMainWindow):
+    def __init__(self, stacked_widget):
+        super().__init__()
         self.main_win = QMainWindow()
         self.uic = Ui_MainWindow()
         self.uic.setupUi(self.main_win)
 
+        self.stacked_widget = stacked_widget
         # ### fugen Typ von Traktor hinzu
 
         self.uic.typ_comboBox.addItem("Traktor 1")
@@ -20,6 +22,8 @@ class Mainwindow:
 
         self.uic.bufferleer_button.clicked.connect(self.such_infor_leermachen)
         self.uic.such_infor_commit.clicked.connect(self.such_infor_bestatigen)
+
+        self.show()
 
         # self.uic.lineEdit.editingFinished()         # press "enter" to finish
         # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
@@ -46,13 +50,13 @@ class Mainwindow:
         print("Hersteller: ", self.uic.hersteller_lineedit.text())
         print("Typ: ", self.uic.typ_comboBox.currentText())
 
-    def show(self):
-        self.main_win.show()
+    # def show(self):
+        # self.main_win.show()
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    main_win = Mainwindow()  # class Mainwindow aufrufen
-    main_win.show()
+# if __name__ == "__main__":
+    # app = QApplication(sys.argv)
+    # main_win = Mainwindow()  # class Mainwindow aufrufen
+    # main_win.show()
 
-    sys.exit(app.exec_())
+    # sys.exit(app.exec_())
