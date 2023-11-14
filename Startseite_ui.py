@@ -220,7 +220,6 @@ class Ui_MainWindow(object):
         self.bufferleer_button.setText(_translate("MainWindow", "PushButton"))
         self.such_infor_commit.setText(_translate("MainWindow", "PushButton"))
         self.pushButton_4.setText(_translate("MainWindow", "PushButton"))
-import ima
 
 
 if __name__ == "__main__":
