@@ -6,16 +6,16 @@ from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 
 
-CSV_PATH = os.path.join("resources")
-PIC_PATH = os.path.join("resources", "pictures")
-ICON_PATH = os.path.join("resources", "icons")
+CSV_PATH = os.path.join("..", "resources")
+PIC_PATH = os.path.join("..", "resources", "pictures")
+ICON_PATH = os.path.join("..", "resources", "icons")
 
 
 class ProductWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         # uic.loadUi(r"..\frontend\ProductWindow.ui", self)
-        uic.loadUi(os.path.join("frontend", "ProductWindow.ui"), self)
+        uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
