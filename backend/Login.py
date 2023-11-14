@@ -7,16 +7,24 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout,
 
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
-        super(Login, self).__init__()  # vereinfacht das Erstellen weiterer Subklassen
+        super(Login, self).__init__()
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
 
         self.stacked_widget = stacked_widget
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
-        self.goToRegisterButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
+        self.goToRegisterButton.clicked.connect(lambda: self.switchToRegister())
 
-        self.loginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(2))
+        self.loginButton.clicked.connect(lambda: self.switchToStartseite())
         self.show()
+
+    def switchToRegister(self):
+        self.stacked_widget.setCurrentIndex(1)
+        self.stacked_widget.main_window.setFixedSize(540, 220)  # Update main window size
+
+    def switchToStartseite(self):
+        self.stacked_widget.setCurrentIndex(2)
+        self.stacked_widget.main_window.setFixedSize(888, 666)  # Update main window size
 
 
 class Register(QMainWindow):
@@ -30,9 +38,8 @@ class Register(QMainWindow):
         self.goToLoginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
 
-# if main program, run app, otherwise just import class
-if __name__ == "__main__":
-    app = QApplication(sys.argv)  # construct QApp before QWidget
+def main():
+    app = QApplication(sys.argv)
 
     stacked_widget = QStackedWidget()
 
@@ -50,6 +57,13 @@ if __name__ == "__main__":
 
     main_window = QMainWindow()
     main_window.setCentralWidget(widget)
-    main_window.setFixedSize(520, 200)
-    main_window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_())  # exit cleanly
+    main_window.setFixedSize(540, 220)
+    main_window.setWindowTitle("X-Traktor")
+    main_window.show()
+
+    stacked_widget.main_window = main_window  # Assign main_window to stacked_widget
+    sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
