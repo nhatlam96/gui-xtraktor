@@ -5,9 +5,9 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QStackedWidget
 
 
-class LoginWindow(QMainWindow):
+class Login(QMainWindow):
     def __init__(self, stacked_widget):
-        super(LoginWindow, self).__init__() # vereinfacht das Erstellen weiterer Subklassen
+        super(Login, self).__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
 
         self.stacked_widget = stacked_widget
@@ -18,6 +18,7 @@ class LoginWindow(QMainWindow):
         self.loginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(2))
 
         self.show()
+
 
 class Register(QMainWindow):
     def __init__(self, stacked_widget):
@@ -32,16 +33,15 @@ class Register(QMainWindow):
 
 # if main program, run app, otherwise just import class
 if __name__ == "__main__":
-    app = QApplication(sys.argv) # construct QApp before QWidget
+    app = QApplication(sys.argv)  # construct QApp before QWidget
 
     stacked_widget = QStackedWidget()
 
-    loginWidget = LoginWindow(stacked_widget)
+    login = Login(stacked_widget)
     register = Register(stacked_widget)
     start = Startseite.StartpageWindow(stacked_widget)
-    start = Startseite.StartpageWindow(stacked_widget)
 
-    stacked_widget.addWidget(loginWidget)
+    stacked_widget.addWidget(login)
     stacked_widget.addWidget(register)
     stacked_widget.addWidget(start)
 
@@ -49,9 +49,7 @@ if __name__ == "__main__":
     layout = QVBoxLayout(widget)
     layout.addWidget(stacked_widget)
 
-    window = LoginWindow()
-    window.setCentralWidget(widget)
-    window.setFixedWidth(2000)
-    window.setFixedHeight(2000)
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_()) # exit cleanly
+    main_window = QMainWindow()
+    main_window.setCentralWidget(widget)
+    main_window.show()  # class Mainwindow aufrufen
+    sys.exit(app.exec_())  # exit cleanly
