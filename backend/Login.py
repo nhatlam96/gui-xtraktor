@@ -16,7 +16,6 @@ class Login(QMainWindow):
         self.goToRegisterButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
 
         self.loginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(2))
-
         self.show()
 
 
@@ -51,5 +50,6 @@ if __name__ == "__main__":
 
     main_window = QMainWindow()
     main_window.setCentralWidget(widget)
+    main_window.setFixedSize(520, 200)
     main_window.show()  # class Mainwindow aufrufen
     sys.exit(app.exec_())  # exit cleanly
