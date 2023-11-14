@@ -35,7 +35,7 @@ def main():
 
     login = Login(stacked_widget)
     register = Register(stacked_widget)
-    start = Startseite.Mainwindow(stacked_widget)
+    start = Startseite.StartpageWindow(stacked_widget)
 
     stacked_widget.addWidget(login)
     stacked_widget.addWidget(register)
@@ -47,8 +47,8 @@ def main():
 
     main_window = QMainWindow()
     main_window.setCentralWidget(widget)
-    main_window.setFixedWidth(420)
-    main_window.setFixedHeight(300)
+    main_window.setFixedWidth(2000)
+    main_window.setFixedHeight(2000)
     main_window.show()
 
     app.exec_()
