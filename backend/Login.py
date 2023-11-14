@@ -1,3 +1,5 @@
+import os.path
+
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
 
@@ -9,7 +11,7 @@ register = None
 class Login(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("Login.ui", self)
+        uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
         self.show()
 
         # Connect the push button click event to the slot
@@ -27,7 +29,7 @@ class Login(QMainWindow):
 class Register(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("Register.ui", self)
+        uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
         self.hide()  # Hide the register form initially
 
         # Connect the push button click event to the slot

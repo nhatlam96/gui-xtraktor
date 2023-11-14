@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
-from frontend.Startseite_ui import Ui_MainWindow
+from Startseite_ui import Ui_MainWindow
 
 
 class Mainwindow:
@@ -17,7 +17,6 @@ class Mainwindow:
         self.uic.typ_comboBox.addItem("Traktor 4")
 
         # ## Button deklarieren
-
         self.uic.bufferleer_button.clicked.connect(self.such_infor_leermachen)
         self.uic.such_infor_commit.clicked.connect(self.such_infor_bestatigen)
 
@@ -34,17 +33,8 @@ class Mainwindow:
         self.uic.hersteller_lineedit.clear()
         self.uic.typ_comboBox.clear()
 
-    # ### hol mal alle Informationen, die User bereits in Eintragen eingetragen
-
     def such_infor_bestatigen(self):
-
-        print("Button click!")
-        print("Kategorie: ", self.uic.katergorie_lineedit.text())
-        print("Zustand: ", self.uic.zustand_lineedit.text())
-        print("Leistung: ", self.uic.leistung_linedit.text())
-        print("Km/h: ", self.uic.km_lineedit.text())
-        print("Hersteller: ", self.uic.hersteller_lineedit.text())
-        print("Typ: ", self.uic.typ_comboBox.currentText())
+        pass
 
     def show(self):
         self.main_win.show()

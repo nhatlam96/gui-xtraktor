@@ -5,24 +5,24 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 
-CSV_PATH = r"resources"
-PIC_PATH = r"resources\pictures"
-ICON_PATH = r"resources\icons"
+
+CSV_PATH = os.path.join("..", "resources", "csv")
+PIC_PATH = os.path.join("..", "resources", "pictures")
+ICON_PATH = os.path.join("..", "resources", "icons")
 
 
 class ProductWindow(QMainWindow):
-
     def __init__(self):
         super().__init__()
-        uic.loadUi("ProductWindow.ui", self)
-
+        # uic.loadUi(r"..\frontend\ProductWindow.ui", self)
+        uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
         acc_platzhalter = "Sieglinde"
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
-        z_list = self.load_zub(product[0])          # kompatibles Zubehoer []
+        z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
 
         # Währungsumgebung laden
         self.locale_setup()
@@ -37,7 +37,9 @@ class ProductWindow(QMainWindow):
 
         # Aktionen
         self.buy_Button.clicked.connect(self.buy)
-        self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
+        self.spinBox.valueChanged.connect(
+            lambda value: self.calc_wert(product[4], loss, value)
+        )
         self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
         self.acc_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
         self.home_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
@@ -59,16 +61,32 @@ class ProductWindow(QMainWindow):
         label.setIcon(icon)
 
     def load_ui(self, product, user):
-        self.replace_text(f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label"))
-        self.replace_text(locale.currency(int(product[4].replace(".", "")), grouping=True), self.findChild(QLabel, "preis_status"))
-        self.replace_text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        self.replace_text(
+            f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
+        )
+        self.replace_text(
+            locale.currency(int(product[4].replace(".", "")), grouping=True),
+            self.findChild(QLabel, "preis_status"),
+        )
+        self.replace_text(
+            f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
+            self.findChild(QLabel, "budget_label"),
+        )
         self.replace_text(product[2], self.findChild(QLabel, "ps_status"))
         self.replace_text(product[3], self.findChild(QLabel, "kmh_status"))
         self.replace_text(product[5], self.findChild(QLabel, "baujahr_status"))
-        self.replace_icon(os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
-        self.replace_icon(os.path.join(ICON_PATH, r"user.svg"), self.findChild(QPushButton, "acc_Button"))
-        self.replace_icon(os.path.join(ICON_PATH, r"shopping-cart.svg"), self.findChild(QPushButton, "shopping_Button"))
-
+        self.replace_icon(
+            os.path.join(ICON_PATH, r"home.svg"),
+            self.findChild(QPushButton, "home_Button"),
+        )
+        self.replace_icon(
+            os.path.join(ICON_PATH, r"user.svg"),
+            self.findChild(QPushButton, "acc_Button"),
+        )
+        self.replace_icon(
+            os.path.join(ICON_PATH, r"shopping-cart.svg"),
+            self.findChild(QPushButton, "shopping_Button"),
+        )
 
     def load_data(self, placeholder):
         csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
@@ -85,7 +103,9 @@ class ProductWindow(QMainWindow):
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
-            data_list = []                  # welche werte wichtig? andere methode? ohne zwischenspeicher?
+            data_list = (
+                []
+            )  # welche werte wichtig? andere methode? ohne zwischenspeicher?
 
             for row in csv_reader:
                 for column in row:
@@ -93,7 +113,7 @@ class ProductWindow(QMainWindow):
                         data_list.append(row)
                         break
 
-            print(data_list)    # zu testzweck
+            print(data_list)  # zu testzweck
             return data_list
 
     def load_loss(self, platzhhalter):
@@ -108,10 +128,16 @@ class ProductWindow(QMainWindow):
 
     def load_lager(self, row):
         if int(row[6]) > 0:
-            self.replace_img(os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
+            self.replace_img(
+                os.path.join(ICON_PATH, r"check.svg"),
+                self.findChild(QLabel, "bestand_icon"),
+            )
             return True
         else:
-            self.replace_img(os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
+            self.replace_img(
+                os.path.join(ICON_PATH, r"cross.svg"),
+                self.findChild(QLabel, "bestand_icon"),
+            )
             self.buy_Button.setDisabled(True)
             self.replace_text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
@@ -133,11 +159,11 @@ class ProductWindow(QMainWindow):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
                 pixmap = QPixmap(voll_pfad)
-                scaled_pixmap = pixmap.scaled(64,64)
+                scaled_pixmap = pixmap.scaled(64, 64)
                 return scaled_pixmap
 
     def load_acc(self, user):
-        pfad = os.path.join(CSV_PATH, r"Nutzer.csv")
+        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
@@ -147,7 +173,6 @@ class ProductWindow(QMainWindow):
                     return row
 
     def add_widget(self, zusatz, product):
-
         # dynamisches Layout laden
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
 
@@ -173,7 +198,7 @@ class ProductWindow(QMainWindow):
             inner_layout.addWidget(label3)
             inner_layout.addWidget(button1)
 
-            layout.addWidget(new_widget)        # widget dem container hinzufuegen
+            layout.addWidget(new_widget)  # widget dem container hinzufuegen
 
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
@@ -188,14 +213,24 @@ class ProductWindow(QMainWindow):
 
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
-        new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
-        self.replace_text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+        new_value = (
+            -(value * (preis * loss / 100))
+            if (value * (preis * loss / 100)) < preis
+            else -preis
+        )
+        self.replace_text(
+            locale.currency(new_value, grouping=True),
+            self.findChild(QLabel, "wert_status"),
+        )
 
-    def buy(self, acc):     # weiterleiten an warenkorb mit parameter (user name, product modell)
-        pass                # Warenkorb.ui nötig
+    def buy(
+        self, acc
+    ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+        pass  # Warenkorb.ui nötig
 
-    def change_widget(self, acc, page):     # page = wohin als nächstes
+    def change_widget(self, acc, page):  # page = wohin als nächstes
         pass
+
 
 def main():
     app = QApplication([])
