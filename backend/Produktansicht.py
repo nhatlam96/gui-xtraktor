@@ -6,7 +6,7 @@ from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 
 
-CSV_PATH = os.path.join("..", "resources")
+CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 
@@ -163,7 +163,7 @@ class ProductWindow(QMainWindow):
                 return scaled_pixmap
 
     def load_acc(self, user):
-        pfad = os.path.join(CSV_PATH, r"Nutzer.csv")
+        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
