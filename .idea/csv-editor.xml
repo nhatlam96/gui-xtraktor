@@ -3,6 +3,20 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/backend/Kaeufer_Gebrauchtware.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/backend/Kaeufer_Neuware.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/backend/Klaus.csv">
           <value>
             <Attribute>
@@ -10,7 +24,21 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/backend/Nutzer.csv">
+        <entry key="/backend/Verkaeufer_Gebrauchtware.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/backend/Verkaeufer_Neuware.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/backend/Wertminderung.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
