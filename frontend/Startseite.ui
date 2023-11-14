@@ -112,7 +112,7 @@
        <x>10</x>
        <y>141</y>
        <width>821</width>
-       <height>471</height>
+       <height>481</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -127,7 +127,7 @@
         <x>10</x>
         <y>10</y>
         <width>241</width>
-        <height>456</height>
+        <height>461</height>
        </rect>
       </property>
       <property name="frameShape">

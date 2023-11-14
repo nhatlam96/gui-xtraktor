@@ -15,7 +15,11 @@ class StartpageWindow(QMainWindow):
         self.typ_comboBox.addItem("Traktor 3")
         self.typ_comboBox.addItem("Traktor 4")
 
-        # Button deklarieren
+        # ######## fuegen Zustand von Traktor hinzu
+
+
+        # ### Zurücksetzen Button und Bestätigen Button deklarieren
+
         self.bufferleer_button.clicked.connect(self.empty_search_info)
         self.such_infor_commit.clicked.connect(self.confirm_search_info)
 
@@ -26,6 +30,47 @@ class StartpageWindow(QMainWindow):
 
         self.show()
         
+        # self.uic.lineEdit.editingFinished()         # press "enter" to finish
+        # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
+
+        # ############ Spin Box bei den Auf Lager und Baujahr einstellen
+
+        self.baujahr_spinBox.setMinimum(1900)
+        self.baujahr_spinBox.setMaximum(2023)
+
+        self.auf_lager_spinBox.setMinimum(0)
+        self.auf_lager_spinBox.setMaximum(100)
+
+        # ########### Umgehen mit dem Ereignis, wenn User Value des Baujahr geaendert wurde
+
+        # self.uic.baujahr_spinBox.valueChanged.connect(self.Baujahr_Value_aendern)
+
+        # ########### Umgehen mit dem Ereignis, wenn User Value des Auf Lager geaendert wurde
+
+        # self.uic.auf_lager_spinBox.valueChanged.connect(self.Auflager_Value_aendern)
+
+    # ########## aktuelle Value von Baujahr nehmen
+    def baujahr_value_nehmen(self):
+        return self.baujahr_spinBox.value()
+
+    # ########## aktuelle Value von Auf Lager nehmen
+    def auflager_value_nehmen(self):
+        return self.auf_lager_spinBox.value()
+
+    # ############ aktuelle Value von Km nehmen
+    def km_value_nehmen(self):
+        return self.horizontalSlider_km.value()
+
+    # ############ aktuelle Value von Leistung nehmen
+    def leistung_value_nehmen(self):
+        return self.horizontalSlider_leistung.value()
+
+    # ############ aktuelle Value von Preis nehmen
+
+    def preis_value_nehmen(self):
+        return self.horizontalSlider_preis.value()
+
+
     # loeschen alle Eintraege, in den User Suchinformation drauf schreiben
     def empty_search_info(self):
         self.katergorie_lineedit.clear()
