@@ -32,7 +32,7 @@
       <x>9</x>
       <y>9</y>
       <width>841</width>
-      <height>631</height>
+      <height>821</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -122,9 +122,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>141</y>
+       <y>131</y>
        <width>821</width>
-       <height>481</height>
+       <height>641</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -139,7 +139,7 @@
         <x>10</x>
         <y>10</y>
         <width>241</width>
-        <height>461</height>
+        <height>591</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -214,7 +214,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_zustand"/>
+           <widget class="QComboBox" name="comboBox_zustand">
+            <item>
+             <property name="text">
+              <string>Neu</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Gebraucht</string>
+             </property>
+            </item>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -236,7 +247,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="baujahr_spinBox"/>
+           <widget class="QSpinBox" name="baujahr_spinBox">
+            <property name="minimum">
+             <number>1900</number>
+            </property>
+            <property name="maximum">
+             <number>2023</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -249,7 +267,7 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="leistung_label">
             <property name="text">
@@ -267,6 +285,16 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLabel" name="leistung_anzeigt">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -278,7 +306,7 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QLabel" name="km_label">
             <property name="text">
@@ -296,6 +324,16 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLabel" name="km_anzeigt">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -307,7 +345,7 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
@@ -318,10 +356,23 @@
           <item>
            <widget class="QSlider" name="horizontalSlider_preis">
             <property name="maximum">
-             <number>1000</number>
+             <number>2000000</number>
+            </property>
+            <property name="singleStep">
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="preis_anzeigt">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -345,7 +396,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="auf_lager_spinBox"/>
+           <widget class="QSpinBox" name="auf_lager_spinBox">
+            <property name="maximum">
+             <number>100</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -383,8 +438,8 @@
        <rect>
         <x>270</x>
         <y>20</y>
-        <width>541</width>
-        <height>431</height>
+        <width>511</width>
+        <height>581</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -393,50 +448,71 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
-      <widget class="QFrame" name="frame_7">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>511</width>
-         <height>44</height>
-        </rect>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLineEdit" name="lineEdit_2"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_4">
-          <property name="text">
-           <string>PushButton</string>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QFrame" name="frame_7">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLineEdit" name="Lineedit_suchfeld">
+            <property name="font">
+             <font>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="placeholderText">
+             <string>was suchen Sie?</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_suchen">
+            <property name="text">
+             <string>suchen</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>472</width>
+            <height>509</height>
+           </rect>
           </property>
          </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QFrame" name="frame_8">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>70</y>
-         <width>511</width>
-         <height>341</height>
-        </rect>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-      </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>
