@@ -2,6 +2,18 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMessageBox
 
 
+class UserHandler:
+    current_user = ""
+
+    @staticmethod
+    def set_current_user(username):
+        UserHandler.current_user = username
+
+    @staticmethod
+    def get_current_user():
+        return UserHandler.current_user
+
+
 def show_toast(message, icon, button):
     toast = QMessageBox()
     toast.setIcon(icon)

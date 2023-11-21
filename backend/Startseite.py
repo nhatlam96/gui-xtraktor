@@ -1,18 +1,27 @@
-import os.path
-import sys
 import csv
 import os
+import os.path
+import sys
 
-from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtWidgets import *
+
+from Helper import UserHandler
 
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
 
+
 class StartpageWindow(QMainWindow):
-    def __init__(self):
-        super().__init__() # vereinfacht das Erstellen weiterer Subklassen
+
+    def __init__(self, stacked_widget):
+        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
+
+        self.stacked_widget = stacked_widget
+
+        user = UserHandler.get_current_user()
+        print(f"Startseite: {user}")
 
         # ### Zurücksetzen Button und Bestätigen Button deklarieren
         self.bufferleer_button.clicked.connect(self.empty_search_info)
@@ -21,8 +30,8 @@ class StartpageWindow(QMainWindow):
         # ### Such_pushButton in Suchfeld einstellen
 
         self.pushButton_suchen.clicked.connect(self.confirm_suchfeld_info)
-        self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)         # press "enter" to finish
-        #self.lineEdit.returnPressed()           # return content if you press "enter"
+        self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
+        # self.lineEdit.returnPressed()           # return content if you press "enter"
 
         self.setup_waren_ui()
 
@@ -36,6 +45,9 @@ class StartpageWindow(QMainWindow):
         # self.stacked_widget = QStackedWidget
 
         self.show()
+
+        # self.uic.lineEdit.editingFinished()         # press "enter" to finish
+        # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
 
         # ############ Spin Box bei dem Lager und Baujahr einstellen
 
@@ -101,17 +113,15 @@ class StartpageWindow(QMainWindow):
 
     def add_hersteller(self):
         Hersteller_eintraeger = []
-        Arbeitmaschinen_csv_path = os.path.join(csv_path,"mobile Arbeitsmaschinen Landwirtschaft.csv")
+        Arbeitmaschinen_csv_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
 
         # ### Öffnen ein csv File und das durch eigene Value abspeichert
         with open(Arbeitmaschinen_csv_path, "r") as file:
-
             csv_file_reader = csv.reader(file)
-            next(csv_file_reader)       # ### Verzichten auf Header Zeile
+            next(csv_file_reader)  # ### Verzichten auf Header Zeile
 
             for row in csv_file_reader:
                 Hersteller_eintraeger.append(row[0])
-
 
         return set(Hersteller_eintraeger)
 
@@ -126,11 +136,9 @@ class StartpageWindow(QMainWindow):
             next(csv_file_reader)
 
             for row in csv_file_reader:
-
                 typ_eintraeger.append(row[1])
 
         return set(typ_eintraeger)
-
 
     def load_list_data(self):
 
@@ -139,23 +147,20 @@ class StartpageWindow(QMainWindow):
         csv_list_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
 
         with open(csv_list_path, "r") as file:
-
             csv_file_reader = csv.reader(file)
 
-            next(csv_file_reader)   # Auf Header Info springen
+            next(csv_file_reader)  # Auf Header Info springen
 
             vermitteln_to_list = list(csv_file_reader)  # csv reader file in List vermitteln
 
-            for index in range(len(vermitteln_to_list)) :
-
+            for index in range(len(vermitteln_to_list)):
                 main_list.append(vermitteln_to_list[index])
 
         return main_list
 
     def load_list_image(self):
-        alle_file = os.listdir("..","resources"|"Traktoren")
+        alle_file = os.listdir("..", "resources" | "Traktoren")
         pass
-
 
     # ########## Funktion für Dynamic aufladen
     def setup_waren_ui(self):
@@ -171,12 +176,12 @@ class StartpageWindow(QMainWindow):
 
             inner_layout1 = QVBoxLayout()
             herstell_label = QLabel("Hersteller: " + str(data_list[index][0]))
-            modell_label = QLabel("Modell: "+ str(data_list[index][1]))
+            modell_label = QLabel("Modell: " + str(data_list[index][1]))
             inner_layout1.addWidget(herstell_label)
             inner_layout1.addWidget(modell_label)
 
             inner_layout2 = QVBoxLayout()
-            preis = QLabel("Preis: "+ str(data_list[index][4]))
+            preis = QLabel("Preis: " + str(data_list[index][4]))
             kaufen = QLabel("Kaufen")
             inner_layout2.addWidget(preis)
             inner_layout2.addWidget(kaufen)
@@ -208,7 +213,6 @@ class StartpageWindow(QMainWindow):
 
         scroll_area.setWidget(content_widget)
 
-
     # ### Löschen alle Einträge, in den User Suchinformation darauf geschrieben haben
     def empty_search_info(self):
 
@@ -223,13 +227,13 @@ class StartpageWindow(QMainWindow):
     # ########## Alle Informationen zurückgeben, die User bereits eingetragen hat
     def confirm_search_info(self):
         print("Button click!")
-        print("Preis: ", self.horizontalSlider_preis.value())      # get the value of Preis
-        print("Zustand: ", self.comboBox_zustand.currentText())   # get the value of Zustand
-        print("Leistung: ", self.horizontalSlider_leistung.value())   # get the value of Leistung
-        print("Km/h: ", self.horizontalSlider_km.value())         # get the value of Leistung
-        print("Hersteller: ", self.comboBox_hersteller.currentText()) # get the value of Hersteller
-        print("Typ: ", self.typ_comboBox.currentText())     # get the value of Typ
-        print("Baujahr: ", self.baujahr_spinBox.value())    # get value of Baujahr SpinBox
+        print("Preis: ", self.horizontalSlider_preis.value())  # get the value of Preis
+        print("Zustand: ", self.comboBox_zustand.currentText())  # get the value of Zustand
+        print("Leistung: ", self.horizontalSlider_leistung.value())  # get the value of Leistung
+        print("Km/h: ", self.horizontalSlider_km.value())  # get the value of Leistung
+        print("Hersteller: ", self.comboBox_hersteller.currentText())  # get the value of Hersteller
+        print("Typ: ", self.typ_comboBox.currentText())  # get the value of Typ
+        print("Baujahr: ", self.baujahr_spinBox.value())  # get value of Baujahr SpinBox
         print("Auf Lager: ", self.auf_lager_spinBox.value())  # get value of Lager SpinBox
 
     def confirm_suchfeld_info(self):
@@ -240,11 +244,11 @@ class StartpageWindow(QMainWindow):
         such_Inhalt = self.Lineedit_suchfeld.text()
         print(such_Inhalt)
 
+
 # if main program, run app, otherwise just import class
 
 if __name__ == "__main__":
-
-    app = QApplication(sys.argv) # construct QApp before QWidget
+    app = QApplication(sys.argv)  # construct QApp before QWidget
     window = StartpageWindow()
     window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_()) # exit cleanly
+    sys.exit(app.exec_())  # exit cleanly

@@ -5,7 +5,7 @@
     <file>icons/home.svg</file>
     <file>icons/plus-small.svg</file>
     <file>icons/shopping-cart.svg</file>
-    <file>icons/user.svg</file>
+      <file>icons/self.svg</file>
   </qresource>
   <qresource prefix="Traktoren">
     <file>pictures/Traktoren/Claas_95E.jpg</file>

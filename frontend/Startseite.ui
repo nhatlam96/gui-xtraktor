@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>888</width>
-    <height>666</height>
+    <width>880</width>
+    <height>860</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>888</width>
-    <height>666</height>
+    <width>880</width>
+    <height>860</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>888</width>
-    <height>666</height>
+    <width>880</width>
+    <height>860</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -249,7 +249,7 @@
           <item>
            <widget class="QSpinBox" name="baujahr_spinBox">
             <property name="minimum">
-             <number>1900</number>
+             <number>1860</number>
             </property>
             <property name="maximum">
              <number>2023</number>
@@ -278,7 +278,7 @@
           <item>
            <widget class="QSlider" name="horizontalSlider_leistung">
             <property name="maximum">
-             <number>1000</number>
+             <number>860</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>

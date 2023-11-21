@@ -5,9 +5,9 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QPushButton, QMessageBox
 
 import Startseite
-from Helper import show_toast
+from Helper import show_toast, UserHandler
 from Login_Helper import update_main_window_size, check_credentials
-from backend.Login_Register import Register
+from Login_Register import Register
 
 
 class Login(QMainWindow):
@@ -28,8 +28,10 @@ class Login(QMainWindow):
         update_main_window_size(self.stacked_widget.main_window, 540, 220)
 
     def switch_to_startseite(self):
+        startseite = Startseite.StartpageWindow(self.stacked_widget)
+        self.stacked_widget.addWidget(startseite)
         self.stacked_widget.setCurrentIndex(2)
-        update_main_window_size(self.stacked_widget.main_window, 888, 666)
+        update_main_window_size(self.stacked_widget.main_window, 880, 860)
         show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
 
     def login_check(self):
@@ -37,6 +39,7 @@ class Login(QMainWindow):
         password = self.passwordLineEdit.text()
 
         if check_credentials(username, password):
+            UserHandler.set_current_user(username)
             self.switch_to_startseite()
         else:
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
@@ -49,11 +52,9 @@ def main():
 
     login = Login(stacked_widget)
     register = Register(stacked_widget)
-    start = Startseite.StartpageWindow(stacked_widget)
 
     stacked_widget.addWidget(login)
     stacked_widget.addWidget(register)
-    stacked_widget.addWidget(start)
 
     widget = QWidget()
     layout = QVBoxLayout(widget)
