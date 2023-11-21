@@ -104,9 +104,7 @@ class ProductWindow(QMainWindow):
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
-            data_list = (
-                []
-            )  # welche werte wichtig? andere methode? ohne zwischenspeicher?
+            data_list = []  # welche werte wichtig? andere methode? ohne zwischenspeicher?
 
             for row in csv_reader:
                 for column in row:
@@ -224,9 +222,7 @@ class ProductWindow(QMainWindow):
             self.findChild(QLabel, "wert_status"),
         )
 
-    def buy(
-        self, acc
-    ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+    def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass  # Warenkorb.ui nötig
 
     def change_widget(self, acc, page):  # page = wohin als nächstes
