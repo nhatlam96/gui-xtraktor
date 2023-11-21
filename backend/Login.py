@@ -4,18 +4,19 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QPushButton, QMessageBox
 
-import Startseite
-from Helper import show_toast, UserHandler
-from Login_Helper import update_main_window_size, check_credentials
-from Login_Register import Register
+from Helper import show_toast, UserHandler, WindowSizeHandler, update_main_window_size
+from Login_Helper import check_credentials
+from Register import Register
+from Startseite import Startseite
 
 
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
         super(Login, self).__init__()
-        uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
-
         self.stacked_widget = stacked_widget
+
+        login_ui = uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
+        WindowSizeHandler.set_sizes(self, login_ui.minimumSize(), login_ui.maximumSize())
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
         self.goToRegisterButton.clicked.connect(lambda: self.switch_to_register())
@@ -24,14 +25,16 @@ class Login(QMainWindow):
         self.show()
 
     def switch_to_register(self):
-        self.stacked_widget.setCurrentIndex(1)
-        update_main_window_size(self.stacked_widget.main_window, 540, 220)
+        register = Register(self.stacked_widget)
+        self.stacked_widget.addWidget(register)
+        self.stacked_widget.setCurrentWidget(register)
+        update_main_window_size(self.stacked_widget.main_window)
 
     def switch_to_startseite(self):
-        startseite = Startseite.StartpageWindow(self.stacked_widget)
+        startseite = Startseite(self.stacked_widget)
         self.stacked_widget.addWidget(startseite)
-        self.stacked_widget.setCurrentIndex(2)
-        update_main_window_size(self.stacked_widget.main_window, 880, 860)
+        self.stacked_widget.setCurrentWidget(startseite)
+        update_main_window_size(self.stacked_widget.main_window)
         show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
 
     def login_check(self):
@@ -49,12 +52,7 @@ def main():
     app = QApplication(sys.argv)
 
     stacked_widget = QStackedWidget()
-
-    login = Login(stacked_widget)
-    register = Register(stacked_widget)
-
-    stacked_widget.addWidget(login)
-    stacked_widget.addWidget(register)
+    stacked_widget.addWidget(Login(stacked_widget))
 
     widget = QWidget()
     layout = QVBoxLayout(widget)
@@ -62,8 +60,9 @@ def main():
 
     main_window = QMainWindow()
     main_window.setCentralWidget(widget)
-    main_window.setFixedSize(540, 220)
     main_window.setWindowTitle("X-Traktor")
+    main_window.setMinimumSize(WindowSizeHandler.get_minimum_size())
+    main_window.setMaximumSize(WindowSizeHandler.get_maximum_size())
     main_window.show()
 
     stacked_widget.main_window = main_window

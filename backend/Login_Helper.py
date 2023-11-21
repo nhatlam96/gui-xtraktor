@@ -1,14 +1,7 @@
 import csv
 import os.path
 
-from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QMessageBox
-
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
-
-
-def update_main_window_size(main_window, width, height):
-    main_window.setFixedSize(width, height)
 
 
 def check_credentials(username, password):

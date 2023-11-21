@@ -6,19 +6,20 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 
-from Helper import UserHandler
+from Helper import UserHandler, WindowSizeHandler
 
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
 
 
-class StartpageWindow(QMainWindow):
+class Startseite(QMainWindow):
 
     def __init__(self, stacked_widget):
-        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
-        uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
-
+        super(Startseite, self).__init__()  # vereinfacht das Erstellen weiterer Subklassen
         self.stacked_widget = stacked_widget
+
+        startseite_ui = uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
+        WindowSizeHandler.set_sizes(self, startseite_ui.minimumSize(), startseite_ui.maximumSize())
 
         user = UserHandler.get_current_user()
         print(f"Startseite: {user}")
@@ -41,10 +42,6 @@ class StartpageWindow(QMainWindow):
         self.horizontalSlider_preis.valueChanged.connect(self.preis_changed)
         self.horizontalSlider_km.valueChanged.connect(self.km_changed)
         self.horizontalSlider_leistung.valueChanged.connect(self.leistung_changed)
-
-        # self.stacked_widget = QStackedWidget
-
-        self.show()
 
         # self.uic.lineEdit.editingFinished()         # press "enter" to finish
         # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
@@ -72,6 +69,8 @@ class StartpageWindow(QMainWindow):
 
         self.typ_comboBox.addItem("")
         self.typ_comboBox.addItems(self.add_typ())
+
+        self.show()
 
     # ########## aktuelle Value von Baujahr nehmen
     def baujahr_value_nehmen(self):
@@ -249,6 +248,6 @@ class StartpageWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # construct QApp before QWidget
-    window = StartpageWindow()
+    window = Startseite()
     window.show()  # class Mainwindow aufrufen
     sys.exit(app.exec_())  # exit cleanly
