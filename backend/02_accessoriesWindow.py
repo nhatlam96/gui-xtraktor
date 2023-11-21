@@ -5,16 +5,16 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 
-CSV_PATH = r"resources"
-PIC_PATH = r"resources\pictures"
-ICON_PATH = r"resources\icons"
+CSV_PATH = os.path.join("..", "resources", "csv")
+PIC_PATH = os.path.join("..", "resources", "pictures")
+ICON_PATH = os.path.join("..", "resources", "icons")
 
 
 class AccessoriesWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        uic.loadUi("accessoriesWindow.ui", self)
+        uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
 
         # Simulierte übergabeparameter
         platzhalter = "Mulcher_2"
@@ -107,7 +107,7 @@ class AccessoriesWindow(QMainWindow):
                 return scaled_pixmap
 
     def load_acc(self, user):
-        pfad = os.path.join(CSV_PATH, r"Nutzer.csv")
+        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
