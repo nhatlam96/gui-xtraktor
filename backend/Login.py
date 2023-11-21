@@ -1,7 +1,8 @@
 import os.path
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QPushButton, QMessageBox
-from Helper import showToast, updateMainWindowSize, checkCredentials, usernameExists, addUserToCSV, validateInputs
+from Login_Helper import show_toast, update_main_window_size, check_credentials, username_exists, add_user_to_csv
+from Login_Helper import validate_inputs
 import Startseite
 from PyQt5 import uic
 
@@ -14,28 +15,28 @@ class Login(QMainWindow):
         self.stacked_widget = stacked_widget
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
-        self.goToRegisterButton.clicked.connect(lambda: self.switchToRegister())
+        self.goToRegisterButton.clicked.connect(lambda: self.switch_to_register())
 
-        self.loginButton.clicked.connect(lambda: self.loginCheck())
+        self.loginButton.clicked.connect(lambda: self.login_check())
         self.show()
 
-    def switchToRegister(self):
+    def switch_to_register(self):
         self.stacked_widget.setCurrentIndex(1)
-        updateMainWindowSize(self.stacked_widget.main_window, 540, 220)
+        update_main_window_size(self.stacked_widget.main_window, 540, 220)
 
-    def switchToStartseite(self):
+    def switch_to_startseite(self):
         self.stacked_widget.setCurrentIndex(2)
-        updateMainWindowSize(self.stacked_widget.main_window, 888, 666)
-        showToast("Login successful!", QMessageBox.Information)
+        update_main_window_size(self.stacked_widget.main_window, 888, 666)
+        show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
 
-    def loginCheck(self):
+    def login_check(self):
         username = self.usernameLineEdit.text()
         password = self.passwordLineEdit.text()
 
-        if checkCredentials(username, password):
-            self.switchToStartseite()
+        if check_credentials(username, password):
+            self.switch_to_startseite()
         else:
-            showToast("Invalid credentials!", QMessageBox.Warning)
+            show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
 
 
 class Register(QMainWindow):
@@ -45,29 +46,38 @@ class Register(QMainWindow):
 
         self.stacked_widget = stacked_widget
 
+        self.registerAsComboBox.currentIndexChanged.connect(lambda: self.update_budget_line_edit())
+
         self.goToLoginButton = self.findChild(QPushButton, "goToLoginButton")
         self.goToLoginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
         self.registerButton = self.findChild(QPushButton, "registerButton")
-        self.registerButton.clicked.connect(lambda: self.registerUser())
+        self.registerButton.clicked.connect(lambda: self.register_user())
 
-    def registerUser(self):
+    def update_budget_line_edit(self):
+        if self.registerAsComboBox.currentText() == "Verkaeufer (Gebraucht)":
+            self.budgetLineEdit.setText("0")
+            self.budgetLineEdit.setEnabled(False)
+        else:
+            self.budgetLineEdit.setEnabled(True)
+
+    def register_user(self):
         username = self.usernameLineEdit.text()
         password = self.passwordLineEdit.text()
         budget = self.budgetLineEdit.text()
         role = self.registerAsComboBox.currentText()
 
-        validation_result = validateInputs(username, password, budget, role)
+        validation_result = validate_inputs(username, password, budget, role)
 
         if validation_result == "success":
-            if not usernameExists(username):
-                addUserToCSV(username, password, int(budget), role)
-                showToast("Registration successful!", QMessageBox.Information)
+            if not username_exists(username):
+                add_user_to_csv(username, password, int(budget), role)
+                show_toast("Registration successful!", QMessageBox.Information, QMessageBox.Ok)
                 self.stacked_widget.setCurrentIndex(0)
             else:
-                showToast("Username already exists!", QMessageBox.Warning)
+                show_toast("Username already exists!", QMessageBox.Warning, QMessageBox.Ok)
         else:
-            showToast(validation_result, QMessageBox.Warning)
+            show_toast(validation_result, QMessageBox.Warning, QMessageBox.Ok)
 
 
 def main():
