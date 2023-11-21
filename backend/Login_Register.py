@@ -1,8 +1,9 @@
 import os
 
 from PyQt5 import uic
-from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox, QLineEdit
 
 from backend.Helper import show_toast
 from backend.Login_Helper import validate_inputs, username_exists, add_user_to_csv
@@ -15,6 +16,10 @@ class Register(QMainWindow):
 
         self.stacked_widget = stacked_widget
 
+        # https://stackoverflow.com/a/47513327
+        rx = QRegExp("\d+")
+        self.budgetLineEdit.setValidator(QRegExpValidator(rx))
+
         self.registerAsComboBox.currentIndexChanged.connect(lambda: self.update_budget_line_edit())
 
         self.goToLoginButton = self.findChild(QPushButton, "goToLoginButton")
@@ -22,6 +27,15 @@ class Register(QMainWindow):
 
         self.registerButton = self.findChild(QPushButton, "registerButton")
         self.registerButton.clicked.connect(lambda: self.register_user())
+
+        self.showPasswordCheckBox.stateChanged.connect(self.toggle_password_visibility)
+
+    def toggle_password_visibility(self):
+        checkbox_value = self.showPasswordCheckBox.isChecked()
+        if checkbox_value:
+            self.passwordLineEdit.setEchoMode(QLineEdit.Normal)
+        else:
+            self.passwordLineEdit.setEchoMode(QLineEdit.Password)
 
     def update_budget_line_edit(self):
         if self.registerAsComboBox.currentText() == "Verkaeufer (Gebraucht)":
