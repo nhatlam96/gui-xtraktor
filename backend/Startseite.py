@@ -19,7 +19,7 @@ class Startseite(QMainWindow):
         self.stacked_widget = stacked_widget
 
         startseite_ui = uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
-        WindowSizeHandler.set_sizes(self, startseite_ui.minimumSize(), startseite_ui.maximumSize())
+        WindowSizeHandler.set_sizes(startseite_ui.minimumSize(), startseite_ui.maximumSize())
 
         user = UserHandler.get_current_user()
         print(f"Startseite: {user}")

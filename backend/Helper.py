@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTimer, QSize
-from PyQt5.QtWidgets import QMessageBox, QWidget
+from PyQt5.QtWidgets import QMessageBox
 
 
 class WindowSizeHandler:
@@ -7,7 +7,7 @@ class WindowSizeHandler:
     maximum_size: QSize
 
     @staticmethod
-    def set_sizes(widget: QWidget, minimum_size: QSize, maximum_size: QSize):
+    def set_sizes(minimum_size: QSize, maximum_size: QSize):
         WindowSizeHandler.minimum_size = minimum_size
         WindowSizeHandler.maximum_size = maximum_size
 
