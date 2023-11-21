@@ -1,5 +1,6 @@
 import locale
-import os
+import os.path
+import sys
 import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
@@ -136,12 +137,9 @@ class AccessoriesWindow(QMainWindow):
         pass
 
 
-def main():
-    app = QApplication([])
-    window = AccessoriesWindow()
-    window.show()
-    app.exec_()
-
-
+# if main program, run app, otherwise just import class
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv) # construct QApp before QWidget
+    window = AccessoriesWindow()
+    window.show()  # class Mainwindow aufrufen
+    sys.exit(app.exec_()) # exit cleanly
