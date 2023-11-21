@@ -21,24 +21,6 @@ def check_credentials(username, password):
     return False
 
 
-def show_toast(message, icon, button):
-    button = button
-    toast = QMessageBox()
-    toast.setIcon(icon)
-    toast.setText(message)
-    toast.setWindowTitle("Notification")
-    toast.setStandardButtons(button)
-
-    timer = QTimer(toast)
-    # https://youtrack.jetbrains.com/issue/PY-24183/PyQt5-cannot-find-refernece-connect-in-funciton
-    # https://stackoverflow.com/questions/64505166/cannot-find-reference-connect-in-function
-    # noinspection PyUnresolvedReferences
-    timer.timeout.connect(toast.close)
-    timer.start(1750)
-
-    toast.exec_()
-
-
 def username_exists(username):
     with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
