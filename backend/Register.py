@@ -15,7 +15,7 @@ class Register(QMainWindow):
         self.stacked_widget = stacked_widget
 
         register_ui = uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
-        WindowSizeHandler.set_sizes(self, register_ui.minimumSize(), register_ui.maximumSize())
+        WindowSizeHandler.set_sizes(register_ui.minimumSize(), register_ui.maximumSize())
 
         # https://stackoverflow.com/a/47513327
         rx = QRegExp("\d+")

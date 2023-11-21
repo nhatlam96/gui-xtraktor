@@ -16,7 +16,7 @@ class Login(QMainWindow):
         self.stacked_widget = stacked_widget
 
         login_ui = uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
-        WindowSizeHandler.set_sizes(self, login_ui.minimumSize(), login_ui.maximumSize())
+        WindowSizeHandler.set_sizes(login_ui.minimumSize(), login_ui.maximumSize())
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
         self.goToRegisterButton.clicked.connect(lambda: self.switch_to_register())
