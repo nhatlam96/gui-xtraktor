@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1145</width>
-    <height>1077</height>
+    <width>785</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>16777215</width>
-    <height>16777215</height>
+    <width>800</width>
+    <height>800</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,10 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,10">
+       <property name="spacing">
+        <number>5</number>
+       </property>
        <item>
         <widget class="QFrame" name="header_frame">
          <property name="frameShape">
@@ -119,8 +122,7 @@
                </property>
                <property name="icon">
                 <iconset>
-                    <normaloff>:/Icons/icons/self.svg</normaloff>:/Icons/icons/self.svg
-                </iconset>
+                 <normaloff>:/Icons/icons/self.svg</normaloff>:/Icons/icons/self.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -192,12 +194,21 @@
              <item alignment="Qt::AlignHCenter">
               <widget class="QLabel" name="name_label">
                <property name="text">
-                <string>Traktor XY</string>
+                <string>Zubehör XY</string>
                </property>
               </widget>
              </item>
              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
               <widget class="QLabel" name="picture">
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>500</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>SizeAllCursor</cursorShape>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -241,7 +252,7 @@
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
                    <item>
                     <widget class="QLabel" name="bestand_label">
                      <property name="text">
@@ -249,7 +260,7 @@
                      </property>
                     </widget>
                    </item>
-                   <item>
+                   <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="lager_status">
                      <property name="text">
                       <string>%%%</string>
@@ -260,22 +271,22 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_11">
+                 <widget class="QFrame" name="frame_6">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_15">
-                   <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_6">
+                   <item alignment="Qt::AlignLeft">
                     <widget class="QLabel" name="preis_label">
                      <property name="text">
-                      <string>Stückpreis</string>
+                      <string>Stückpreis:</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
+                   <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="preis_status">
                      <property name="text">
                       <string>%%%</string>
@@ -286,33 +297,44 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_10">
+                 <widget class="QFrame" name="frame_9">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
                    <item>
-                    <widget class="QSpinBox" name="preis_spinBox">
-                     <property name="frame">
-                      <bool>false</bool>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                     </property>
-                     <property name="buttonSymbols">
-                      <enum>QAbstractSpinBox::PlusMinus</enum>
-                     </property>
-                     <property name="accelerated">
-                      <bool>false</bool>
-                     </property>
+                    <widget class="QSpinBox" name="gesamt_spinBox">
                      <property name="suffix">
                       <string> Stück</string>
                      </property>
-                     <property name="prefix">
-                      <string/>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_7">
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <item alignment="Qt::AlignLeft">
+                    <widget class="QLabel" name="gesamt_label">
+                     <property name="text">
+                      <string>Gesamtpreis:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item alignment="Qt::AlignHCenter">
+                    <widget class="QLabel" name="gesamt_status">
+                     <property name="text">
+                      <string>%%%</string>
                      </property>
                     </widget>
                    </item>
@@ -351,233 +373,23 @@
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
                 <item>
-                 <widget class="QFrame" name="frame_6">
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>Kompatible Hersteller:</string>
                   </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_6">
-                   <item>
-                    <widget class="QLabel" name="gesamt_label">
-                     <property name="text">
-                      <string>Gesamtpreis:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="gesamt_status">
-                     <property name="text">
-                      <string>%%%</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_7">
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
+                 <widget class="QLabel" name="comp_label">
+                  <property name="text">
+                   <string>Traktoren XY</string>
                   </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_5">
-                   <item>
-                    <widget class="QSpinBox" name="spinBox">
-                     <property name="baseSize">
-                      <size>
-                       <width>3</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="statusTip">
-                      <string/>
-                     </property>
-                     <property name="accessibleName">
-                      <string/>
-                     </property>
-                     <property name="accessibleDescription">
-                      <string/>
-                     </property>
-                     <property name="wrapping">
-                      <bool>false</bool>
-                     </property>
-                     <property name="specialValueText">
-                      <string/>
-                     </property>
-                     <property name="suffix">
-                      <string> Jahr/e</string>
-                     </property>
-                     <property name="prefix">
-                      <string/>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QFrame" name="frame_9">
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_7">
-                   <item>
-                    <widget class="QLabel" name="wert_label">
-                     <property name="text">
-                      <string>Wertminderung:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="wert_status">
-                     <property name="text">
-                      <string>0,00 €</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </widget>
                 </item>
                </layout>
               </widget>
              </item>
             </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_13">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QFrame" name="frame_16">
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
-             <item>
-              <widget class="QLabel" name="ps_label">
-               <property name="text">
-                <string>PS : </string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="ps_status">
-               <property name="text">
-                <string>%%%</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QFrame" name="frame_15">
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <item>
-              <widget class="QLabel" name="kmh_label">
-               <property name="text">
-                <string>Km/h:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="kmh_status">
-               <property name="text">
-                <string>%%%</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QFrame" name="frame_14">
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_13">
-             <item>
-              <widget class="QLabel" name="baujahr_label">
-               <property name="text">
-                <string>Baujahr:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="baujahr_status">
-               <property name="text">
-                <string>%%%</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="scroll_frame">
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QScrollArea" name="dyn_scrollarea">
-            <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
-            </property>
-            <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarAsNeeded</enum>
-            </property>
-            <property name="sizeAdjustPolicy">
-             <enum>QAbstractScrollArea::AdjustToContents</enum>
-            </property>
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollAreaWidgetContents">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>1081</width>
-               <height>461</height>
-              </rect>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_9"/>
-            </widget>
            </widget>
           </item>
          </layout>

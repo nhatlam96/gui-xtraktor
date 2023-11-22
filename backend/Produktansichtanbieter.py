@@ -6,17 +6,16 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 
-
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 
 
-class ProductWindow(QMainWindow):
+class ProductWindowAnbieter(QMainWindow):
     def __init__(self):
-        super().__init__() # vereinfacht das Erstellen weiterer Subklassen
-        uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
-        
+        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
+        uic.loadUi(os.path.join("..", "frontend", "ProductWindowAnbieter.ui"), self)
+
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
@@ -33,14 +32,14 @@ class ProductWindow(QMainWindow):
 
         # Produktseite laden
         self.load_ui(product, acc)
-        self.load_lager(product)
         self.load_pic(product)
 
         # Aktionen
         self.buy_Button.clicked.connect(self.buy)
         self.spinBox.valueChanged.connect(
-            lambda value: self.calc_wert(product[4], loss, value)
-        )
+            lambda value: self.calc_wert(product[4], loss, value))
+        self.preis_spinBox.valueChanged.connect(
+            lambda value: self.calc_preis(product[4], value))
         self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
         self.acc_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
         self.home_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
@@ -76,6 +75,7 @@ class ProductWindow(QMainWindow):
         self.replace_text(product[2], self.findChild(QLabel, "ps_status"))
         self.replace_text(product[3], self.findChild(QLabel, "kmh_status"))
         self.replace_text(product[5], self.findChild(QLabel, "baujahr_status"))
+        self.replace_text(product[-1], self.findChild(QLabel, "lager_status"))
         self.replace_icon(
             os.path.join(ICON_PATH, r"home.svg"),
             self.findChild(QPushButton, "home_Button"),
@@ -124,22 +124,6 @@ class ProductWindow(QMainWindow):
             for row in csv_reader:
                 if row[0] == platzhhalter:
                     return row[1]
-
-    def load_lager(self, row):
-        if int(row[6]) > 0:
-            self.replace_img(
-                os.path.join(ICON_PATH, r"check.svg"),
-                self.findChild(QLabel, "bestand_icon"),
-            )
-            return True
-        else:
-            self.replace_img(
-                os.path.join(ICON_PATH, r"cross.svg"),
-                self.findChild(QLabel, "bestand_icon"),
-            )
-            self.buy_Button.setDisabled(True)
-            self.replace_text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
-            return False
 
     def load_pic(self, row):
         gesucht = row[1]
@@ -203,7 +187,7 @@ class ProductWindow(QMainWindow):
             scroll_area.setWidget(content_widget)
 
     """ # feature muss noch überarbeitet werden
-    
+
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.showFullScreen()
@@ -222,15 +206,21 @@ class ProductWindow(QMainWindow):
             self.findChild(QLabel, "wert_status"),
         )
 
+    def calc_preis(self, product, value):
+        new_preis = int(product.replace(".",""))
+        ges_preis = new_preis * value if new_preis * value > 0 else 0
+        self.replace_text(locale.currency(ges_preis, grouping=True), self.findChild(QLabel, "gesamt_status"))
+
     def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass  # Warenkorb.ui nötig
 
     def change_widget(self, acc, page):  # page = wohin als nächstes
         pass
 
+
 # if main program, run app, otherwise just import class
 if __name__ == "__main__":
-    app = QApplication(sys.argv) # construct QApp before QWidget
-    window = ProductWindow()
+    app = QApplication(sys.argv)  # construct QApp before QWidget
+    window = ProductWindowAnbieter()
     window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_()) # exit cleanly
+    sys.exit(app.exec_())  # exit cleanly
