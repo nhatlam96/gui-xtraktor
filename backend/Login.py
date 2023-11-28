@@ -61,8 +61,7 @@ def main():
     main_window = QMainWindow()
     main_window.setCentralWidget(widget)
     main_window.setWindowTitle("X-Traktor")
-    main_window.setMinimumSize(WindowSizeHandler.get_minimum_size())
-    main_window.setMaximumSize(WindowSizeHandler.get_maximum_size())
+    update_main_window_size(main_window)
     main_window.show()
 
     stacked_widget.main_window = main_window

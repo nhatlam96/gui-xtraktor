@@ -23,6 +23,7 @@ class WindowSizeHandler:
 def update_main_window_size(main_window):
     main_window.setMinimumSize(WindowSizeHandler.get_minimum_size())
     main_window.setMaximumSize(WindowSizeHandler.get_maximum_size())
+    main_window.resize(WindowSizeHandler.get_minimum_size())
 
 
 class UserHandler:
