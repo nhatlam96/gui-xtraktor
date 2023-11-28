@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
+from accessoriesWindow import accessoriesWindow
+import Helper
 
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -14,10 +16,11 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 
 class ProductWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, stacked_widget):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
-        
+        self.stacked_widget = stacked_widget
+
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
@@ -25,6 +28,7 @@ class ProductWindow(QMainWindow):
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
+        self.buttons = {}
 
         # Währungsumgebung laden
         self.locale_setup()
@@ -194,17 +198,39 @@ class ProductWindow(QMainWindow):
             label2.setPixmap(self.load_zpic(zusatz[x][0]))
             label3 = QLabel(locale.currency(int(zusatz[x][1]), grouping=True))
 
-            button1 = QPushButton("Mehr info")
+            button = QPushButton("Mehr info")
+            self.buttons[x] = button
+
+            button.clicked.connect(self.make_button_click_handler(label1))
 
             inner_layout.addWidget(label1)
             inner_layout.addWidget(label2)
             inner_layout.addWidget(label3)
-            inner_layout.addWidget(button1)
+            inner_layout.addWidget(button)
 
             layout.addWidget(new_widget)  # widget dem container hinzufuegen
 
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
+
+    def make_button_click_handler(self, label):
+        def button_click_handler():
+            if label is not None:
+                text = label.text()
+                Helper.AccessoriesHandler.set_current_acc(text)
+                self.switch_to_accessories()
+            else:
+                print("Label ist None")
+
+        return button_click_handler
+
+    """ # feature muss noch überarbeitet werden
+    
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.showFullScreen()
+            self.picture.setPixmap(self.picture.pixmap().scaledToWidth(self.width()))  # Bild auf die Fensterbreite skalieren
+    """
 
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
@@ -224,9 +250,37 @@ class ProductWindow(QMainWindow):
     def change_widget(self, acc, page):  # page = wohin als nächstes
         pass
 
+
+    def switch_to_accessories(self):
+        accessories = accessoriesWindow(self.stacked_widget)
+        self.stacked_widget.addWidget(accessories)
+        self.stacked_widget.setCurrentWidget(accessories)
+        Helper.update_main_window_size(self.stacked_widget.window)
+
+
+def main():
+    app = QApplication(sys.argv)  # construct QApp before QWidget
+
+    stacked_widget = QStackedWidget()
+    stacked_widget.addWidget(ProductWindow(stacked_widget))
+
+    widget = QWidget()
+    layout = QVBoxLayout(widget)
+    layout.addWidget(stacked_widget)
+
+    window = QMainWindow()
+    window.setCentralWidget(widget)
+    window.show()
+
+    stacked_widget.window = window  # class window aufrufen
+    sys.exit(app.exec_())  # exit cleanly
+
+
+
+
+
+
+
 # if main program, run app, otherwise just import class
 if __name__ == "__main__":
-    app = QApplication(sys.argv) # construct QApp before QWidget
-    window = ProductWindow()
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_()) # exit cleanly
+    main()

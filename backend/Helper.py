@@ -3,14 +3,41 @@ from PyQt5.QtWidgets import QMessageBox
 
 
 class UserHandler:
-    current_user: str
+    current_user: ""
 
     @staticmethod
     def get_current_user():
         return UserHandler.current_user
 
-    def set_current_user(self: str):
-        UserHandler.current_user = self
+    @staticmethod
+    def set_current_user(self, user):
+        UserHandler.current_user = user
+
+
+
+class AccessoriesHandler:
+    current_acc: ""
+
+    @staticmethod
+    def get_current_acc():
+        return AccessoriesHandler.current_acc
+
+    @staticmethod
+    def set_current_acc(Accessorie):
+        AccessoriesHandler.current_acc = Accessorie
+
+
+
+class ProductHandler:
+    current_product = ""
+
+    @staticmethod
+    def get_current_product():
+        return ProductHandler.current_product
+
+    @staticmethod
+    def set_current_user(product, anz):
+        ProductHandler.current_product = product
 
 
 def show_toast(message, icon, button):

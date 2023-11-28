@@ -308,7 +308,7 @@
                    <item>
                     <widget class="QSpinBox" name="gesamt_spinBox">
                      <property name="suffix">
-                      <string> Stück</string>
+                      <string notr="true"> Stück</string>
                      </property>
                     </widget>
                    </item>
@@ -334,7 +334,7 @@
                    <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="gesamt_status">
                      <property name="text">
-                      <string>%%%</string>
+                      <string>0,00 €</string>
                      </property>
                     </widget>
                    </item>
