@@ -52,8 +52,16 @@ class ProductWindow(QMainWindow):
 
         # Connect the mousePressEvent to the picture label
         picture_label = self.findChild(QLabel, "picture")
+        picture_label.mousePressEvent = self.mouse_pressed
 
         self.show()
+
+    def mouse_pressed(self, event):
+        if event.button() == Qt.LeftButton:
+            self.showFullScreen()
+            # Bild auf die Fensterbreite skalieren
+            picture_label = self.findChild(QLabel, "picture")
+            picture_label.setPixmap(picture_label.pixmap().scaledToWidth(self.width()))
 
     def locale_setup(self):
         locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
@@ -255,7 +263,6 @@ class ProductWindow(QMainWindow):
         accessories = accessoriesWindow(self.stacked_widget)
         self.stacked_widget.addWidget(accessories)
         self.stacked_widget.setCurrentWidget(accessories)
-        Helper.update_main_window_size(self.stacked_widget.window)
 
 
 def main():

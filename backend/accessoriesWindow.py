@@ -18,8 +18,7 @@ class accessoriesWindow(QMainWindow):
         super().__init__()
         self.stacked_widget = stacked_widget
 
-        accessoriesWindow_ui = uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
-        Helper.WindowSizeHandler.set_sizes(accessoriesWindow_ui.minimumSize(), accessoriesWindow_ui.maximumSize())
+        uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
 
         # Simulierte übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()
