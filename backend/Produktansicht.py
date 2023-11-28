@@ -5,19 +5,33 @@ import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from accessoriesWindow import accessoriesWindow
 import Helper
-
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 
 
+class FullScreenImage(QMainWindow):
+    def __init__(self, image_path):
+        super().__init__()
+        self.setGeometry(QApplication.desktop().screenGeometry())
+        self.setWindowTitle("Full Screen Image")
+        label = QLabel(self)
+        pixmap = QPixmap(image_path)
+        label.setPixmap(pixmap.scaled(label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        label.setAlignment(Qt.AlignCenter)
+        label.mousePressEvent = self.close_fullscreen
+
+    def close_fullscreen(self, event):
+        self.close()
+
+
 class ProductWindow(QMainWindow):
     def __init__(self, stacked_widget):
-        super().__init__() # vereinfacht das Erstellen weiterer Subklassen
+        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
         self.stacked_widget = stacked_widget
 
@@ -52,16 +66,15 @@ class ProductWindow(QMainWindow):
 
         # Connect the mousePressEvent to the picture label
         picture_label = self.findChild(QLabel, "picture")
-        picture_label.mousePressEvent = self.mouse_pressed
+        picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
         self.show()
 
-    def mouse_pressed(self, event):
+    @staticmethod
+    def show_fullscreen(event, pixmap):
         if event.button() == Qt.LeftButton:
-            self.showFullScreen()
-            # Bild auf die Fensterbreite skalieren
-            picture_label = self.findChild(QLabel, "picture")
-            picture_label.setPixmap(picture_label.pixmap().scaledToWidth(self.width()))
+            fullscreen_window = FullScreenImage(pixmap)
+            fullscreen_window.show()
 
     def locale_setup(self):
         locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
@@ -258,7 +271,6 @@ class ProductWindow(QMainWindow):
     def change_widget(self, acc, page):  # page = wohin als nächstes
         pass
 
-
     def switch_to_accessories(self):
         accessories = accessoriesWindow(self.stacked_widget)
         self.stacked_widget.addWidget(accessories)
@@ -281,11 +293,6 @@ def main():
 
     stacked_widget.window = window  # class window aufrufen
     sys.exit(app.exec_())  # exit cleanly
-
-
-
-
-
 
 
 # if main program, run app, otherwise just import class

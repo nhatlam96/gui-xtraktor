@@ -14,7 +14,6 @@ class UserHandler:
         UserHandler.current_user = user
 
 
-
 class AccessoriesHandler:
     current_acc: ""
 
@@ -25,7 +24,6 @@ class AccessoriesHandler:
     @staticmethod
     def set_current_acc(Accessorie):
         AccessoriesHandler.current_acc = Accessorie
-
 
 
 class ProductHandler:
