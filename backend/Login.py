@@ -4,7 +4,7 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QPushButton, QMessageBox
 
-from Helper import show_toast, UserHandler, WindowSizeHandler, update_main_window_size
+from Helper import show_toast, UserHandler
 from Login_Helper import check_credentials
 from Register import Register
 from Startseite import Startseite
@@ -15,8 +15,7 @@ class Login(QMainWindow):
         super(Login, self).__init__()
         self.stacked_widget = stacked_widget
 
-        login_ui = uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
-        WindowSizeHandler.set_sizes(login_ui.minimumSize(), login_ui.maximumSize())
+        uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
         self.goToRegisterButton.clicked.connect(lambda: self.switch_to_register())
@@ -28,13 +27,11 @@ class Login(QMainWindow):
         register = Register(self.stacked_widget)
         self.stacked_widget.addWidget(register)
         self.stacked_widget.setCurrentWidget(register)
-        update_main_window_size(self.stacked_widget.main_window)
 
     def switch_to_startseite(self):
         startseite = Startseite(self.stacked_widget)
         self.stacked_widget.addWidget(startseite)
         self.stacked_widget.setCurrentWidget(startseite)
-        update_main_window_size(self.stacked_widget.main_window)
         show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
 
     def login_check(self):
@@ -61,7 +58,6 @@ def main():
     main_window = QMainWindow()
     main_window.setCentralWidget(widget)
     main_window.setWindowTitle("X-Traktor")
-    update_main_window_size(main_window)
     main_window.show()
 
     stacked_widget.main_window = main_window

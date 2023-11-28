@@ -6,7 +6,7 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 
-from Helper import UserHandler, WindowSizeHandler
+from Helper import UserHandler
 
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
@@ -18,8 +18,7 @@ class Startseite(QMainWindow):
         super(Startseite, self).__init__()  # vereinfacht das Erstellen weiterer Subklassen
         self.stacked_widget = stacked_widget
 
-        startseite_ui = uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
-        WindowSizeHandler.set_sizes(startseite_ui.minimumSize(), startseite_ui.maximumSize())
+        uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
         user = UserHandler.get_current_user()
         print(f"Startseite: {user}")

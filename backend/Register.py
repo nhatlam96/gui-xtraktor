@@ -5,7 +5,7 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox, QLineEdit
 
-from Helper import show_toast, WindowSizeHandler
+from Helper import show_toast
 from Login_Helper import validate_inputs, username_exists, add_user_to_csv
 
 
@@ -14,8 +14,7 @@ class Register(QMainWindow):
         super(Register, self).__init__()
         self.stacked_widget = stacked_widget
 
-        register_ui = uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
-        WindowSizeHandler.set_sizes(register_ui.minimumSize(), register_ui.maximumSize())
+        uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
 
         # https://stackoverflow.com/a/47513327
         rx = QRegExp("\d+")

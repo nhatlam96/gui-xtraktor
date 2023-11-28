@@ -2,30 +2,6 @@ from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtWidgets import QMessageBox
 
 
-class WindowSizeHandler:
-    minimum_size: QSize
-    maximum_size: QSize
-
-    @staticmethod
-    def set_sizes(minimum_size: QSize, maximum_size: QSize):
-        WindowSizeHandler.minimum_size = minimum_size
-        WindowSizeHandler.maximum_size = maximum_size
-
-    @staticmethod
-    def get_minimum_size():
-        return WindowSizeHandler.minimum_size
-
-    @staticmethod
-    def get_maximum_size():
-        return WindowSizeHandler.maximum_size
-
-
-def update_main_window_size(main_window):
-    main_window.setMinimumSize(WindowSizeHandler.get_minimum_size())
-    main_window.setMaximumSize(WindowSizeHandler.get_maximum_size())
-    main_window.resize(WindowSizeHandler.get_minimum_size())
-
-
 class UserHandler:
     current_user: str
 

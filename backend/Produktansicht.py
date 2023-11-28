@@ -3,8 +3,9 @@ import os.path
 import sys
 import csv
 from PyQt5.QtWidgets import *
-from PyQt5 import uic, Qt
+from PyQt5 import uic
 from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
 
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -44,6 +45,9 @@ class ProductWindow(QMainWindow):
         self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
         self.acc_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
         self.home_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
+
+        # Connect the mousePressEvent to the picture label
+        picture_label = self.findChild(QLabel, "picture")
 
         self.show()
 
@@ -201,14 +205,6 @@ class ProductWindow(QMainWindow):
 
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
-
-    """ # feature muss noch überarbeitet werden
-    
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.showFullScreen()
-            self.picture.setPixmap(self.picture.pixmap().scaledToWidth(self.width()))  # Bild auf die Fensterbreite skalieren
-    """
 
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
