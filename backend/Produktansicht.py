@@ -8,6 +8,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QSize
 from accessoriesWindow import accessoriesWindow
 import Helper
+from Nutzerprofil import UserprofileWindow
+import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -31,14 +33,14 @@ class FullScreenImage(QMainWindow):
 
 class ProductWindow(QMainWindow):
     def __init__(self, stacked_widget):
-        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
+        super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
         self.stacked_widget = stacked_widget
 
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
-        acc_platzhalter = "Sieglinde"
+        acc_platzhalter = "Sieglinde"               # bekommt acc von startseite
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
@@ -61,8 +63,8 @@ class ProductWindow(QMainWindow):
             lambda value: self.calc_wert(product[4], loss, value)
         )
         self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.acc_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.home_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
+        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
+        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
 
         # Connect the mousePressEvent to the picture label
         picture_label = self.findChild(QLabel, "picture")
@@ -239,7 +241,7 @@ class ProductWindow(QMainWindow):
             if label is not None:
                 text = label.text()
                 Helper.AccessoriesHandler.set_current_acc(text)
-                self.switch_to_accessories()
+                switches.switch_to.accessories(self)
             else:
                 print("Label ist None")
 
@@ -268,13 +270,7 @@ class ProductWindow(QMainWindow):
     def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass  # Warenkorb.ui nötig
 
-    def change_widget(self, acc, page):  # page = wohin als nächstes
-        pass
 
-    def switch_to_accessories(self):
-        accessories = accessoriesWindow(self.stacked_widget)
-        self.stacked_widget.addWidget(accessories)
-        self.stacked_widget.setCurrentWidget(accessories)
 
 
 def main():

@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 import Helper
+import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -38,8 +39,8 @@ class accessoriesWindow(QMainWindow):
         # Aktionen
         #self.buy_Button.clicked.connect(self.buy)
         self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.acc_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.home_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
+        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
+        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
 
         self.show()
 
@@ -135,7 +136,3 @@ class accessoriesWindow(QMainWindow):
 
     def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass  # Warenkorb.ui nötig
-
-    def change_widget(self, acc, page):  # page = wohin als nächstes
-        pass
-

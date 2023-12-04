@@ -6,9 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QSt
 
 from Helper import show_toast, UserHandler
 from Login_Helper import check_credentials
-from Register import Register
-from Startseite import Startseite
-
+import switches
 
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
@@ -18,21 +16,10 @@ class Login(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
-        self.goToRegisterButton.clicked.connect(lambda: self.switch_to_register())
+        self.goToRegisterButton.clicked.connect(lambda: switches.switch_to.register(self))
 
         self.loginButton.clicked.connect(lambda: self.login_check())
         self.show()
-
-    def switch_to_register(self):
-        register = Register(self.stacked_widget)
-        self.stacked_widget.addWidget(register)
-        self.stacked_widget.setCurrentWidget(register)
-
-    def switch_to_startseite(self):
-        startseite = Startseite(self.stacked_widget)
-        self.stacked_widget.addWidget(startseite)
-        self.stacked_widget.setCurrentWidget(startseite)
-        show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
 
     def login_check(self):
         username = self.usernameLineEdit.text()
@@ -41,6 +28,7 @@ class Login(QMainWindow):
         if check_credentials(username, password):
             UserHandler.set_current_user(username)
             self.switch_to_startseite()
+            show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
         else:
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
 

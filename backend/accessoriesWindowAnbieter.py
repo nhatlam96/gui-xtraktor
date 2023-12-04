@@ -5,6 +5,7 @@ import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
+import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -13,9 +14,10 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 class AccessoriesWindowAnbieter(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, stacked_widget):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "accessoriesWindowAnbieter.ui"), self)
+        self.stacked_widget = stacked_widget
 
         # Simulierte übergabeparameter
         platzhalter = "Mulcher_2"
@@ -35,8 +37,8 @@ class AccessoriesWindowAnbieter(QMainWindow):
         # Aktionen
         self.buy_Button.clicked.connect(lambda: self.buy(acc, self.gesamt_spinBox.value()))
         self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.acc_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.home_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
+        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer())
+        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
         self.gesamt_spinBox.valueChanged.connect(lambda value: self.calc_preis(product[1], value))
 
         self.show()
@@ -130,14 +132,3 @@ class AccessoriesWindowAnbieter(QMainWindow):
 
     def buy(self, acc, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass
-
-    def change_widget(self, acc, page):  # page = wohin als nächstes
-        pass
-
-
-# if main program, run app, otherwise just import class
-if __name__ == "__main__":
-    app = QApplication(sys.argv) # construct QApp before QWidget
-    window = AccessoriesWindowAnbieter()
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_()) # exit cleanly

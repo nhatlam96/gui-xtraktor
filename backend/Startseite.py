@@ -15,7 +15,7 @@ image_path = os.path.join("..", "resources", "Traktoren")
 class Startseite(QMainWindow):
 
     def __init__(self, stacked_widget):
-        super(Startseite, self).__init__()  # vereinfacht das Erstellen weiterer Subklassen
+        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         self.stacked_widget = stacked_widget
 
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
@@ -243,10 +243,16 @@ class Startseite(QMainWindow):
         print(such_Inhalt)
 
 
-# if main program, run app, otherwise just import class
+"""
 
+# NICHT MEHR GÜLTIG ZU VIELE ABHÄNGIGKEITEN!!!  --->>>  NUR NOCH ÜBER LOGIN --->>> PLS LOGIN VEREINFACHEN, DANKE!
+
+# if main program, run app, otherwise just import class
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # construct QApp before QWidget
-    window = Startseite()
+    test = QStackedWidget()
+    window = Startseite(test)
     window.show()  # class Mainwindow aufrufen
     sys.exit(app.exec_())  # exit cleanly
+
+"""
