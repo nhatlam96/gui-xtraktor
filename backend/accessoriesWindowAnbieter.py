@@ -111,14 +111,6 @@ class AccessoriesWindowAnbieter(QMainWindow):
                 if row[0] == user:
                     return row
 
-    """ # feature muss noch überarbeitet werden
-
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.showFullScreen()
-            self.picture.setPixmap(self.picture.pixmap().scaledToWidth(self.width()))  # Bild auf die Fensterbreite skalieren
-    """
-
 
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))

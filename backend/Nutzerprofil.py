@@ -3,6 +3,7 @@ import sys
 
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+import Helper2
 
 class UserprofileWindow(QMainWindow):
     def __init__(self, stacked_widget):
@@ -10,3 +11,5 @@ class UserprofileWindow(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "Nutzerprofil.ui"), self)
         self.stacked_widget = stacked_widget
         self.show()
+
+        Helper2.load.complete_header(self)

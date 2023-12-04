@@ -48,19 +48,6 @@ class ProductWindowAnbieter(QMainWindow):
 
         self.show()
 
-    def locale_setup(self):
-        locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-
-    def replace_text(self, new_text, label):
-        label.setText(new_text)
-
-    def replace_img(self, image_name, label):
-        pixmap = QPixmap(image_name)
-        label.setPixmap(pixmap)
-
-    def replace_icon(self, icon_name, label):
-        icon = QIcon(icon_name)
-        label.setIcon(icon)
 
     def load_ui(self, product, user):
         self.replace_text(
@@ -188,13 +175,6 @@ class ProductWindowAnbieter(QMainWindow):
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
 
-    """ # feature muss noch überarbeitet werden
-
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.showFullScreen()
-            self.picture.setPixmap(self.picture.pixmap().scaledToWidth(self.width()))  # Bild auf die Fensterbreite skalieren
-    """
 
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
