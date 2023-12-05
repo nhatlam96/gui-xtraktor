@@ -1,7 +1,6 @@
 from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtWidgets import QMessageBox
 
-
 class UserHandler:
     current_user: str = ""
 
@@ -34,8 +33,14 @@ class ProductHandler:
         return ProductHandler.current_product
 
     @staticmethod
-    def set_current_user(product, anz):
+    def set_current_product(product, anz):
         ProductHandler.current_product = product
+
+
+
+
+
+
 
 
 def show_toast(message, icon, button):

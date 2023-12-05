@@ -6,7 +6,8 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 
-from Helper import UserHandler
+import switches
+import Helper
 import Helper2
 
 csv_path = os.path.join("..", "resources", "csv")
@@ -17,11 +18,13 @@ class Startseite(QMainWindow):
 
     def __init__(self, stacked_widget):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
+        uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
         self.stacked_widget = stacked_widget
 
-        uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
+        # Buttonaktionen in liste von dyn. Layout
+        self.buttons = {}
 
-        user = UserHandler.get_current_user()
+        user = Helper.UserHandler.get_current_user()
         print(f"Startseite: {user}")
 
         # ### Zurücksetzen Button und Bestätigen Button deklarieren
@@ -36,6 +39,7 @@ class Startseite(QMainWindow):
 
         self.setup_waren_ui()
         self.load_ui()
+
 
         # ### Ereignisse bei den QSlider von Preis, Leistung und Kilometer umgehen und Werte
         # ### auf die entsprechenden Label anzuzeigen
@@ -71,6 +75,7 @@ class Startseite(QMainWindow):
         self.typ_comboBox.addItem("")
         self.typ_comboBox.addItems(self.add_typ())
 
+        print(self.buttons)
         self.show()
 
     def load_ui(self):
@@ -186,9 +191,15 @@ class Startseite(QMainWindow):
 
             inner_layout2 = QVBoxLayout()
             preis = QLabel("Preis: " + str(data_list[index][4]))
-            kaufen = QLabel("Kaufen")
+            kaufen = QPushButton("Kaufen")
+
+            self.buttons[index] = kaufen
+            kaufen.clicked.connect(self.make_button_click_handler(str(data_list[index][1])))
+
+
             inner_layout2.addWidget(preis)
             inner_layout2.addWidget(kaufen)
+
 
             inner_layout3 = QHBoxLayout()
             ps = QLabel("PS: " + str(data_list[index][2]))
@@ -216,6 +227,18 @@ class Startseite(QMainWindow):
             layout.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
+
+    def make_button_click_handler(self, label):
+        def button_click_handler():
+            if label is not None:
+                text = label
+                print(text)
+                Helper.ProductHandler.set_current_product(text, 0)
+                switches.switch_to.product(self)
+            else:
+                print("Label ist None")
+
+        return button_click_handler
 
     # ### Löschen alle Einträge, in den User Suchinformation darauf geschrieben haben
     def empty_search_info(self):
