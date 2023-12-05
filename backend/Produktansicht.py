@@ -38,7 +38,8 @@ class ProductWindow(QMainWindow):
 
         # Simulierte übergabeparameter
         platzhalter = Helper.ProductHandler.current_product
-        product = self.load_data(platzhalter)
+        product = Helper2.load.traktor_data(self, platzhalter)
+        print(type(product))
         acc_platzhalter = "Sieglinde"               # bekommt acc von startseite
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
@@ -87,15 +88,6 @@ class ProductWindow(QMainWindow):
                      f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
                      self.findChild(QLabel, "budget_label"))
 
-    def load_data(self, placeholder):
-        csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
-
-        with open(csv_path, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
-                if row[1] == placeholder:
-                    return row
 
     def load_zub(self, model):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")

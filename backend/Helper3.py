@@ -41,10 +41,11 @@ def getSumme(geraeteArt, geraeteTyp, anzahl, account):
                 # search file for product, False if not found
                 for row in csv.reader(file):
                     # return sum if can buy, otherwise False
-                    if geraeteTyp in row and if anzahl <= int(row[6]):  # auf Lager
-                        preis = int(row[4])
-                        summe = anzahl * preis
-                        return summe
+                    if geraeteTyp in row:
+                        if anzahl <= int(row[6]):  # auf Lager
+                            preis = int(row[4])
+                            summe = anzahl * preis
+                            return summe
                     else:
                         return False
                 return False

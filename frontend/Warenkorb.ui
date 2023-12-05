@@ -175,7 +175,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_2" stretch="6,3">
+            <layout class="QVBoxLayout" name="verticalLayout_2" stretch="6">
              <item>
               <widget class="QScrollArea" name="dyn_scrollarea">
                <property name="frameShape">
@@ -185,7 +185,7 @@
                 <enum>QFrame::Plain</enum>
                </property>
                <property name="verticalScrollBarPolicy">
-                <enum>Qt::ScrollBarAlwaysOff</enum>
+                <enum>Qt::ScrollBarAsNeeded</enum>
                </property>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAsNeeded</enum>
@@ -202,100 +202,10 @@
                   <x>0</x>
                   <y>0</y>
                   <width>687</width>
-                  <height>293</height>
+                  <height>446</height>
                  </rect>
                 </property>
                </widget>
-              </widget>
-             </item>
-             <item>
-              <widget class="QFrame" name="frame_6">
-               <property name="frameShape">
-                <enum>QFrame::Box</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QFrame" name="frame_8">
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <widget class="QPushButton" name="Bild">
-                   <property name="geometry">
-                    <rect>
-                     <x>4</x>
-                     <y>2</y>
-                     <width>121</width>
-                     <height>121</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>Bild</string>
-                   </property>
-                  </widget>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QFrame" name="frame_7">
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_3">
-                   <item>
-                    <widget class="QLabel" name="Name">
-                     <property name="text">
-                      <string>Name</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="Beschreibung">
-                     <property name="text">
-                      <string>Beschreibung</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QFrame" name="frame_5">
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout">
-                   <item>
-                    <widget class="QSpinBox" name="spinBox"/>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="pushButton">
-                     <property name="text">
-                      <string>PushButton</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="Preis">
-                     <property name="text">
-                      <string>Preis</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
               </widget>
              </item>
             </layout>
@@ -315,7 +225,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,4,1">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,6,2">
              <item>
               <widget class="QFrame" name="frame_3">
                <property name="frameShape">
@@ -325,7 +235,7 @@
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_4">
-                <item>
+                <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="Warenkorb">
                   <property name="text">
                    <string>Warenkorb</string>
@@ -336,13 +246,23 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_11">
+              <widget class="QScrollArea" name="summe_scrollArea">
                <property name="frameShape">
                 <enum>QFrame::Box</enum>
                </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+               <property name="widgetResizable">
+                <bool>true</bool>
                </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>211</width>
+                  <height>287</height>
+                 </rect>
+                </property>
+               </widget>
               </widget>
              </item>
              <item>
@@ -355,10 +275,29 @@
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <item>
-                 <widget class="QLabel" name="Summe">
-                  <property name="text">
-                   <string>Summe</string>
+                 <widget class="QFrame" name="frame_5">
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
                   </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <item>
+                    <widget class="QLabel" name="label">
+                     <property name="text">
+                      <string>Summe:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="summe_status">
+                     <property name="text">
+                      <string>%%%</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                 </item>
                 <item>

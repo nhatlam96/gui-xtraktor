@@ -3,6 +3,7 @@ import os.path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import switches
+import csv
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -50,3 +51,13 @@ class load:
 
     def logout_button(self, button):
         button.clicked.connect(lambda: switches.switch_to.login(self))
+
+    def traktor_data(self, placeholder):
+        csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
+
+        with open(csv_path, mode="r") as file:
+            csv_reader = csv.reader(file)
+
+            for row in csv_reader:
+                if row[1] == placeholder:
+                    return row

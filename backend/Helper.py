@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtWidgets import QMessageBox
 
-class UserHandler:
+class UserHandler():
     current_user: str = ""
 
     @staticmethod

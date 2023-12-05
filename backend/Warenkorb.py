@@ -13,22 +13,17 @@ class WarenkorbWindow(QMainWindow):
 
 
         Helper2.conf.locale_setup(self)
+        Helper2.load.complete_header(self)
 
-        shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+        # shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+        shopping_list = [["Fendt","Vario_1050","521","60","367000","2015","8"],
+                         ["Fendt","Vario_1038","395","60","298000","2015","2"]]     # zu Testzwecke
 
         self.add_widget(shopping_list)
 
-
-
-
-
-
-
         self.show()
 
-
-    def add_widget(self, product):
-
+    def add_widget(self, liste):
         # dynamisches Layout laden
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
 
@@ -36,31 +31,57 @@ class WarenkorbWindow(QMainWindow):
         content_widget = QWidget()
 
         # QHBoxLayout erstellen für Container
-        layout = QHBoxLayout(content_widget)
+        layout = QVBoxLayout(content_widget)
 
-        for x in range(len(zusatz)):
+
+        for x in range(len(liste)):
             new_widget = QWidget()
-            inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
+            new_widget.setStyleSheet("QWidget { border: 1px solid black; }")
 
-            label1 = QLabel(zusatz[x][0])
-            label2 = QLabel()
-            label2.setPixmap(self.load_zpic(zusatz[x][0]))
-            label3 = QLabel(locale.currency(int(zusatz[x][1]), grouping=True))
+            inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
 
-            button = QPushButton("Mehr info")
-            self.buttons[x] = button
 
-            button.clicked.connect(self.make_button_click_handler(label1))
+            picture_layout = QVBoxLayout()
+            inner_layout.addLayout(picture_layout)
 
-            inner_layout.addWidget(label1)
-            inner_layout.addWidget(label2)
-            inner_layout.addWidget(label3)
-            inner_layout.addWidget(button)
+            label1 = QLabel("Bild")
+            picture_layout.addWidget(label1)
+
+            info_layout = QVBoxLayout()
+            inner_layout.addLayout(info_layout)
+
+            label2 = QLabel("Name")
+            label3 = QLabel("Beschreibung")
+
+            info_layout.addWidget(label2)
+            info_layout.addWidget(label3)
+
+
+            value_layout = QVBoxLayout()
+            inner_layout.addLayout(value_layout)
+
+            label4 = QSpinBox()
+            label5 = QPushButton("Entfernen")
+            label6 =QLabel("Preis")
+
+            value_layout.addWidget(label4)
+            value_layout.addWidget(label5)
+            value_layout.addWidget(label6)
+
 
             layout.addWidget(new_widget)  # widget dem container hinzufuegen
 
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
+
+    def make_button_click_handler(self, label):
+        def button_click_handler():
+            if label is not None:
+                text = label.text()
+            else:
+                print("Label ist None")
+
+        return button_click_handler
 
 
 
