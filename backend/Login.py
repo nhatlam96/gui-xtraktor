@@ -8,6 +8,7 @@ from Helper import show_toast, UserHandler
 from Login_Helper import check_credentials
 import switches
 
+
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
         super(Login, self).__init__()
@@ -19,6 +20,10 @@ class Login(QMainWindow):
         self.goToRegisterButton.clicked.connect(lambda: switches.switch_to.register(self))
 
         self.loginButton.clicked.connect(lambda: self.login_check())
+
+        self.usernameLineEdit.setText("Sieglinde")
+        self.passwordLineEdit.setText("1234")
+
         self.show()
 
     def login_check(self):
@@ -26,8 +31,8 @@ class Login(QMainWindow):
         password = self.passwordLineEdit.text()
 
         if check_credentials(username, password):
-            UserHandler.set_current_user(username)
-            self.switch_to_startseite()
+            UserHandler.set_current_user(self, username)
+            switches.switch_to.startseite(self)
             show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
         else:
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
