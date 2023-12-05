@@ -29,148 +29,13 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QFrame" name="frame_2">
-     <property name="geometry">
-      <rect>
-       <x>830</x>
-       <y>10</y>
-       <width>161</width>
-       <height>39</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="budget_label">
-        <property name="inputMethodHints">
-         <set>Qt::ImhNone</set>
-        </property>
-        <property name="text">
-         <string>Budget</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="acc_Button">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-             <normaloff>:/Icons/icons/self.svg</normaloff>:/Icons/icons/self.svg
-         </iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="shopping_Button">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::StrongFocus</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>:/Icons/icons/shopping-cart.svg</normaloff>:/Icons/icons/shopping-cart.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QFrame" name="frame">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>129</width>
-       <height>39</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QPushButton" name="home_Button">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>:/Icons/icons/home.svg</normaloff>:/Icons/icons/home.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="web_label">
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="text">
-         <string>WEBSHOP.DE</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="QFrame" name="content_frame">
      <property name="geometry">
       <rect>
        <x>740</x>
-       <y>60</y>
+       <y>90</y>
        <width>251</width>
-       <height>481</height>
+       <height>491</height>
       </rect>
      </property>
      <property name="accessibleName">
@@ -216,7 +81,7 @@
         <x>10</x>
         <y>80</y>
         <width>229</width>
-        <height>311</height>
+        <height>281</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -230,9 +95,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>400</y>
+        <y>370</y>
         <width>231</width>
-        <height>71</height>
+        <height>111</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -241,19 +106,50 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="Summe">
-         <property name="text">
-          <string>Summe</string>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="Summe">
+            <property name="text">
+             <string>Summe</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="summe_zahl">
+            <property name="text">
+             <string>%%%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="Kaufen">
-         <property name="text">
-          <string>Kaufen</string>
+        <widget class="QFrame" name="frame_2">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="buy_button">
+            <property name="text">
+             <string>Kaufen</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -263,9 +159,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
+       <y>90</y>
        <width>659</width>
-       <height>321</height>
+       <height>311</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -292,7 +188,7 @@
         <x>0</x>
         <y>0</y>
         <width>657</width>
-        <height>319</height>
+        <height>309</height>
        </rect>
       </property>
      </widget>
@@ -303,7 +199,7 @@
        <x>10</x>
        <y>410</y>
        <width>661</width>
-       <height>151</height>
+       <height>171</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -317,8 +213,8 @@
        <rect>
         <x>11</x>
         <y>11</y>
-        <width>131</width>
-        <height>129</height>
+        <width>151</width>
+        <height>151</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -330,10 +226,10 @@
       <widget class="QPushButton" name="Bild">
        <property name="geometry">
         <rect>
-         <x>4</x>
-         <y>2</y>
-         <width>121</width>
-         <height>121</height>
+         <x>10</x>
+         <y>10</y>
+         <width>131</width>
+         <height>131</height>
         </rect>
        </property>
        <property name="text">
@@ -344,10 +240,10 @@
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>481</x>
-        <y>11</y>
-        <width>171</width>
-        <height>131</height>
+        <x>520</x>
+        <y>10</y>
+        <width>130</width>
+        <height>151</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -358,19 +254,57 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QSpinBox" name="spinBox"/>
+        <widget class="QFrame" name="frame_12">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="Anzahl">
+            <property name="text">
+             <string>Anzahl:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="anzahl_spinBox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_10">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="Preis">
+            <property name="text">
+             <string>Preis:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="preis_zahl">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="Preis">
-         <property name="text">
-          <string>Preis</string>
+          <string>Entfernen</string>
          </property>
         </widget>
        </item>
@@ -379,10 +313,10 @@
      <widget class="QFrame" name="frame_7">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>175</x>
         <y>10</y>
-        <width>151</width>
-        <height>131</height>
+        <width>331</width>
+        <height>151</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -391,23 +325,204 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QLabel" name="Name">
-         <property name="text">
-          <string>Name</string>
+        <widget class="QFrame" name="frame_13">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="Name">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="name_text">
+            <property name="text">
+             <string>name_text</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="Beschreibung">
-         <property name="text">
-          <string>Beschreibung</string>
+        <widget class="QFrame" name="frame_15">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="Beschreibung">
+            <property name="text">
+             <string>Beschreibung</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="beschreibung_text">
+            <property name="text">
+             <string>beschreibung_text</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
      </widget>
+    </widget>
+    <widget class="QFrame" name="header_frame">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>981</width>
+       <height>67</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item alignment="Qt::AlignLeft|Qt::AlignTop">
+       <widget class="QFrame" name="frame_4">
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="home_Button">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>:/Icons/icons/home.svg</normaloff>:/Icons/icons/home.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="web_label">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>WEBSHOP.DE</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignRight|Qt::AlignTop">
+       <widget class="QFrame" name="frame_9">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="budget_label">
+           <property name="inputMethodHints">
+            <set>Qt::ImhNone</set>
+           </property>
+           <property name="text">
+            <string>Budget</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::AutoText</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="acc_Button">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>:/Icons/icons/self.svg</normaloff>:/Icons/icons/self.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="shopping_Button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>:/Icons/icons/shopping-cart.svg</normaloff>:/Icons/icons/shopping-cart.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
