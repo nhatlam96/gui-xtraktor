@@ -18,9 +18,8 @@ class accessoriesWindow(QMainWindow):
 
     def __init__(self, stacked_widget):
         super().__init__()
-        self.stacked_widget = stacked_widget
-
         uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
+        self.stacked_widget = stacked_widget
 
         # Simulierte übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()
@@ -66,12 +65,12 @@ class accessoriesWindow(QMainWindow):
 
     def load_lager(self, row):
         if int(row[2]) > 0:
-            self.replace_img(os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
+            Helper2.replace.img(self, os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
             return True
         else:
-            self.replace_img(os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
+            Helper2.replace.img(self, os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
             self.buy_Button.setDisabled(True)
-            self.replace_text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
+            Helper2.replace.text(self, "ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
 
     def load_pic(self, row):
@@ -81,7 +80,7 @@ class accessoriesWindow(QMainWindow):
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
-                self.replace_img(voll_pfad, self.findChild(QLabel, "picture"))
+                Helper2.replace.img(self, voll_pfad, self.findChild(QLabel, "picture"))
 
     def load_zpic(self, name):
         gesucht = name
@@ -107,7 +106,7 @@ class accessoriesWindow(QMainWindow):
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
         new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
-        self.replace_text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
 
     def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass  # Warenkorb.ui nötig

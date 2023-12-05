@@ -37,7 +37,7 @@ class ProductWindow(QMainWindow):
         self.stacked_widget = stacked_widget
 
         # Simulierte übergabeparameter
-        platzhalter = "9R_RT"
+        platzhalter = Helper.ProductHandler.current_product
         product = self.load_data(platzhalter)
         acc_platzhalter = "Sieglinde"               # bekommt acc von startseite
         acc = self.load_acc(acc_platzhalter)
@@ -222,9 +222,9 @@ class ProductWindow(QMainWindow):
             if (value * (preis * loss / 100)) < preis
             else -preis
         )
-        self.Helper2.replace.text(self)(
+        Helper2.replace.text(self,
             locale.currency(new_value, grouping=True),
-            self.findChild(QLabel, "wert_status"),
+            self.findChild(QLabel, "wert_status")
         )
 
     def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
