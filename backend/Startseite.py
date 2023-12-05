@@ -7,6 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import *
 
 from Helper import UserHandler
+import Helper2
 
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
@@ -34,6 +35,7 @@ class Startseite(QMainWindow):
         # self.lineEdit.returnPressed()           # return content if you press "enter"
 
         self.setup_waren_ui()
+        self.load_ui()
 
         # ### Ereignisse bei den QSlider von Preis, Leistung und Kilometer umgehen und Werte
         # ### auf die entsprechenden Label anzuzeigen
@@ -70,6 +72,10 @@ class Startseite(QMainWindow):
         self.typ_comboBox.addItems(self.add_typ())
 
         self.show()
+
+    def load_ui(self):
+        Helper2.load.complete_header(self)
+
 
     # ########## aktuelle Value von Baujahr nehmen
     def baujahr_value_nehmen(self):

@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 import Helper
+import Helper2
 import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -29,7 +30,7 @@ class accessoriesWindow(QMainWindow):
         hers_list = self.load_hers(product)  # kompatible Traktoren
 
         # Währungsumgebung laden
-        self.locale_setup()
+        Helper2.conf.locale_setup(self)
 
         # Produktseite laden
         self.load_ui(product, acc, hers_list)
@@ -38,32 +39,16 @@ class accessoriesWindow(QMainWindow):
 
         # Aktionen
         #self.buy_Button.clicked.connect(self.buy)
-        self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
-        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
 
         self.show()
 
-    def locale_setup(self):
-        locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-
-    def replace_text(self, new_text, label):
-        label.setText(new_text)
-
-    def replace_img(self, image_name, label):
-        pixmap = QPixmap(image_name)
-        label.setPixmap(pixmap)
-
-    def replace_icon(self, icon_name, label):
-        icon = QIcon(icon_name)
-        label.setIcon(icon)
 
     def load_ui(self, product, user, hers_list):
-        self.replace_text(product[0], self.findChild(QLabel, "name_label"))
-        self.replace_text(locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        self.replace_text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
-        self.replace_text(hers_list, self.findChild(QLabel, "comp_label"))
-
+        Helper2.replace.text(self, product[0], self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(self, locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
+        Helper2.replace.text(self, f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        Helper2.replace.text(self, hers_list, self.findChild(QLabel, "comp_label"))
+        Helper2.load.complete_header(self)
 
     def load_data(self, placeholder):
         csv_path = os.path.join(CSV_PATH, r"Zubehör.csv")
