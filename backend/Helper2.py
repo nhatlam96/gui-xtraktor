@@ -2,7 +2,7 @@ import locale
 import os.path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from switches import switch_to
+import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -44,6 +44,9 @@ class load:
                              self.findChild(QLabel, "budget_label")
                              )"""
 
-        self.acc_Button.clicked.connect(lambda: switch_to.nutzer(self))
-        self.shopping_Button.clicked.connect(lambda: switch_to.nutzer(self))
-        self.home_Button.clicked.connect(lambda: switch_to.startseite(self))
+        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
+        self.shopping_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
+        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
+
+    def logout_button(self, button):
+        button.clicked.connect(lambda: switches.switch_to.login(self))

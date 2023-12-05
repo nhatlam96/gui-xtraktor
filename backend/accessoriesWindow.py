@@ -7,7 +7,6 @@ from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 import Helper
 import Helper2
-import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")

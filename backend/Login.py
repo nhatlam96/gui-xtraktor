@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QSt
 
 from Helper import show_toast, UserHandler
 from Login_Helper import check_credentials
-from backend.switches import switch_to
+import switches
 
 
 class Login(QMainWindow):
@@ -17,7 +17,7 @@ class Login(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
-        self.goToRegisterButton.clicked.connect(lambda: switch_to.register(self))
+        self.goToRegisterButton.clicked.connect(lambda: switches.switch_to.register(self))
 
         self.loginButton.clicked.connect(lambda: self.login_check())
 
@@ -32,7 +32,7 @@ class Login(QMainWindow):
 
         if check_credentials(username, password):
             UserHandler.set_current_user(self, username)
-            switch_to.startseite(self)
+            switches.switch_to.startseite(self)
             show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
         else:
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)

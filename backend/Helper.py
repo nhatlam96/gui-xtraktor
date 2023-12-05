@@ -36,9 +36,20 @@ class ProductHandler:
     def set_current_product(product, anz):
         ProductHandler.current_product = product
 
+class BuyHandler:
+    current_shoppinglist = []
 
+    @staticmethod
+    def get_current_shoppinglist():
+        return BuyHandler.current_shoppinglist
 
+    @staticmethod
+    def add_to_current_shoppinglist(product):
+        BuyHandler.current_shoppinglist.append(product)
 
+    @staticmethod
+    def remove_from_current_shoppinglist(product):
+        BuyHandler.current_shoppinglist.remove(product)
 
 
 
