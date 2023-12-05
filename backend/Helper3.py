@@ -40,25 +40,23 @@ def getSumme(geraeteArt, geraeteTyp, anzahl, account):
             with open(traktorenFile, newline='') as file:
                 # search file for product, False if not found
                 for row in csv.reader(file):
-                    if geraeteTyp in row:
-                        # return sum if can buy, otherwise False
-                        if anzahl <= int(row[6]):  # auf Lager
-                            preis = int(row[4])
-                            summe = anzahl * preis
-                            return summe
-                        else:
-                            return False
+                    # return sum if can buy, otherwise False
+                    if geraeteTyp in row and if anzahl <= int(row[6]):  # auf Lager
+                        preis = int(row[4])
+                        summe = anzahl * preis
+                        return summe
+                    else:
+                        return False
                 return False
         elif geraeteArt == "Zubehör":
             with open(zubehoerFile, newline='') as file:
                 for row in csv.reader(file):
-                    if geraeteTyp in row:
-                        if anzahl <= int(row[2]):  # Bestand
-                            preis = int(row[1])
-                            summe = anzahl * preis
-                            return summe
-                        else:
-                            return False
+                    if geraeteTyp in row and anzahl <= int(row[2]):  # Bestand
+                        preis = int(row[1])
+                        summe = anzahl * preis
+                        return summe
+                    else:
+                        return False
                 return False
 
     # find account, compare balance to price
