@@ -45,7 +45,7 @@
           <enum>QFrame::Plain</enum>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <item alignment="Qt::AlignTop">
+          <item alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QFrame" name="frame">
             <property name="frameShape">
              <enum>QFrame::Box</enum>
@@ -55,23 +55,23 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="home_Button">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="label34">
                <property name="text">
-                <string>TextLabel</string>
+                <string>WEBSHOP.DE</string>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item alignment="Qt::AlignTop">
+          <item alignment="Qt::AlignRight|Qt::AlignTop">
            <widget class="QFrame" name="frame_3">
             <property name="frameShape">
              <enum>QFrame::Box</enum>
@@ -81,23 +81,23 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="budget_label">
                <property name="text">
                 <string>TextLabel</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="acc_Button">
                <property name="text">
-                <string>PushButton</string>
+                <string/>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="shopping_Button">
                <property name="text">
-                <string>PushButton</string>
+                <string/>
                </property>
               </widget>
              </item>
