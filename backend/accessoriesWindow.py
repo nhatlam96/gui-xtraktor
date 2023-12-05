@@ -63,9 +63,7 @@ class accessoriesWindow(QMainWindow):
         self.replace_text(locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
         self.replace_text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
         self.replace_text(hers_list, self.findChild(QLabel, "comp_label"))
-        self.replace_icon(os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
-        self.replace_icon(os.path.join(ICON_PATH, r"user.svg"), self.findChild(QPushButton, "acc_Button"))
-        self.replace_icon(os.path.join(ICON_PATH, r"shopping-cart.svg"), self.findChild(QPushButton, "shopping_Button"))
+
 
     def load_data(self, placeholder):
         csv_path = os.path.join(CSV_PATH, r"Zubehör.csv")

@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
 import switches
+import Helper2
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -27,7 +28,7 @@ class ProductWindowAnbieter(QMainWindow):
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
 
         # Währungsumgebung laden
-        self.locale_setup()
+        Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
         self.add_widget(z_list, product)
@@ -42,9 +43,6 @@ class ProductWindowAnbieter(QMainWindow):
             lambda value: self.calc_wert(product[4], loss, value))
         self.preis_spinBox.valueChanged.connect(
             lambda value: self.calc_preis(product[4], value))
-        self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
-        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
 
         self.show()
 
@@ -65,18 +63,7 @@ class ProductWindowAnbieter(QMainWindow):
         self.replace_text(product[3], self.findChild(QLabel, "kmh_status"))
         self.replace_text(product[5], self.findChild(QLabel, "baujahr_status"))
         self.replace_text(product[-1], self.findChild(QLabel, "lager_status"))
-        self.replace_icon(
-            os.path.join(ICON_PATH, r"home.svg"),
-            self.findChild(QPushButton, "home_Button"),
-        )
-        self.replace_icon(
-            os.path.join(ICON_PATH, r"user.svg"),
-            self.findChild(QPushButton, "acc_Button"),
-        )
-        self.replace_icon(
-            os.path.join(ICON_PATH, r"shopping-cart.svg"),
-            self.findChild(QPushButton, "shopping_Button"),
-        )
+        Helper2.load.complete_header(self)
 
     def load_data(self, placeholder):
         csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")

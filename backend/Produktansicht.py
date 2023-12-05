@@ -43,7 +43,7 @@ class ProductWindow(QMainWindow):
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
-        self.buttons = {}
+        self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -58,12 +58,7 @@ class ProductWindow(QMainWindow):
 
         # Aktionen
         self.buy_Button.clicked.connect(self.buy)
-        self.spinBox.valueChanged.connect(
-            lambda value: self.calc_wert(product[4], loss, value)
-        )
-        self.shopping_Button.clicked.connect(lambda: self.change_widget("test", "Home"))
-        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
-        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
+        self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
 
         # Connect the mousePressEvent to the picture label
         picture_label = self.findChild(QLabel, "picture")
