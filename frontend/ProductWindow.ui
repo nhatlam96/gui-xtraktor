@@ -197,6 +197,12 @@
              </item>
              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
               <widget class="QLabel" name="picture">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -539,7 +545,7 @@
                <x>0</x>
                <y>0</y>
                <width>936</width>
-               <height>475</height>
+               <height>464</height>
               </rect>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_9"/>

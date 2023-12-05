@@ -2,13 +2,11 @@ import locale
 import os.path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-import switches
-
+from switches import switch_to
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
-
 
 
 # Wie Helper, aber besser
@@ -31,12 +29,14 @@ class replace:
         icon = QIcon(icon_name)
         label.setIcon(icon)
 
+
 class load:
 
     def complete_header(self):
-        replace.icon(self, os.path.join(ICON_PATH, r"home.svg"),self.findChild(QPushButton, "home_Button"))
-        replace.icon(self, os.path.join(ICON_PATH, r"user.svg"),self.findChild(QPushButton, "acc_Button"))
-        replace.icon(self, os.path.join(ICON_PATH, r"shopping-cart.svg"),self.findChild(QPushButton, "shopping_Button"))
+        replace.icon(self, os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
+        replace.icon(self, os.path.join(ICON_PATH, r"user.svg"), self.findChild(QPushButton, "acc_Button"))
+        replace.icon(self, os.path.join(ICON_PATH, r"shopping-cart.svg"),
+                     self.findChild(QPushButton, "shopping_Button"))
 
         # Brauche Starteseite ... immernoch zu viele abhängigkeiten
         """replace.text(self,
@@ -44,7 +44,6 @@ class load:
                              self.findChild(QLabel, "budget_label")
                              )"""
 
-
-        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
-        self.shopping_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
-        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
+        self.acc_Button.clicked.connect(lambda: switch_to.nutzer(self))
+        self.shopping_Button.clicked.connect(lambda: switch_to.nutzer(self))
+        self.home_Button.clicked.connect(lambda: switch_to.startseite(self))

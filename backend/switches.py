@@ -1,17 +1,10 @@
-import locale
-import os.path
-import sys
-import csv
-from PyQt5.QtWidgets import *
-from PyQt5 import uic
-from PyQt5.QtGui import *
-from PyQt5.QtCore import Qt
-import Helper
-from accessoriesWindow import accessoriesWindow
 from Nutzerprofil import UserprofileWindow
 from Produktansicht import ProductWindow
 from Register import Register
 from Startseite import Startseite
+from accessoriesWindow import accessoriesWindow
+from Login import Login
+
 
 class switch_to:
 
@@ -39,3 +32,8 @@ class switch_to:
         product = ProductWindow(self.stacked_widget)
         self.stacked_widget.addWidget(product)
         self.stacked_widget.setCurrentWidget(product)
+
+    def login(self):
+        login = Login(self.stacked_widget)
+        self.stacked_widget.addWidget(login)
+        self.stacked_widget.setCurrentWidget(login)
