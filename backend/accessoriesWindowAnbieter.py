@@ -5,6 +5,7 @@ import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
+import Helper
 import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
