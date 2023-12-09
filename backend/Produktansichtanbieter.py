@@ -14,10 +14,10 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 
 class ProductWindowAnbieter(QMainWindow):
-    def __init__(self, stacked_widget):
+    def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindowAnbieter.ui"), self)
-        self.stacked_widget = stacked_widget
+
 
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"

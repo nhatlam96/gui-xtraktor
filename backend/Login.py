@@ -10,10 +10,8 @@ import switches
 
 
 class Login(QMainWindow):
-    def __init__(self, stacked_widget):
+    def __init__(self):
         super(Login, self).__init__()
-        self.stacked_widget = stacked_widget
-
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
 
         self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
@@ -38,23 +36,14 @@ class Login(QMainWindow):
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
 
 
+
 def main():
-    app = QApplication(sys.argv)
 
-    stacked_widget = QStackedWidget()
-    stacked_widget.addWidget(Login(stacked_widget))
-
-    widget = QWidget()
-    layout = QVBoxLayout(widget)
-    layout.addWidget(stacked_widget)
-
-    main_window = QMainWindow()
-    main_window.setCentralWidget(widget)
-    main_window.setWindowTitle("X-Traktor")
-    main_window.show()
-
-    stacked_widget.main_window = main_window
-    sys.exit(app.exec_())
+    app = QApplication(sys.argv)  # construct QApp before QWidget
+    window = Login()
+    window.setWindowTitle("X-Traktor")
+    window.show()  # class Mainwindow aufrufen
+    sys.exit(app.exec_())  # exit cleanly
 
 
 if __name__ == "__main__":

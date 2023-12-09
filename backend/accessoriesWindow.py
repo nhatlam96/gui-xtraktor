@@ -15,10 +15,9 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 class accessoriesWindow(QMainWindow):
 
-    def __init__(self, stacked_widget):
+    def __init__(self):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
-        self.stacked_widget = stacked_widget
 
         # Simulierte übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()

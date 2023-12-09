@@ -31,10 +31,10 @@ class FullScreenImage(QMainWindow):
 
 
 class ProductWindow(QMainWindow):
-    def __init__(self, stacked_widget):
+    def __init__(self):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
-        self.stacked_widget = stacked_widget
+
 
         # Simulierte übergabeparameter
         platzhalter = Helper.ProductHandler.current_product

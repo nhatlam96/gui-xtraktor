@@ -10,10 +10,10 @@ from backend.Nutzerprofil_Helper import display_userprofile
 
 
 class UserprofileWindow(QMainWindow):
-    def __init__(self, stacked_widget):
+    def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Nutzerprofil.ui"), self)
-        self.stacked_widget = stacked_widget
+
 
         Helper2.load.complete_header(self)
 

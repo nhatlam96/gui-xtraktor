@@ -16,10 +16,10 @@ image_path = os.path.join("..", "resources", "Traktoren")
 
 class Startseite(QMainWindow):
 
-    def __init__(self, stacked_widget):
+    def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
-        self.stacked_widget = stacked_widget
+
 
         # Buttonaktionen in liste von dyn. Layout
         self.buttons = {}

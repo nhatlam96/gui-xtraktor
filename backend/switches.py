@@ -4,11 +4,78 @@ from Register import Register
 from Startseite import Startseite
 from accessoriesWindow import accessoriesWindow
 from Login import Login
+from Warenkorb import WarenkorbWindow
 
 
 class switch_to:
 
-    def accessories(self):
+    @staticmethod
+    def register(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = Register()
+        window.show()
+
+    @staticmethod
+    def product(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = ProductWindow()
+        window.show()
+
+    @staticmethod
+    def startseite(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = Startseite()
+        window.show()
+
+    @staticmethod
+    def login(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = Login()
+        window.show()
+
+    @staticmethod
+    def nutzer(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = UserprofileWindow()
+        window.show()
+
+    @staticmethod
+    def accessories(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = accessoriesWindow()
+        window.show()
+
+    @staticmethod
+    def shopping_cart(old_window):
+        if old_window is not None:
+            old_window.close()
+
+        window = WarenkorbWindow()
+        window.show()
+
+
+
+
+
+
+
+
+
+
+
+    """def accessories(self):
         accessories = accessoriesWindow(self.stacked_widget)
         self.stacked_widget.addWidget(accessories)
         self.stacked_widget.setCurrentWidget(accessories)
@@ -36,4 +103,5 @@ class switch_to:
     def login(self):
         login = Login(self.stacked_widget)
         self.stacked_widget.addWidget(login)
-        self.stacked_widget.setCurrentWidget(login)
+        self.stacked_widget.setCurrentWidget(login)"""
+

@@ -7,13 +7,11 @@ from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
 from Helper import show_toast
 from Login_Helper import validate_inputs, username_exists, add_user_to_csv, toggle_password_visibility
-
+import switches
 
 class Register(QMainWindow):
-    def __init__(self, stacked_widget):
-        super(Register, self).__init__()
-        self.stacked_widget = stacked_widget
-
+    def __init__(self):
+        super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
 
         # https://stackoverflow.com/a/47513327
@@ -23,7 +21,7 @@ class Register(QMainWindow):
         self.registerAsComboBox.currentIndexChanged.connect(lambda: self.update_budget_line_edit())
 
         self.goToLoginButton = self.findChild(QPushButton, "goToLoginButton")
-        self.goToLoginButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+        self.goToLoginButton.clicked.connect(lambda: switches.switch_to.login(self))
 
         self.registerButton = self.findChild(QPushButton, "registerButton")
         self.registerButton.clicked.connect(lambda: self.register_user())
