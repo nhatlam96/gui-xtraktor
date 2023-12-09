@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import switches
 import csv
+import Helper
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -47,8 +48,7 @@ class load:
 
 
         # Brauche Starteseite ... immernoch zu viele abhängigkeiten
-        """replace.text(self,
-                             f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
+        """replace.text(self, str(locale.currency(int(Helper.UserHandler.get_current_user()[2]), grouping=True)),
                              self.findChild(QLabel, "budget_label")
                              )"""
 
@@ -68,3 +68,15 @@ class load:
             for row in csv_reader:
                 if row[1] == placeholder:
                     return row
+
+    def zub_data(self, model):
+        pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
+
+        with open(pfad, mode="r") as file:
+            csv_reader = csv.reader(file)
+
+            for row in csv_reader:
+                for column in row:
+                    if model == column:
+                        return row
+

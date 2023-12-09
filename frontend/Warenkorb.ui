@@ -81,25 +81,6 @@
             </layout>
            </widget>
           </item>
-          <item>
-           <widget class="QComboBox" name="comboBox">
-            <property name="focusPolicy">
-             <enum>Qt::WheelFocus</enum>
-            </property>
-            <property name="contextMenuPolicy">
-             <enum>Qt::DefaultContextMenu</enum>
-            </property>
-            <property name="inputMethodHints">
-             <set>Qt::ImhDigitsOnly</set>
-            </property>
-            <property name="maxCount">
-             <number>100</number>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
           <item alignment="Qt::AlignRight">
            <widget class="QFrame" name="frame_2">
             <property name="sizePolicy">
@@ -221,6 +202,9 @@
                <property name="widgetResizable">
                 <bool>true</bool>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               </property>
                <widget class="QWidget" name="scrollAreaWidgetContents">
                 <property name="geometry">
                  <rect>
@@ -277,6 +261,9 @@
                </property>
                <property name="widgetResizable">
                 <bool>true</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                </property>
                <widget class="QWidget" name="scrollAreaWidgetContents_2">
                 <property name="geometry">

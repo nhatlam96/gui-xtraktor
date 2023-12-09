@@ -1,8 +1,13 @@
 from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtWidgets import QMessageBox
+import csv
+import os
+
+CSV_PATH = os.path.join("..", "resources", "csv")
+
 
 class UserHandler():
-    current_user: str = ""
+    current_user = []
 
     @staticmethod
     def get_current_user():
@@ -10,7 +15,17 @@ class UserHandler():
 
     @staticmethod
     def set_current_user(self, user):
-        UserHandler.current_user = user
+        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
+
+        with open(pfad, mode="r") as file:
+            csv_reader = csv.reader(file)
+
+            for row in csv_reader:
+                if row[0] == user:
+                    UserHandler.current_user = row
+                    break
+
+
 
 
 class AccessoriesHandler:
@@ -44,17 +59,21 @@ class BuyHandler:
         return BuyHandler.current_shoppinglist
 
     @staticmethod
-    def add_to_current_shoppinglist(product, anz):
+    def add_to_current_shoppinglist(product, anz, typ):
         for item in BuyHandler.current_shoppinglist:
             if product == item[0]:
                 item[1] += anz
                 break
         else:
-            BuyHandler.current_shoppinglist.append([product, anz])
+            BuyHandler.current_shoppinglist.append([product, anz, typ])
 
     @staticmethod
     def remove_from_current_shoppinglist(product):
-        BuyHandler.current_shoppinglist.remove(product)
+        if BuyHandler.current_shoppinglist:
+            for item in BuyHandler.current_shoppinglist:
+                if item[0] == product:
+                    BuyHandler.current_shoppinglist.remove(item)
+                    break
 
 
 

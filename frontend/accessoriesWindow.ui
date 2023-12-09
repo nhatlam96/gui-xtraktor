@@ -349,7 +349,10 @@
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <item>
+                    <widget class="QSpinBox" name="spinBox"/>
+                   </item>
                    <item>
                     <widget class="QPushButton" name="buy_Button">
                      <property name="text">

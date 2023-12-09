@@ -35,7 +35,7 @@ class accessoriesWindow(QMainWindow):
         self.load_pic(product)
 
         # Aktionen
-        #self.buy_Button.clicked.connect(self.buy)
+        self.buy_Button.clicked.connect(lambda: self.buy(product[0], 1, "z"))
 
         self.show()
 
@@ -72,7 +72,7 @@ class accessoriesWindow(QMainWindow):
             return False
 
     def load_pic(self, row):
-        gesucht = row[0  ]
+        gesucht = row[0]
         pfad = os.path.join(PIC_PATH, r"Zubehör")
 
         for dateiname in os.listdir(pfad):
@@ -106,5 +106,8 @@ class accessoriesWindow(QMainWindow):
         new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
         Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
 
-    def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
-        pass  # Warenkorb.ui nötig
+    def buy(self, model, anz, typ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+        if anz > 0:
+            print("aufruf buy()")
+            Helper.BuyHandler.add_to_current_shoppinglist(model, anz, typ)
+            print(Helper.BuyHandler.get_current_shoppinglist())

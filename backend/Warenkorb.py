@@ -19,6 +19,9 @@ class WarenkorbWindow(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "Warenkorb.ui"), self)
 
         self.buttons = {}
+        self.spinBoxes = {}
+
+
 
         Helper2.conf.locale_setup(self)
         Helper2.load.complete_header(self)
@@ -36,9 +39,15 @@ class WarenkorbWindow(QMainWindow):
 
         self.show()
 
+    def set_anz(self, number, value):
+        self.shopping_list[number][1] = value
+        self.add_sum_list(self.info_list, self.shopping_list)
+        Helper2.replace.text(self,
+                             str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
+                             self.findChild(QLabel, "summe_status"))
+
 
     def buy(self, liste):
-
         summe = self.calc_sum(liste)
         pass
 
@@ -47,24 +56,35 @@ class WarenkorbWindow(QMainWindow):
 
     def load_info(self, liste):
         info = []
-
         for x in range(len(liste)):
-            info.append(Helper2.load.traktor_data(self, liste[x][0]))
+            if liste[x][2] == "t":
+                info.append(Helper2.load.traktor_data(self, liste[x][0]))
+            if liste[x][2] == "z":
+                info.append(Helper2.load.zub_data(self, liste[x][0]))
 
+        print("load_info geht!")
         print(info)
         return info
 
-
     def calc_sum(self, info_liste, shopping_liste):
-        sum = 0
+        summe = 0
 
         for x in range(len(shopping_liste)):
-            sum += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
+            if shopping_liste[x][2] == "t":
+                summe += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
+            if shopping_liste[x][2] == "z":
+                summe += (int(info_liste[x][1]) * int(shopping_liste[x][1]))
 
-        return sum
+        return summe
 
-    def load_pic(self, gesucht, label):
+    def load_pic(self, row):
+
         pfad = os.path.join(PIC_PATH, r"Traktoren")
+
+        if row[2] == "z":
+            pfad = os.path.join(PIC_PATH, r"Zubehör")
+
+        gesucht = row[0]
 
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
@@ -82,6 +102,7 @@ class WarenkorbWindow(QMainWindow):
 
         for x in range(len(shopping_liste)):
             new_widget = QWidget()
+            new_widget.setMaximumHeight(100)
 
             inner_layout = QVBoxLayout(new_widget)
 
@@ -91,9 +112,15 @@ class WarenkorbWindow(QMainWindow):
             bottom_layer = QHBoxLayout()
             inner_layout.addLayout(bottom_layer)
 
-            label1 = QLabel(f"{info_liste[x][0]} | {info_liste[x][1]}")
-            label2 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
-            label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
+            if shopping_liste[x][2] == "t":
+                label1 = QLabel(f"{info_liste[x][0]} | {info_liste[x][1]}")
+                label2 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
+                label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
+
+            if shopping_liste[x][2] == "z":
+                label1 = QLabel(f"Zubehoer | {info_liste[x][0]}")
+                label2 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
+                label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
 
             top_layer.addWidget(label1)
             top_layer.addWidget(label3)
@@ -116,20 +143,32 @@ class WarenkorbWindow(QMainWindow):
 
         for x in range(len(shopping_liste)):
             new_widget = QWidget()
+            new_widget.setMaximumHeight(200)
 
             inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
 
+
             picture_layout = QVBoxLayout()
-            inner_layout.addLayout(picture_layout)
+            inner_layout.addLayout(picture_layout, 1)
 
             label1 = QLabel()
             picture_layout.addWidget(label1)
-            label1.setPixmap(self.load_pic(info_liste[x][1], label1))
+            pixmap = self.load_pic(shopping_liste[x])
+            scaled_pixmap = pixmap.scaled(200, 200)
+            label1.setPixmap(scaled_pixmap)
+
 
             info_layout = QVBoxLayout()
-            inner_layout.addLayout(info_layout)
+            inner_layout.addLayout(info_layout, 3)
 
-            label2 = QLabel(f"{info_liste[x][0]} | {info_liste[x][1]}")
+            if shopping_liste[x][2] == "t":
+                label2 = QLabel(f"{info_liste[x][0]} | {shopping_liste[x][0]}")
+
+            elif shopping_liste[x][2] == "z":
+                label2 = QLabel(f"Zubehoer | {shopping_liste[x][0]}")
+            else:
+                label2 = QLabel()
+
             label3 = QLabel("Beschreibung")
 
             info_layout.addWidget(label2)
@@ -137,14 +176,24 @@ class WarenkorbWindow(QMainWindow):
 
 
             value_layout = QVBoxLayout()
-            inner_layout.addLayout(value_layout)
+            inner_layout.addLayout(value_layout, 3)
 
             label4 = QSpinBox()
             label5 = QPushButton("Entfernen")
-            label6 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
+
+            label4.setValue(shopping_liste[x][1])
+            if shopping_liste[x][2] == "t":
+                label6 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
+            elif shopping_liste[x][2] == "z":
+                label6 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
+            else:
+                label6 = QLabel()
+
+            self.spinBoxes[x] = label4
+            label4.valueChanged.connect(lambda value, nr=x: self.set_anz(nr, value))
 
             self.buttons[x] = label5
-            # label5.clicked.connect(lambda: self.make_button_click_handler(liste[x][1]))
+            label5.clicked.connect(lambda nr=x: self.make_button_click_handler(shopping_liste[nr][0]))
 
             value_layout.addWidget(label4)
             value_layout.addWidget(label5)
@@ -156,16 +205,15 @@ class WarenkorbWindow(QMainWindow):
             scroll_area.setWidget(content_widget)
 
     def make_button_click_handler(self, label):
-        def button_click_handler():
-            if label is not None:
-                text = label.text()
-                Helper.BuyHandler.remove_from_current_shoppinglist(text)
-                self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
-                self.add_widget(self.shopping_list)
-            else:
-                print("Label ist None")
 
-        return button_click_handler
+        Helper.BuyHandler.remove_from_current_shoppinglist(str(label))
+        self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+        self.add_shopping_items(self.info_list, self.shopping_list)
+        self.add_sum_list(self.info_list, self.shopping_list)
+        Helper2.replace.text(self, str(locale.currency(self.calc_sum(self.info_list, self.shopping_list),
+                                                               grouping=True)), self.findChild(QLabel, "summe_status"))
+
+
 
 
 

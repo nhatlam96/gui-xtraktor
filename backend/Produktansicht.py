@@ -90,7 +90,7 @@ class ProductWindow(QMainWindow):
         Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
         Helper2.replace.text(self,
-                     f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
+                     f"Budget:  {locale.currency(int(Helper.UserHandler.get_current_user()[2]), grouping=True)}",
                      self.findChild(QLabel, "budget_label"))
 
 
@@ -233,7 +233,7 @@ class ProductWindow(QMainWindow):
     def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         if anz > 0:
             print("aufruf buy()")
-            Helper.BuyHandler.add_to_current_shoppinglist(model, anz)
+            Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")
             print(Helper.BuyHandler.get_current_shoppinglist())
 
 

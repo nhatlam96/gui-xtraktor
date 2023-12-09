@@ -20,11 +20,13 @@ class Startseite(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
+        print(f"user: {Helper.UserHandler.get_current_user()[2]}")
+        #Helper2.load.complete_header(self)
 
         # Buttonaktionen in liste von dyn. Layout
         self.buttons = {}
 
-        user = Helper.UserHandler.get_current_user()
+        user = Helper.UserHandler.get_current_user()[0]
         print(f"Startseite: {user}")
 
         # ### Zurücksetzen Button und Bestätigen Button deklarieren
@@ -38,7 +40,7 @@ class Startseite(QMainWindow):
         # self.lineEdit.returnPressed()           # return content if you press "enter"
 
         self.setup_waren_ui()
-        self.load_ui()
+
 
 
         # ### Ereignisse bei den QSlider von Preis, Leistung und Kilometer umgehen und Werte
@@ -78,8 +80,6 @@ class Startseite(QMainWindow):
         print(self.buttons)
         self.show()
 
-    def load_ui(self):
-        Helper2.load.complete_header(self)
 
 
     # ########## aktuelle Value von Baujahr nehmen
