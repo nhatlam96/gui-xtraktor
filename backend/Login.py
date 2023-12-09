@@ -22,6 +22,8 @@ class Login(QMainWindow):
         self.usernameLineEdit.setText("Sieglinde")
         self.passwordLineEdit.setText("1234")
 
+
+
         self.show()
 
     def login_check(self):

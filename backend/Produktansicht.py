@@ -45,6 +45,9 @@ class ProductWindow(QMainWindow):
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
         self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
+        self.anz = 0
+
+
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -58,8 +61,10 @@ class ProductWindow(QMainWindow):
         self.load_pic(product)
 
         # Aktionen
-        self.buy_Button.clicked.connect(self.buy)
+        self.buy_Button.clicked.connect(lambda: self.buy(product[1], self.anz))
         self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
+        self.spinBox_2.valueChanged.connect(lambda value: self.set_anz(value))
+
 
         # Connect the mousePressEvent to the picture label
         picture_label = self.findChild(QLabel, "picture")
@@ -87,6 +92,12 @@ class ProductWindow(QMainWindow):
         Helper2.replace.text(self,
                      f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
                      self.findChild(QLabel, "budget_label"))
+
+
+    def set_anz(self, value):
+        self.anz = value
+        print(self.anz)
+
 
 
     def load_zub(self, model):
@@ -219,8 +230,14 @@ class ProductWindow(QMainWindow):
             self.findChild(QLabel, "wert_status")
         )
 
-    def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
-        pass  # Warenkorb.ui nötig
+    def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+        if anz > 0:
+            print("aufruf buy()")
+            Helper.BuyHandler.add_to_current_shoppinglist(model, anz)
+            print(Helper.BuyHandler.get_current_shoppinglist())
+
+
+
 
 
 

@@ -44,8 +44,13 @@ class BuyHandler:
         return BuyHandler.current_shoppinglist
 
     @staticmethod
-    def add_to_current_shoppinglist(product):
-        BuyHandler.current_shoppinglist.append(product)
+    def add_to_current_shoppinglist(product, anz):
+        for item in BuyHandler.current_shoppinglist:
+            if product == item[0]:
+                item[1] += anz
+                break
+        else:
+            BuyHandler.current_shoppinglist.append([product, anz])
 
     @staticmethod
     def remove_from_current_shoppinglist(product):

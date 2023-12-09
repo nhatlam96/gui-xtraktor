@@ -114,6 +114,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../backend/ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>

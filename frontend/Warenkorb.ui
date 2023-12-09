@@ -81,6 +81,25 @@
             </layout>
            </widget>
           </item>
+          <item>
+           <widget class="QComboBox" name="comboBox">
+            <property name="focusPolicy">
+             <enum>Qt::WheelFocus</enum>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::DefaultContextMenu</enum>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::ImhDigitsOnly</set>
+            </property>
+            <property name="maxCount">
+             <number>100</number>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
           <item alignment="Qt::AlignRight">
            <widget class="QFrame" name="frame_2">
             <property name="sizePolicy">
