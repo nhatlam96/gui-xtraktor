@@ -46,11 +46,10 @@ class load:
         replace.icon(self, os.path.join(ICON_PATH, r"shopping-cart.svg"),
                      self.findChild(QPushButton, "shopping_Button"))
 
+        conf.locale_setup(self)
 
         # Brauche Starteseite ... immernoch zu viele abhängigkeiten
-        """replace.text(self, str(locale.currency(int(Helper.UserHandler.get_current_user()[2]), grouping=True)),
-                             self.findChild(QLabel, "budget_label")
-                             )"""
+        replace.text(self, str(locale.currency(int(Helper.UserHandler.get_current_user()[2]), grouping=True)), self.findChild(QLabel, "budget_label"))
 
         self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
         self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))

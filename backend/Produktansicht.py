@@ -35,19 +35,16 @@ class ProductWindow(QMainWindow):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
 
-
         # Simulierte übergabeparameter
         platzhalter = Helper.ProductHandler.current_product
         product = Helper2.load.traktor_data(self, platzhalter)
         print(type(product))
-        acc_platzhalter = "Sieglinde"               # bekommt acc von startseite
+        acc_platzhalter = Helper.UserHandler.get_current_user()[0]               # bekommt acc von startseite
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
         self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
-
-
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -79,6 +76,7 @@ class ProductWindow(QMainWindow):
             fullscreen_window.show()
 
     def load_ui(self, product, user):
+        Helper2.conf.locale_setup(self)
         Helper2.replace.text(self,
             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
         )
@@ -89,16 +87,10 @@ class ProductWindow(QMainWindow):
         Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
-        Helper2.replace.text(self,
-                     f"Budget:  {locale.currency(int(Helper.UserHandler.get_current_user()[2]), grouping=True)}",
-                     self.findChild(QLabel, "budget_label"))
-
 
     def set_anz(self, value):
         self.anz = value
         print(self.anz)
-
-
 
     def load_zub(self, model):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
@@ -116,14 +108,14 @@ class ProductWindow(QMainWindow):
             print(data_list)  # zu testzweck
             return data_list
 
-    def load_loss(self, platzhhalter):
+    def load_loss(self, platzhalter):
         pfad = os.path.join(CSV_PATH, r"Wertminderung.csv")
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
 
             for row in csv_reader:
-                if row[0] == platzhhalter:
+                if row[0] == platzhalter:
                     return row[1]
 
     def load_lager(self, row):
@@ -217,7 +209,6 @@ class ProductWindow(QMainWindow):
 
         return button_click_handler
 
-
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
         new_value = (
@@ -235,11 +226,6 @@ class ProductWindow(QMainWindow):
             print("aufruf buy()")
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")
             print(Helper.BuyHandler.get_current_shoppinglist())
-
-
-
-
-
 
 
 def main():

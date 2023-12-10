@@ -21,7 +21,7 @@ class Startseite(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
         print(f"user: {Helper.UserHandler.get_current_user()[2]}")
-        #Helper2.load.complete_header(self)
+        Helper2.load.complete_header(self)
 
         # Buttonaktionen in liste von dyn. Layout
         self.buttons = {}
