@@ -7,6 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QSize
 import Helper
+import backend.Helper_Accounts
 import switches
 import Helper2
 
@@ -39,7 +40,7 @@ class ProductWindow(QMainWindow):
         platzhalter = Helper.ProductHandler.current_product
         product = Helper2.load.traktor_data(self, platzhalter)
         print(type(product))
-        acc_platzhalter = Helper.UserHandler.get_current_user()[0]               # bekommt acc von startseite
+        acc_platzhalter = backend.Helper_Accounts.UserHandler.get_current_user()[0]               # bekommt acc von startseite
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []

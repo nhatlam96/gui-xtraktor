@@ -1,29 +1,9 @@
-from PyQt5.QtCore import QTimer, QSize
-from PyQt5.QtWidgets import QMessageBox
-import csv
 import os
 
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QMessageBox
+
 CSV_PATH = os.path.join("..", "resources", "csv")
-
-
-class UserHandler():
-    current_user = []
-
-    @staticmethod
-    def get_current_user():
-        return UserHandler.current_user
-
-    @staticmethod
-    def set_current_user(self, user):
-        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
-
-        with open(pfad, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
-                if row[0] == user:
-                    UserHandler.current_user = row
-                    break
 
 
 class AccessoriesHandler:
@@ -34,8 +14,8 @@ class AccessoriesHandler:
         return AccessoriesHandler.current_acc
 
     @staticmethod
-    def set_current_acc(Accessorie):
-        AccessoriesHandler.current_acc = Accessorie
+    def set_current_acc(Accessory):
+        AccessoriesHandler.current_acc = Accessory
 
 
 class ProductHandler:
@@ -77,16 +57,19 @@ class BuyHandler:
 
 def show_toast(message, icon, button):
     toast = QMessageBox()
-    toast.setIcon(icon)
     toast.setText(message)
-    toast.setWindowTitle("Notification")
+    toast.setIcon(icon)
     toast.setStandardButtons(button)
+    toast.setWindowTitle("Notification")
 
     timer = QTimer(toast)
-    # https://youtrack.jetbrains.com/issue/PY-24183/PyQt5-cannot-find-refernece-connect-in-funciton
     # https://stackoverflow.com/questions/64505166/cannot-find-reference-connect-in-function
     # noinspection PyUnresolvedReferences
     timer.timeout.connect(toast.close)
     timer.start(1750)
 
     toast.exec_()
+
+
+def show_toast_confirmation(self, question):
+    return QMessageBox.question(self, "Confirmation", question, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)

@@ -2,6 +2,8 @@ import locale
 import os.path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+
+import backend.Helper_Accounts
 import switches
 import csv
 import Helper
@@ -49,7 +51,7 @@ class load:
         conf.locale_setup(self)
 
         # Brauche Starteseite ... immernoch zu viele abhängigkeiten
-        replace.text(self, str(locale.currency(int(Helper.UserHandler.get_current_user()[2]), grouping=True)), self.findChild(QLabel, "budget_label"))
+        replace.text(self, str(locale.currency(int(backend.Helper_Accounts.UserHandler.get_current_user()[2]), grouping=True)), self.findChild(QLabel, "budget_label"))
 
         self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
         self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))

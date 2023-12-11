@@ -1,12 +1,11 @@
 import os.path
 
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
-from Helper import UserHandler
+from Helper import show_toast, show_toast_confirmation
 import Helper2
-from Login_Helper import add_user_to_csv, toggle_password_visibility
-from backend.Nutzerprofil_Helper import display_userprofile
+from backend.Helper_Accounts import add_user_to_csv, UserHandler, toggle_password_visibility, display_userprofile
 
 
 class UserprofileWindow(QMainWindow):
@@ -23,9 +22,7 @@ class UserprofileWindow(QMainWindow):
         Helper2.load.logout_button(self, self.logoutButton)
 
         self.aenderungenSpeichernButton = self.findChild(QPushButton, "aenderungenSpeichernButton")
-        self.aenderungenSpeichernButton.clicked.connect(
-            lambda: add_user_to_csv(user, self.passwortLineEdit.text(), self.budgetLineEdit.text(),
-                                    self.loginStatusLabel.text()))
+        self.aenderungenSpeichernButton.clicked.connect(self.handle_save_changes)
 
         self.aenderungenVerwerfenButton = self.findChild(QPushButton, "aenderungenVerwerfenButton")
         self.aenderungenVerwerfenButton.clicked.connect(lambda: display_userprofile(self, user))
@@ -33,3 +30,11 @@ class UserprofileWindow(QMainWindow):
         self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
 
         self.show()
+
+    def handle_save_changes(self):
+        confirmation = show_toast_confirmation(self, "Are you sure you want to save changes?")
+        if confirmation == QMessageBox.Yes:
+            user = UserHandler.get_current_user()[0]
+            add_user_to_csv(user, self.passwordLineEdit.text(), self.budgetLineEdit.text(),
+                            self.loginStatusLabel.text())
+            show_toast("Changes saved!", QMessageBox.Information, QMessageBox.Ok)

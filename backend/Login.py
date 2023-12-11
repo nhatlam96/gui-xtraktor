@@ -2,11 +2,11 @@ import os.path
 import sys
 
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 
-from Helper import show_toast, UserHandler
-from Login_Helper import check_credentials
 import switches
+from Helper import show_toast
+from backend.Helper_Accounts import UserHandler, check_credentials
 
 
 class Login(QMainWindow):

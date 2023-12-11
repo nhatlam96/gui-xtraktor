@@ -1,9 +1,31 @@
 import csv
-import os.path
+import os
 
 from PyQt5.QtWidgets import QLineEdit
 
+from backend.Helper import CSV_PATH
+
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
+
+
+class UserHandler:
+    current_user = []
+
+    @staticmethod
+    def get_current_user():
+        return UserHandler.current_user
+
+    @staticmethod
+    def set_current_user(self, user):
+        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
+
+        with open(pfad, mode="r") as file:
+            csv_reader = csv.reader(file)
+
+            for row in csv_reader:
+                if row[0] == user:
+                    UserHandler.current_user = row
+                    break
 
 
 def check_credentials(username, password):
@@ -24,21 +46,6 @@ def username_exists(username):
             if row['username'] == username:
                 return True
     return False
-
-
-def add_user_to_csv(username, password, budget, role):
-    # Check if the username already exists in the CSV file
-    existing_data = get_user_data(username)
-
-    if existing_data:
-        # Update the existing user's data
-        update_user_data(username, password, budget, role)
-    else:
-        # Add a new user to the CSV file
-        with open(ACCOUNTS_FILE_PATH, mode='a', newline='') as csvfile:
-            fieldnames = ['username', 'password', 'budget', 'role']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow({'username': username, 'password': password, 'budget': budget, 'role': role})
 
 
 def get_user_data(username):
@@ -70,6 +77,21 @@ def update_user_data(username, password, budget, role):
         writer.writerows(rows)
 
 
+def add_user_to_csv(username, password, budget, role):
+    # Check if the username already exists in the CSV file
+    existing_data = get_user_data(username)
+
+    if existing_data:
+        # Update the existing user's data
+        update_user_data(username, password, budget, role)
+    else:
+        # Add a new user to the CSV file
+        with open(ACCOUNTS_FILE_PATH, mode='a', newline='') as csvfile:
+            fieldnames = ['username', 'password', 'budget', 'role']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writerow({'username': username, 'password': password, 'budget': budget, 'role': role})
+
+
 def validate_inputs(username, password, budget, role):
     if not (2 <= len(username) <= 16 and 2 <= len(password) <= 16):
         return "Username and password must be between 2 and 16 characters."
@@ -91,3 +113,26 @@ def toggle_password_visibility(self):
         self.passwordLineEdit.setEchoMode(QLineEdit.Normal)
     else:
         self.passwordLineEdit.setEchoMode(QLineEdit.Password)
+
+
+def display_userprofile(self, user):
+    with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row['username'] == user:
+                self.loginStatusLabel.setText(row['role'])
+                self.usernameLabel.setText(row['username'])
+                self.passwordLineEdit.setText(row['password'])
+                self.budgetLineEdit.setText(row['budget'])
+
+
+def update_userprofile(self, user):
+    print("update_userprofile says hello!")
+    print(user)
+    print(self)
+    with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row['username'] == user:
+                row['password'] = self.passwordLineEdit.text()
+                row['budget'] = self.budgetLineEdit.text()
