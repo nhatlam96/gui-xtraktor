@@ -7,7 +7,6 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
-
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
@@ -15,7 +14,7 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 class WarenkorbWindow(QMainWindow):
     def __init__(self):
-        super().__init__()     # vereinfacht das Erstellen weiterer Subklassen
+        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Warenkorb.ui"), self)
 
         self.buttons = {}
@@ -31,7 +30,9 @@ class WarenkorbWindow(QMainWindow):
 
         self.add_shopping_items(self.info_list, self.shopping_list)
         self.add_sum_list(self.info_list, self.shopping_list)
-        Helper2.replace.text(self, str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)), self.findChild(QLabel, "summe_status"))
+        Helper2.replace.text(self,
+                             str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
+                             self.findChild(QLabel, "summe_status"))
 
         self.buy_Button.clicked.connect(lambda: self.buy(self.info_list))
 
@@ -44,13 +45,11 @@ class WarenkorbWindow(QMainWindow):
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
-
     def buy(self, liste):
         summe = self.calc_sum(liste)
         pass
 
         # kann pls jemand übernehmen, nur coding
-
 
     def load_info(self, liste):
         info = []
@@ -139,13 +138,11 @@ class WarenkorbWindow(QMainWindow):
         # QHBoxLayout erstellen für Container
         layout = QVBoxLayout(content_widget)
 
-
         for x in range(len(shopping_liste)):
             new_widget = QWidget()
             new_widget.setMaximumHeight(200)
 
             inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
-
 
             picture_layout = QVBoxLayout()
             inner_layout.addLayout(picture_layout, 1)
@@ -155,7 +152,6 @@ class WarenkorbWindow(QMainWindow):
             pixmap = self.load_pic(shopping_liste[x])
             scaled_pixmap = pixmap.scaled(200, 200)
             label1.setPixmap(scaled_pixmap)
-
 
             info_layout = QVBoxLayout()
             inner_layout.addLayout(info_layout, 3)
@@ -172,7 +168,6 @@ class WarenkorbWindow(QMainWindow):
 
             info_layout.addWidget(label2)
             info_layout.addWidget(label3)
-
 
             value_layout = QVBoxLayout()
             inner_layout.addLayout(value_layout, 3)
@@ -212,19 +207,12 @@ class WarenkorbWindow(QMainWindow):
         self.add_shopping_items(self.info_list, self.shopping_list)
         self.add_sum_list(self.info_list, self.shopping_list)
         Helper2.replace.text(self, str(locale.currency(self.calc_sum(self.info_list, self.shopping_list),
-                                                               grouping=True)), self.findChild(QLabel, "summe_status"))
-
-
-
-
-
+                                                       grouping=True)), self.findChild(QLabel, "summe_status"))
 
 
 # if main program, run app, otherwise just import class
 if __name__ == "__main__":
-    app = QApplication(sys.argv) # construct QApp before QWidget
+    app = QApplication(sys.argv)  # construct QApp before QWidget
     window = WarenkorbWindow()
     window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_()) # exit cleanly
-
-
+    sys.exit(app.exec_())  # exit cleanly

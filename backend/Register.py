@@ -9,6 +9,7 @@ from Helper import show_toast
 from Login_Helper import validate_inputs, username_exists, add_user_to_csv, toggle_password_visibility
 import switches
 
+
 class Register(QMainWindow):
     def __init__(self):
         super().__init__()

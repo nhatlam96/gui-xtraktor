@@ -18,7 +18,6 @@ class ProductWindowAnbieter(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindowAnbieter.ui"), self)
 
-
         # Simulierte übergabeparameter
         platzhalter = "9R_RT"
         product = self.load_data(platzhalter)
@@ -45,7 +44,6 @@ class ProductWindowAnbieter(QMainWindow):
             lambda value: self.calc_preis(product[4], value))
 
         self.show()
-
 
     def load_ui(self, product, user):
         self.replace_text(
@@ -162,7 +160,6 @@ class ProductWindowAnbieter(QMainWindow):
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
 
-
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
         new_value = (
@@ -176,13 +173,12 @@ class ProductWindowAnbieter(QMainWindow):
         )
 
     def calc_preis(self, product, value):
-        new_preis = int(product.replace(".",""))
+        new_preis = int(product.replace(".", ""))
         ges_preis = new_preis * value if new_preis * value > 0 else 0
         self.replace_text(locale.currency(ges_preis, grouping=True), self.findChild(QLabel, "gesamt_status"))
 
     def buy(self, acc):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         pass  # Warenkorb.ui nötig
-
 
 
 # if main program, run app, otherwise just import class

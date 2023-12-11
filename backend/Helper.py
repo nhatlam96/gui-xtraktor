@@ -26,8 +26,6 @@ class UserHandler():
                     break
 
 
-
-
 class AccessoriesHandler:
     current_acc: str = ""
 
@@ -50,6 +48,7 @@ class ProductHandler:
     @staticmethod
     def set_current_product(product, anz):
         ProductHandler.current_product = product
+
 
 class BuyHandler:
     current_shoppinglist = []
@@ -76,8 +75,6 @@ class BuyHandler:
                     break
 
 
-
-
 def show_toast(message, icon, button):
     toast = QMessageBox()
     toast.setIcon(icon)
@@ -93,9 +90,3 @@ def show_toast(message, icon, button):
     timer.start(1750)
 
     toast.exec_()
-    
-    
-
-    
-
-

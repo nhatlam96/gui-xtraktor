@@ -22,8 +22,6 @@ class Login(QMainWindow):
         self.usernameLineEdit.setText("Sieglinde")
         self.passwordLineEdit.setText("1234")
 
-
-
         self.show()
 
     def login_check(self):
@@ -38,9 +36,7 @@ class Login(QMainWindow):
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
 
 
-
 def main():
-
     app = QApplication(sys.argv)  # construct QApp before QWidget
     window = Login()
     window.setWindowTitle("X-Traktor")
