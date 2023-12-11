@@ -21,8 +21,6 @@ class WarenkorbWindow(QMainWindow):
         self.buttons = {}
         self.spinBoxes = {}
 
-
-
         Helper2.conf.locale_setup(self)
         Helper2.load.complete_header(self)
 
@@ -131,6 +129,7 @@ class WarenkorbWindow(QMainWindow):
         scroll_area.setWidget(content_widget)
 
     def add_shopping_items(self, info_liste, shopping_liste):
+
         # dynamisches Layout laden
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
 
@@ -201,13 +200,15 @@ class WarenkorbWindow(QMainWindow):
 
             layout.addWidget(new_widget)  # widget dem container hinzufuegen
 
-            # erstellten Container einfuegen in QScrollArea
-            scroll_area.setWidget(content_widget)
+        # erstellten Container einfuegen in QScrollArea
+        scroll_area.setWidget(content_widget)
 
     def make_button_click_handler(self, label):
 
         Helper.BuyHandler.remove_from_current_shoppinglist(str(label))
         self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+        self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
+        print(self.shopping_list)
         self.add_shopping_items(self.info_list, self.shopping_list)
         self.add_sum_list(self.info_list, self.shopping_list)
         Helper2.replace.text(self, str(locale.currency(self.calc_sum(self.info_list, self.shopping_list),
