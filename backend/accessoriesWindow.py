@@ -43,7 +43,7 @@ class accessoriesWindow(QMainWindow):
     def load_ui(self, product, user, hers_list):
         Helper2.replace.text(self, product[0], self.findChild(QLabel, "name_label"))
         Helper2.replace.text(self, locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        Helper2.replace.text(self, f"Budget:  {locale.currency(float(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        Helper2.replace.text(self, f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
         Helper2.replace.text(self, hers_list, self.findChild(QLabel, "comp_label"))
         Helper2.load.complete_header(self)
 
@@ -101,10 +101,10 @@ class accessoriesWindow(QMainWindow):
                 if row[0] == user:
                     return row
 
-    def calc_wert(self, product, loss, jahre):
-        normalPreis = int(product)
-        verlustRate = (100-loss)/100
-        new_value = normalPreis * (verlustRate)**jahre
+    def calc_wert(self, product, loss, value):
+        preis = int(product.replace(".", ""))
+        new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
+        Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         

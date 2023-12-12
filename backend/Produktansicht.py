@@ -192,7 +192,7 @@ class ProductWindow(QMainWindow):
             button = QPushButton("Mehr info")
             self.buttons[x] = button
 
-            button.clicked.connect(lambda: self.make_button_click_handler(label1))
+            button.clicked.connect(self.make_button_click_handler(label1))
 
             inner_layout.addWidget(label1)
             inner_layout.addWidget(label2)
