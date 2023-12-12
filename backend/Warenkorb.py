@@ -46,8 +46,9 @@ class WarenkorbWindow(QMainWindow):
                              self.findChild(QLabel, "summe_status"))
 
     def buy(self, liste):
+        # TODO toast confirmation: sicher ob kaufen oder nicht
         print(liste)
-        summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
+        # summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
         # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
         # print(sum)
         
@@ -213,10 +214,3 @@ class WarenkorbWindow(QMainWindow):
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
-
-# if main program, run app, otherwise just import class
-if __name__ == "__main__":
-    app = QApplication(sys.argv)  # construct QApp before QWidget
-    window = WarenkorbWindow()
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_())  # exit cleanly

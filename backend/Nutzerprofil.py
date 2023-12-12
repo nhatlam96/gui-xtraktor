@@ -37,4 +37,4 @@ class UserprofileWindow(QMainWindow):
             user = UserHandler.get_current_user()[0]
             add_user_to_csv(user, self.passwordLineEdit.text(), self.budgetLineEdit.text(),
                             self.loginStatusLabel.text())
-            show_toast("Changes saved!", QMessageBox.Information, QMessageBox.Ok)
+            show_toast("Changes saved!", QMessageBox.Information, QMessageBox.Ok, 1750)

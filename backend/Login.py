@@ -31,9 +31,9 @@ class Login(QMainWindow):
         if check_credentials(username, password):
             UserHandler.set_current_user(self, username)
             switches.switch_to.startseite(self)
-            show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok)
+            show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok, 1750)
         else:
-            show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok)
+            show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
 
 def main():

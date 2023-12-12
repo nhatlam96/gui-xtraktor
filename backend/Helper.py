@@ -55,7 +55,7 @@ class BuyHandler:
                     break
 
 
-def show_toast(message, icon, button):
+def show_toast(message, icon, button, time_in_ms):
     toast = QMessageBox()
     toast.setText(message)
     toast.setIcon(icon)
@@ -66,7 +66,7 @@ def show_toast(message, icon, button):
     # https://stackoverflow.com/questions/64505166/cannot-find-reference-connect-in-function
     # noinspection PyUnresolvedReferences
     timer.timeout.connect(toast.close)
-    timer.start(1750)
+    timer.start(time_in_ms)
 
     toast.exec_()
 
