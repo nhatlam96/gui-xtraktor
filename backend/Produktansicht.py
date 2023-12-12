@@ -32,42 +32,23 @@ class FullScreenImage(QMainWindow):
 
 
 class ProductWindow(QMainWindow):
-    def __init__(self, image_path):
+    def __init__(self):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
 
         # Simulierte übergabeparameter
         platzhalter = Helper.ProductHandler.current_product
-        
-        try:
-            prod = Helper2.load.traktor_data(self, platzhalter)
-        except:
-            product = [i*0 for i in range(10)]
-        else:
-            product = prod
-            
-        try:
-            gCU = Helper_Accounts.UserHandler.get_current_user()[0]  # bekommt acc von startseite
-        except:
-            acc_platzhalter = "User not found."
-        else:
-            acc_platzhalter = gCU 
-            
+
+        platzhalter = Helper.ProductHandler.current_product
+        product = Helper2.load.traktor_data(self, platzhalter)
+        print(type(product))
+        acc_platzhalter = Helper_Accounts.UserHandler.get_current_user()[0]  # bekommt acc von startseite
         acc = self.load_acc(acc_platzhalter)
-        
-        try:
-            ls = self.load_loss(product[0])
-        except:
-            loss = 0
-        else:
-            loss = ls
-            
-        try:
-            zls = self.load_zub(product[0])  # kompatibles Zubehoer []
-        except:
-            z_list = []
-        else:
-            z_list = zls
+        loss = int(self.load_loss(product[0]))
+        z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
+
+        self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
+        self.anz = 0
             
         self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
@@ -252,25 +233,3 @@ class ProductWindow(QMainWindow):
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")
             print(Helper.BuyHandler.get_current_shoppinglist())
 
-
-def main():
-    app = QApplication(sys.argv)  # construct QApp before QWidget
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.addWidget(ProductWindow(stacked_widget))
-
-    widget = QWidget()
-    layout = QVBoxLayout(widget)
-    layout.addWidget(stacked_widget)
-
-    window = QMainWindow()
-    window.setCentralWidget(widget)
-    window.show()
-
-    stacked_widget.window = window  # class window aufrufen
-    sys.exit(app.exec_())  # exit cleanly
-
-
-# if main program, run app, otherwise just import class
-if __name__ == "__main__":
-    main()

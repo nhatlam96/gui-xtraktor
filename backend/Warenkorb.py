@@ -177,6 +177,7 @@ class WarenkorbWindow(QMainWindow):
             label4 = QSpinBox()
             label5 = QPushButton("Entfernen")
 
+            label4.setMinimum(1)
             label4.setValue(shopping_liste[x][1])
             if shopping_liste[x][2] == "t":
                 label6 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
