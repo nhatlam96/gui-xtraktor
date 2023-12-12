@@ -50,6 +50,7 @@ class WarenkorbWindow(QMainWindow):
         confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
         if confirmation == QMessageBox.Yes:
             print(liste)
+            Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
             # summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
             # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
             # print(sum)

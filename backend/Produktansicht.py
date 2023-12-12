@@ -33,7 +33,7 @@ class FullScreenImage(QMainWindow):
 
 class ProductWindow(QMainWindow):
     def __init__(self):
-        super().__init__() # vereinfacht das Erstellen weiterer Subklassen
+        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
 
         # Simulierte übergabeparameter
@@ -50,8 +50,8 @@ class ProductWindow(QMainWindow):
 
         self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
-            
-        self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
+
+        self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
         # Währungsumgebung laden
@@ -61,7 +61,7 @@ class ProductWindow(QMainWindow):
         self.add_widget(z_list, product)
 
         # Produktseite laden
-        if product is None: product = [i*0 for i in range(10)]
+        if product is None: product = [i * 0 for i in range(10)]
         self.load_ui(product, acc)
         self.load_lager(product)
         self.load_pic(product)
@@ -70,7 +70,6 @@ class ProductWindow(QMainWindow):
         self.buy_Button.clicked.connect(lambda: self.buy(product[1], self.anz))
         self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
         self.spinBox_2.valueChanged.connect(lambda value: self.set_anz(value))
-
 
         # Connect the mousePressEvent to the picture label
         picture_label = self.findChild(QLabel, "picture")
@@ -87,11 +86,11 @@ class ProductWindow(QMainWindow):
     def load_ui(self, product, user):
         Helper2.conf.locale_setup(self)
         Helper2.replace.text(self,
-            f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
-        )
+                             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
+                             )
         Helper2.replace.text(self,
-            locale.currency(int(product[4]), grouping=True), self.findChild(QLabel, "preis_status")
-        )
+                             locale.currency(int(product[4]), grouping=True), self.findChild(QLabel, "preis_status")
+                             )
         Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
@@ -124,19 +123,19 @@ class ProductWindow(QMainWindow):
                 if row[0] == platzhalter:
                     return int(row[1])
             return 0
-        
+
     def load_lager(self, row):
         if int(row[6]) > 0:
             Helper2.replace.img(self,
-                os.path.join(ICON_PATH, r"check.svg"),
-                self.findChild(QLabel, "bestand_icon")
-            )
+                                os.path.join(ICON_PATH, r"check.svg"),
+                                self.findChild(QLabel, "bestand_icon")
+                                )
             return True
         else:
             Helper2.replace.img(self,
-                os.path.join(ICON_PATH, r"cross.svg"),
-                self.findChild(QLabel, "bestand_icon")
-            )
+                                os.path.join(ICON_PATH, r"cross.svg"),
+                                self.findChild(QLabel, "bestand_icon")
+                                )
             self.buy_Button.setDisabled(True)
             Helper2.replace.text(self, "ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
@@ -218,15 +217,15 @@ class ProductWindow(QMainWindow):
 
     def calc_wert(self, product, loss, jahre):
         normalPreis = int(product)
-        verlustRate = (100-loss)/100
-        new_value = normalPreis * (verlustRate)**jahre
+        verlustRate = (100 - loss) / 100
+        new_value = normalPreis * (verlustRate) ** jahre
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
-        
-        Helper2.replace.text(self, 
+
+        Helper2.replace.text(self,
                              locale.currency(new_value, grouping=True),
                              self.findChild(QLabel, "wert_status"),
-        )
+                             )
 
     def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         if anz > 0:
