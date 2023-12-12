@@ -4,6 +4,7 @@ import os.path
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import *
+import Helper_Accounts
 
 import Helper
 import Helper2
@@ -60,6 +61,7 @@ class WarenkorbWindow(QMainWindow):
             # check if enough budget is available and then subtract the sum from the budget
             if summe <= int(user[2]):
                 update_userBalance(user[0], -summe)
+                Helper_Accounts.UserHandler.set_current_user(self, user[0])
                 Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
                 Helper.BuyHandler.clear_current_shoppinglist()
@@ -88,6 +90,7 @@ class WarenkorbWindow(QMainWindow):
         print("load_info geht!")
         print(info)
         return info
+
 
     def calc_sum(self, info_liste, shopping_liste):
         summe = 0

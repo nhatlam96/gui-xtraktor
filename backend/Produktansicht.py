@@ -15,16 +15,27 @@ CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 
-
 class FullScreenImage(QMainWindow):
     def __init__(self, image_path):
         super().__init__()
-        self.setGeometry(QApplication.desktop().screenGeometry())
         self.setWindowTitle("Full Screen Image")
-        label = QLabel(self)
+
+        content_widget = QWidget(self)
+        self.setCentralWidget(content_widget)
+
+        layout = QHBoxLayout(content_widget)
+        layout.setAlignment(Qt.AlignCenter)
+
+        label = QLabel()
+        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # QLabel ist expanding zweimal(Hor, ver)
+
         pixmap = QPixmap(image_path)
-        label.setPixmap(pixmap.scaled(label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        label.setAlignment(Qt.AlignCenter)
+        label.setPixmap(pixmap)
+        label.setAlignment(Qt.AlignCenter)  #label wird mittig gesetzt
+        label.setScaledContents(True)  # label wird skaliert
+
+        layout.addWidget(label)
+
         label.mousePressEvent = self.close_fullscreen
 
     def close_fullscreen(self, event):
