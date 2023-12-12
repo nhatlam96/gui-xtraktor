@@ -6,7 +6,7 @@ from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
 from Helper import show_toast
-from backend.Helper_Accounts import add_user_to_csv, username_exists, validate_inputs, toggle_password_visibility
+from Helper_Accounts import add_user_to_csv, username_exists, validate_inputs, toggle_password_visibility
 import switches
 
 

@@ -3,7 +3,7 @@ import os.path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-import backend.Helper_Accounts
+import Helper_Accounts
 import switches
 import csv
 import Helper
@@ -27,7 +27,7 @@ class replace:
 
     @staticmethod
     def text(self, new_text, label):
-        label.setText(new_text)
+        label.setText(str(new_text))
 
     @staticmethod
     def img(self, image_name, label):
@@ -38,7 +38,6 @@ class replace:
     def icon(self, icon_name, label):
         icon = QIcon(icon_name)
         label.setIcon(icon)
-
 
 class load:
 
@@ -51,8 +50,16 @@ class load:
         conf.locale_setup(self)
 
         # Brauche Starteseite ... immernoch zu viele abhängigkeiten
-        replace.text(self, str(locale.currency(int(backend.Helper_Accounts.UserHandler.get_current_user()[2]), grouping=True)), self.findChild(QLabel, "budget_label"))
-
+        def getCurUser():
+                return Helper_Accounts.UserHandler.get_current_user()[2]
+        try:
+            gCU = getCurUser()
+        except:
+            # No valid Userdata found. Probably index out of range
+            replace.text(self, "Budget not found!", self.findChild(QLabel, "budget_label"))
+        else:
+            replace.text(self, str(locale.currency(float(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
+            
         self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
         self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))
         self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
@@ -62,14 +69,11 @@ class load:
 
     def traktor_data(self, placeholder):
         csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
-
         with open(csv_path, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
+            for row in csv.reader(file):
                 if row[1] == placeholder:
                     return row
-
+            
     def zub_data(self, model):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
 

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
 from Helper import show_toast, show_toast_confirmation
 import Helper2
-from backend.Helper_Accounts import add_user_to_csv, UserHandler, toggle_password_visibility, display_userprofile
+from Helper_Accounts import add_user_to_csv, UserHandler, toggle_password_visibility, display_userprofile
 
 
 class UserprofileWindow(QMainWindow):

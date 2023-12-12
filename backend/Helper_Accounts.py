@@ -3,7 +3,7 @@ import os
 
 from PyQt5.QtWidgets import QLineEdit
 
-from backend.Helper import CSV_PATH
+from Helper import CSV_PATH
 
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
 
@@ -97,7 +97,7 @@ def validate_inputs(username, password, budget, role):
         return "Username and password must be between 2 and 16 characters."
 
     try:
-        int(budget)  # Check if budget is a valid integer
+        float(budget)  # Check if budget is a valid integer
     except ValueError:
         return "Budget must be a valid integer."
 
@@ -136,3 +136,16 @@ def update_userprofile(self, user):
             if row['username'] == user:
                 row['password'] = self.passwordLineEdit.text()
                 row['budget'] = self.budgetLineEdit.text()
+                
+def update_userBalance(user, amount):   
+    with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+        
+    for row in data:
+        if user in row:
+            row[2] = float(row[2]) + amount
+            with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
+                csv.writer(file).writerows(data)
+            break
+            
+    

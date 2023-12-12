@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 
 import switches
 from Helper import show_toast
-from backend.Helper_Accounts import UserHandler, check_credentials
+from Helper_Accounts import UserHandler, check_credentials
 
 
 class Login(QMainWindow):

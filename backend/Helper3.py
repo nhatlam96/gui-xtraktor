@@ -65,7 +65,7 @@ def getSumme(geraeteArt, geraeteTyp, anzahl, account):
         with open(accountsFile, newline='') as file:
             for row in csv.reader(file):
                 if account in row:
-                    if summe <= int(row[2]):  # Budget
+                    if summe <= float(row[2]):  # Budget
                         return "can afford"
                     else:
                         return "can not afford"
@@ -81,7 +81,3 @@ def getSumme(geraeteArt, geraeteTyp, anzahl, account):
 #                   geraeteTyp = "Profi_6000",
 #                   anzahl = 5,
 #                   account= "Klaus"))
-
-# with open('some.csv', 'w', newline='') as file:
-# writer = csv.writer(file)
-# writer.writerows() # insert here someiterable

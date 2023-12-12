@@ -7,7 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QSize
 import Helper
-import backend.Helper_Accounts
+import Helper_Accounts
 import switches
 import Helper2
 
@@ -32,18 +32,43 @@ class FullScreenImage(QMainWindow):
 
 
 class ProductWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, image_path):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
 
         # Simulierte übergabeparameter
         platzhalter = Helper.ProductHandler.current_product
-        product = Helper2.load.traktor_data(self, platzhalter)
-        print(type(product))
-        acc_platzhalter = backend.Helper_Accounts.UserHandler.get_current_user()[0]               # bekommt acc von startseite
+        
+        try:
+            prod = Helper2.load.traktor_data(self, platzhalter)
+        except:
+            product = [i*0 for i in range(10)]
+        else:
+            product = prod
+            
+        try:
+            gCU = Helper_Accounts.UserHandler.get_current_user()[0]  # bekommt acc von startseite
+        except:
+            acc_platzhalter = "User not found."
+        else:
+            acc_platzhalter = gCU 
+            
         acc = self.load_acc(acc_platzhalter)
-        loss = int(self.load_loss(product[0]))
-        z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
+        
+        try:
+            ls = self.load_loss(product[0])
+        except:
+            loss = 0
+        else:
+            loss = ls
+            
+        try:
+            zls = self.load_zub(product[0])  # kompatibles Zubehoer []
+        except:
+            z_list = []
+        else:
+            z_list = zls
+            
         self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
@@ -54,6 +79,7 @@ class ProductWindow(QMainWindow):
         self.add_widget(z_list, product)
 
         # Produktseite laden
+        if product is None: product = [i*0 for i in range(10)]
         self.load_ui(product, acc)
         self.load_lager(product)
         self.load_pic(product)
@@ -82,7 +108,7 @@ class ProductWindow(QMainWindow):
             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
         )
         Helper2.replace.text(self,
-            locale.currency(int(product[4].replace(".", "")), grouping=True), self.findChild(QLabel, "preis_status")
+            locale.currency(int(product[4]), grouping=True), self.findChild(QLabel, "preis_status")
         )
         Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
@@ -111,14 +137,12 @@ class ProductWindow(QMainWindow):
 
     def load_loss(self, platzhalter):
         pfad = os.path.join(CSV_PATH, r"Wertminderung.csv")
-
         with open(pfad, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
+            for row in csv.reader(file):
                 if row[0] == platzhalter:
-                    return row[1]
-
+                    return int(row[1])
+            return 0
+        
     def load_lager(self, row):
         if int(row[6]) > 0:
             Helper2.replace.img(self,
@@ -136,7 +160,7 @@ class ProductWindow(QMainWindow):
             return False
 
     def load_pic(self, row):
-        gesucht = row[1]
+        gesucht = str(row[1])
         pfad = os.path.join(PIC_PATH, r"Traktoren")
 
         for dateiname in os.listdir(pfad):
@@ -187,7 +211,7 @@ class ProductWindow(QMainWindow):
             button = QPushButton("Mehr info")
             self.buttons[x] = button
 
-            button.clicked.connect(self.make_button_click_handler(label1))
+            button.clicked.connect(lambda: self.make_button_click_handler(label1))
 
             inner_layout.addWidget(label1)
             inner_layout.addWidget(label2)
@@ -210,16 +234,16 @@ class ProductWindow(QMainWindow):
 
         return button_click_handler
 
-    def calc_wert(self, product, loss, value):
-        preis = int(product.replace(".", ""))
-        new_value = (
-            -(value * (preis * loss / 100))
-            if (value * (preis * loss / 100)) < preis
-            else -preis
-        )
-        Helper2.replace.text(self,
-            locale.currency(new_value, grouping=True),
-            self.findChild(QLabel, "wert_status")
+    def calc_wert(self, product, loss, jahre):
+        normalPreis = int(product)
+        verlustRate = (100-loss)/100
+        new_value = normalPreis * (verlustRate)**jahre
+        # Zinseszinzprinzip:
+        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
+        
+        Helper2.replace.text(self, 
+                             locale.currency(new_value, grouping=True),
+                             self.findChild(QLabel, "wert_status"),
         )
 
     def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)

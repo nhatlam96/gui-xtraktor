@@ -1,7 +1,7 @@
 import os.path
 import sys
 import locale
-import Helper, Helper2
+import Helper, Helper2, Helper3
 from PyQt5.QtGui import QPixmap
 
 from PyQt5.QtWidgets import *
@@ -46,9 +46,11 @@ class WarenkorbWindow(QMainWindow):
                              self.findChild(QLabel, "summe_status"))
 
     def buy(self, liste):
-        summe = self.calc_sum(liste)
-        pass
-
+        print(liste)
+        summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
+        # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
+        # print(sum)
+        
         # kann pls jemand übernehmen, nur coding
 
     def load_info(self, liste):
@@ -206,8 +208,9 @@ class WarenkorbWindow(QMainWindow):
         print(self.shopping_list)
         self.add_shopping_items(self.info_list, self.shopping_list)
         self.add_sum_list(self.info_list, self.shopping_list)
-        Helper2.replace.text(self, str(locale.currency(self.calc_sum(self.info_list, self.shopping_list),
-                                                       grouping=True)), self.findChild(QLabel, "summe_status"))
+        Helper2.replace.text(self, 
+                             str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
+                             self.findChild(QLabel, "summe_status"))
 
 
 # if main program, run app, otherwise just import class

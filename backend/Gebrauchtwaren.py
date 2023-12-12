@@ -6,9 +6,8 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QSize
-import Helper
+import Helper, Helper2, Helper3, Helper_Accounts
 import switches
-import Helper2
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -30,7 +29,7 @@ class FullScreenImage(QMainWindow):
         self.close()
 
 
-class ProductWindow(QMainWindow):
+class GebrauchtwarenWindow(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__() # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
@@ -57,7 +56,7 @@ class ProductWindow(QMainWindow):
         self.load_pic(product)
 
         # Aktionen
-        self.sell_Button.clicked.connect(self.sell)
+        self.sell_Button.clicked.connect(lambda: self.sell(product[4]))
         self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
 
         # Connect the mousePressEvent to the picture label
@@ -77,14 +76,14 @@ class ProductWindow(QMainWindow):
             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
         )
         Helper2.replace.text(self,
-            locale.currency(int(product[4].replace(".", "")), grouping=True), self.findChild(QLabel, "preis_status")
+            locale.currency(int(product[4]), grouping=True), self.findChild(QLabel, "preis_status")
         )
         Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
         Helper2.replace.text(self,
-                     f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
+                     f"Budget:  {locale.currency(float(user[2]), grouping=True)}",
                      self.findChild(QLabel, "budget_label"))
 
     def load_data(self, placeholder):
@@ -110,7 +109,7 @@ class ProductWindow(QMainWindow):
                         data_list.append(row)
                         break
 
-            print(data_list)  # zu testzweck
+            # print(data_list)  # zu testzweck
             return data_list
 
     def load_loss(self, platzhhalter):
@@ -191,8 +190,8 @@ class ProductWindow(QMainWindow):
             button = QPushButton("Mehr info")
             self.buttons[x] = button
 
-            button.clicked.connect(self.make_button_click_handler(label1))
-
+            button.clicked.connect(lambda: self.make_button_click_handler(label1))
+            
             inner_layout.addWidget(label1)
             inner_layout.addWidget(label2)
             inner_layout.addWidget(label3)
@@ -214,30 +213,30 @@ class ProductWindow(QMainWindow):
 
         return button_click_handler
 
-
-    def calc_wert(self, product, loss, value):
-        preis = int(product.replace(".", ""))
-        new_value = (
-            -(value * (preis * loss / 100))
-            if (value * (preis * loss / 100)) < preis
-            else -preis
+    def calc_wert(self, product, loss, jahre):
+        normalPreis = int(product)
+        verlustRate = (100-loss)/100
+        new_value = normalPreis * (verlustRate)**jahre
+        # Zinseszinzprinzip:
+        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
+        
+        Helper2.replace.text(self, 
+                             locale.currency(new_value, grouping=True),
+                             self.findChild(QLabel, "wert_status"),
         )
-        self.Helper2.replace.text(self)(
-            locale.currency(new_value, grouping=True),
-            self.findChild(QLabel, "wert_status"),
-        )
 
-    def sell(self, acc): # sell and handle money transfers
-        pass  
-
-
+    def sell(self, product): # sell and handle money transfers
+        normalPreis = int(product)
+        provision = normalPreis*0.01
+        # Helper_Accounts.update_userBalance("Klaus", provision) # this is the real one
+        Helper_Accounts.update_userBalance("Test", provision) # this is for test
 
 
 def main():
     app = QApplication(sys.argv)  # construct QApp before QWidget
 
     stacked_widget = QStackedWidget()
-    stacked_widget.addWidget(ProductWindow(stacked_widget))
+    stacked_widget.addWidget(GebrauchtwarenWindow(stacked_widget))
 
     widget = QWidget()
     layout = QVBoxLayout(widget)

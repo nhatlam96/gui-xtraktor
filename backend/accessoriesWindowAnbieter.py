@@ -5,7 +5,7 @@ import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, Qt
 from PyQt5.QtGui import *
-import Helper
+import Helper, Helper2
 import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -61,7 +61,7 @@ class AccessoriesWindowAnbieter(QMainWindow):
     def load_ui(self, product, user, hers_list):
         self.replace_text(product[0], self.findChild(QLabel, "name_label"))
         self.replace_text(locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        self.replace_text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        self.replace_text(f"Budget:  {locale.currency(float(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
         self.replace_text(hers_list, self.findChild(QLabel, "comp_label"))
         self.replace_text(f"{product[2]} Stück", self.findChild(QLabel, "lager_status"))
         self.replace_icon(os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
@@ -113,13 +113,20 @@ class AccessoriesWindowAnbieter(QMainWindow):
                     return row
 
 
-    def calc_wert(self, product, loss, value):
-        preis = int(product.replace(".", ""))
-        new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
-        self.replace_text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+    def calc_wert(self, product, loss, jahre):
+        normalPreis = int(product)
+        verlustRate = (100-loss)/100
+        new_value = normalPreis * (verlustRate)**jahre
+        # Zinseszinzprinzip:
+        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
+        
+        Helper2.replace.text(self, 
+                             locale.currency(new_value, grouping=True),
+                             self.findChild(QLabel, "wert_status"),
+        )
 
     def calc_preis(self, product, value):
-        new_preis = int(product.replace(".",""))
+        new_preis = int(product)
         ges_preis = new_preis * value if new_preis * value > 0 else 0
         self.replace_text(locale.currency(ges_preis, grouping=True), self.findChild(QLabel, "gesamt_status"))
 

@@ -14,7 +14,7 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 
 
 class ProductWindowAnbieter(QMainWindow):
-    def __init__(self):
+    def __init__(self, widget):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindowAnbieter.ui"), self)
 
@@ -46,21 +46,21 @@ class ProductWindowAnbieter(QMainWindow):
         self.show()
 
     def load_ui(self, product, user):
-        self.replace_text(
+        Helper2.replace.text(self,
             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
         )
-        self.replace_text(
+        Helper2.replace.text(self,
             locale.currency(int(product[4].replace(".", "")), grouping=True),
             self.findChild(QLabel, "preis_status"),
         )
-        self.replace_text(
-            f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
+        Helper2.replace.text(self,
+            f"Budget:  {locale.currency(float(user[2]), grouping=True)}",
             self.findChild(QLabel, "budget_label"),
         )
-        self.replace_text(product[2], self.findChild(QLabel, "ps_status"))
-        self.replace_text(product[3], self.findChild(QLabel, "kmh_status"))
-        self.replace_text(product[5], self.findChild(QLabel, "baujahr_status"))
-        self.replace_text(product[-1], self.findChild(QLabel, "lager_status"))
+        Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
+        Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
+        Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
+        Helper2.replace.text(self, product[-1], self.findChild(QLabel, "lager_status"))
         Helper2.load.complete_header(self)
 
     def load_data(self, placeholder):
@@ -106,7 +106,7 @@ class ProductWindowAnbieter(QMainWindow):
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
-                self.replace_img(voll_pfad, self.findChild(QLabel, "picture"))
+                Helper2.replace.img(self, voll_pfad, self.findChild(QLabel, "picture"))
 
     def load_zpic(self, name):
         gesucht = name
@@ -160,20 +160,20 @@ class ProductWindowAnbieter(QMainWindow):
             # erstellten Container einfuegen in QScrollArea
             scroll_area.setWidget(content_widget)
 
-    def calc_wert(self, product, loss, value):
-        preis = int(product.replace(".", ""))
-        new_value = (
-            -(value * (preis * loss / 100))
-            if (value * (preis * loss / 100)) < preis
-            else -preis
-        )
-        self.replace_text(
-            locale.currency(new_value, grouping=True),
-            self.findChild(QLabel, "wert_status"),
+    def calc_wert(self, product, loss, jahre):
+        normalPreis = int(product)
+        verlustRate = (100-loss)/100
+        new_value = normalPreis * (verlustRate)**jahre
+        # Zinseszinzprinzip:
+        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
+        
+        Helper2.replace.text(self, 
+                             locale.currency(new_value, grouping=True),
+                             self.findChild(QLabel, "wert_status"),
         )
 
     def calc_preis(self, product, value):
-        new_preis = int(product.replace(".", ""))
+        new_preis = int(product)
         ges_preis = new_preis * value if new_preis * value > 0 else 0
         self.replace_text(locale.currency(ges_preis, grouping=True), self.findChild(QLabel, "gesamt_status"))
 
