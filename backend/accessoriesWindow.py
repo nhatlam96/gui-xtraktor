@@ -117,4 +117,5 @@ class accessoriesWindow(QMainWindow):
         if anz > 0:
             print("aufruf buy()")
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, typ)
+            self.spinBox.setValue(0)
             print(Helper.BuyHandler.get_current_shoppinglist())
