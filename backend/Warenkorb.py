@@ -47,11 +47,15 @@ class WarenkorbWindow(QMainWindow):
 
     def buy(self, liste):
         # TODO toast confirmation: sicher ob kaufen oder nicht
-        print(liste)
-        # summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
-        # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
-        # print(sum)
-        
+        confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
+        if confirmation == QMessageBox.Yes:
+            print(liste)
+            Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
+            # summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
+            # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
+            # print(sum)
+        else:
+            pass
         # kann pls jemand übernehmen, nur coding
 
     def load_info(self, liste):
@@ -210,6 +214,6 @@ class WarenkorbWindow(QMainWindow):
         print(self.shopping_list)
         self.add_shopping_items(self.info_list, self.shopping_list)
         self.add_sum_list(self.info_list, self.shopping_list)
-        Helper2.replace.text(self, 
+        Helper2.replace.text(self,
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
