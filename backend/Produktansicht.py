@@ -230,9 +230,8 @@ class ProductWindow(QMainWindow):
 
     def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         if anz > 0:
-            # TODO toast: sie haben x Model gekauft
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
-                              QMessageBox.Ok, 2000)
+                              QMessageBox.Ok, 2500)
             print("aufruf buy()")
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")
             self.spinBox_2.setValue(0)
