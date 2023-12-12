@@ -1,11 +1,13 @@
-import os.path
-import sys
 import locale
-import Helper, Helper2, Helper3
-from PyQt5.QtGui import QPixmap
+import os.path
 
-from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import *
+
+import Helper
+import Helper2
+from Helper_Accounts import UserHandler, update_userBalance
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -16,6 +18,9 @@ class WarenkorbWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Warenkorb.ui"), self)
+
+        user = UserHandler.get_current_user()
+        print(f"Warenkorb - Das ist der user: {user}")
 
         self.buttons = {}
         self.spinBoxes = {}
@@ -34,7 +39,7 @@ class WarenkorbWindow(QMainWindow):
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
-        self.buy_Button.clicked.connect(lambda: self.buy(self.info_list))
+        self.buy_Button.clicked.connect(lambda: self.buy(self.info_list, user))
 
         self.show()
 
@@ -45,37 +50,32 @@ class WarenkorbWindow(QMainWindow):
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
-    def buy(self, liste):
+    def buy(self, liste, user):
         # TODO toast confirmation: sicher ob kaufen oder nicht
         confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
         if confirmation == QMessageBox.Yes:
             print(liste)
-            Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
+            summe = self.calc_sum(self.info_list, self.shopping_list)  # self, info_liste, shopping_liste
+            # check if enough budget is available and then subtract the sum from the budget
+            if summe <= int(user[2]):
+                update_userBalance(user[0], -summe)
+                Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
-
-
-
-            summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
-
+                Helper.BuyHandler.clear_current_shoppinglist()
+                self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+                self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
+                print(self.shopping_list)
+                self.add_shopping_items(self.info_list, self.shopping_list)
+                self.add_sum_list(self.info_list, self.shopping_list)
+                Helper2.load.complete_header(self)
+                Helper2.replace.text(self, str(locale.currency(int(0), grouping=True)),
+                                     self.findChild(QLabel, "summe_status"))
+            else:
+                Helper.show_toast("Nicht genug Budget!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
             # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
             # print(sum)
-
-
-
-
-
-
-
-
-            Helper.BuyHandler.clear_current_shoppinglist()
-            self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
-            self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
-            print(self.shopping_list)
-            self.add_shopping_items(self.info_list, self.shopping_list)
-            self.add_sum_list(self.info_list, self.shopping_list)
-            Helper2.replace.text(self, str(locale.currency(int(0), grouping=True)), self.findChild(QLabel, "summe_status"))
 
     def load_info(self, liste):
         info = []

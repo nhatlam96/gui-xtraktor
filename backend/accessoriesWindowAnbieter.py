@@ -61,7 +61,7 @@ class AccessoriesWindowAnbieter(QMainWindow):
     def load_ui(self, product, user, hers_list):
         self.replace_text(product[0], self.findChild(QLabel, "name_label"))
         self.replace_text(locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        self.replace_text(f"Budget:  {locale.currency(float(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        self.replace_text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
         self.replace_text(hers_list, self.findChild(QLabel, "comp_label"))
         self.replace_text(f"{product[2]} Stück", self.findChild(QLabel, "lager_status"))
         self.replace_icon(os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))

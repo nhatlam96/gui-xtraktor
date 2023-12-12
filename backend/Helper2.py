@@ -58,7 +58,7 @@ class load:
             # No valid Userdata found. Probably index out of range
             replace.text(self, "Budget not found!", self.findChild(QLabel, "budget_label"))
         else:
-            replace.text(self, str(locale.currency(float(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
+            replace.text(self, str(locale.currency(int(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
             
         self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
         self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))

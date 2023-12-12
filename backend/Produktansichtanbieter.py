@@ -54,7 +54,7 @@ class ProductWindowAnbieter(QMainWindow):
             self.findChild(QLabel, "preis_status"),
         )
         Helper2.replace.text(self,
-            f"Budget:  {locale.currency(float(user[2]), grouping=True)}",
+            f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
             self.findChild(QLabel, "budget_label"),
         )
         Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))

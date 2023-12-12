@@ -136,16 +136,15 @@ def update_userprofile(self, user):
             if row['username'] == user:
                 row['password'] = self.passwordLineEdit.text()
                 row['budget'] = self.budgetLineEdit.text()
-                
-def update_userBalance(user, amount):   
+
+
+def update_userBalance(user, amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
-        
+
     for row in data:
         if user in row:
-            row[2] = float(row[2]) + amount
+            row[2] = int(row[2]) + amount
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
             break
-            
-    
