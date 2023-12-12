@@ -213,4 +213,3 @@ class WarenkorbWindow(QMainWindow):
         Helper2.replace.text(self, 
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
-

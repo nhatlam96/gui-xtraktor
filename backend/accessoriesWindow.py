@@ -25,6 +25,7 @@ class accessoriesWindow(QMainWindow):
         acc_platzhalter = "Sieglinde"
         acc = self.load_acc(acc_platzhalter)
         hers_list = self.load_hers(product)  # kompatible Traktoren
+        self.anz = 0
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -35,7 +36,8 @@ class accessoriesWindow(QMainWindow):
         self.load_pic(product)
 
         # Aktionen
-        self.buy_Button.clicked.connect(lambda: self.buy(product[0], 1, "z"))
+        self.buy_Button.clicked.connect(lambda: self.buy(product[0], self.anz, "z"))
+        self.spinBox.valueChanged.connect(lambda value: self.set_anz(value))
 
         self.show()
 
@@ -56,6 +58,10 @@ class accessoriesWindow(QMainWindow):
             for row in csv_reader:
                 if row[0] == placeholder:
                     return row
+
+    def set_anz(self, value):
+        self.anz = value
+        print(self.anz)
 
     def load_hers(self, product):
         conv_text = ", ".join(product[3:])

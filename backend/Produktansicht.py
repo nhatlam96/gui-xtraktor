@@ -46,11 +46,7 @@ class ProductWindow(QMainWindow):
         acc = self.load_acc(acc_platzhalter)
         loss = int(self.load_loss(product[0]))
         z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
-        self.spinbox = self.findChild(QSpinBox, "spinBox")
 
-        self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
-        self.anz = 0
-            
         self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
