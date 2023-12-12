@@ -54,6 +54,10 @@ class BuyHandler:
                     BuyHandler.current_shoppinglist.remove(item)
                     break
 
+    @staticmethod
+    def clear_current_shoppinglist():
+        BuyHandler.current_shoppinglist = []
+
 
 def show_toast(message, icon, button, time_in_ms):
     toast = QMessageBox()

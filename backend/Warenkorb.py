@@ -51,12 +51,31 @@ class WarenkorbWindow(QMainWindow):
         if confirmation == QMessageBox.Yes:
             print(liste)
             Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
-            # summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
+
+
+
+
+
+            summe = self.calc_sum(self, liste) # self, info_liste, shopping_liste
+
+
             # sum = Helper3.getSumme(geraeteArt, geraeteTyp, anzahl, account):
             # print(sum)
-        else:
-            pass
-        # kann pls jemand übernehmen, nur coding
+
+
+
+
+
+
+
+
+            Helper.BuyHandler.clear_current_shoppinglist()
+            self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+            self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
+            print(self.shopping_list)
+            self.add_shopping_items(self.info_list, self.shopping_list)
+            self.add_sum_list(self.info_list, self.shopping_list)
+            Helper2.replace.text(self, str(locale.currency(int(0), grouping=True)), self.findChild(QLabel, "summe_status"))
 
     def load_info(self, liste):
         info = []
