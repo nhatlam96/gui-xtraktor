@@ -228,8 +228,7 @@ class ProductWindow(QMainWindow):
                              self.findChild(QLabel, "wert_status"),
         )
 
-    @staticmethod
-    def buy(model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+    def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         if anz > 0:
             # TODO toast: sie haben x Model gekauft
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
