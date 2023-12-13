@@ -56,7 +56,7 @@ class GebrauchtwarenWindow(QMainWindow):
         self.load_pic(product)
 
         # Aktionen
-        self.sell_Button.clicked.connect(lambda: self.sell(product[4]))
+        self.sell_Button.clicked.connect() #lambda: self.sell(product[4]))
         self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
 
         # Connect the mousePressEvent to the picture label
@@ -223,14 +223,34 @@ class GebrauchtwarenWindow(QMainWindow):
                              locale.currency(new_value, grouping=True),
                              self.findChild(QLabel, "wert_status"),
                              )
-
-    def sell(self, product):  # sell and handle money transfers
-        normalPreis = int(product)
-        provision = normalPreis * 0.01
+        
+    def findBestOffer():
+        gebrauchtKaeufer = [
+        ["Alejandro", 160_000],
+        ["Francois", 400_000],
+        ["Chris", 90_000],
+        ["Francesco", 190_000],
+        ["Mette", 275_000],
+        ["Birgit", 700_000],
+        ["Lukas", 110_000],
+        ["Sandra", 75_000]]
+        
+        for gebK in gebrauchtKaeufer:
+            if not Helper3.isInterested():
+                gebrauchtKaeufer.remove(gebK)
+        for gebK in gebrauchtKaeufer:
+            gebK[1] = Helper3.genKaufangebot(gebK[1])
+        
+        bestOffer = max(gebrauchtKaeufer, key=lambda x: x[1])
+        return bestOffer
+    
+    def sell(self, bestOffer = findBestOffer()):  # sell and handle money transfers
+        preis = bestOffer[1]
+        provision = preis * 0.01
         # Helper_Accounts.update_userBalance("Klaus", provision) # this is the real one
         Helper_Accounts.update_userBalance("Test", provision)  # this is for test
 
-
+    
 def main():
     app = QApplication(sys.argv)  # construct QApp before QWidget
 

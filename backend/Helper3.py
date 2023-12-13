@@ -8,9 +8,9 @@ CSV_PATH = os.path.join("..", "resources", "csv")
 
 
 # Zufallszahl 1
-def isInterested(threshold=0.6):
+def isInterested():
     interest = random.uniform(0, 1)
-    return False if interest < threshold else True
+    return False if interest < 0.6 else True
 
 
 # Zufallszahl 2
