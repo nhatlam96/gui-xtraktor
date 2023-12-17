@@ -32,8 +32,16 @@ class GebrauchtwarenWindow(QMainWindow):
         def readInBidders():
             with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
                 data = list(csv.reader(file))
-                sortedData = sorted(data, key=lambda data: data[2]) # bid/offer
-                return sortedData
+                
+            for bidder in data:
+                if not Helper3.isInterested():
+                    data.remove(bidder)
+            for bidder in data:
+                bidder[1] = Helper3.genKaufangebot(bidder[1])
+
+            # bestOffer = max(data, key=lambda data: data[1])               
+            sortedOffers = sorted(data, key=lambda data: data[1]) # bid/offer
+            return sortedOffers
             
         #simulierte bidders
         self.bidders = readInBidders()
