@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QLineEdit
 from Helper import CSV_PATH
 
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
+BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 
 
 class UserHandler:
@@ -137,7 +138,6 @@ def update_userprofile(self, user):
                 row['password'] = self.passwordLineEdit.text()
                 row['budget'] = self.budgetLineEdit.text()
 
-
 def update_userBalance(user, amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -147,4 +147,38 @@ def update_userBalance(user, amount):
             row[2] = int(row[2]) + amount
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
-            break
+                return True
+
+# äquivalent zu user, backwards compatibility
+def update_accountsBalance(account, amount):
+    with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+
+    for row in data:
+        if account in row:
+            row[2] = int(row[2]) + amount
+            with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
+                csv.writer(file).writerows(data)
+                return True
+
+def update_biddersBalance(bidder, amount):
+    with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+
+    for row in data:
+        if bidder in row:
+            row[1] = int(row[1]) + amount
+            with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
+                csv.writer(file).writerows(data)
+                return True
+      
+def update_klausBalance(amount):
+    with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+
+    for row in data:
+        if "Klaus" in row:
+            row[2] = int(row[2]) + amount
+            with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
+                csv.writer(file).writerows(data)
+                return True

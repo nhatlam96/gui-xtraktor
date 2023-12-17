@@ -197,7 +197,8 @@ class ProductWindow(QMainWindow):
 
     def buy(self, model, anz):
         if anz > 0:
-            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
+            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", 
+                              QMessageBox.Information,
                               QMessageBox.Ok, 2500)
             print("aufruf buy()")
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")

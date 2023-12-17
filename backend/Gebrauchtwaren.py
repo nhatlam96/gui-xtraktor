@@ -12,8 +12,7 @@ import switches
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
-
-
+BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 
 
 class GebrauchtwarenWindow(QMainWindow):
@@ -30,17 +29,14 @@ class GebrauchtwarenWindow(QMainWindow):
         self.product_info = Helper2.load.product_info(self, platzhalter)[0]
         acc = ["Sieglinde", 100000]
 
-
-        #simulierte bidder
-        self.bidder = [ ["Alejandro", 160000],
-                        ["Francois", 400000],
-                        ["Chris", 90000],
-                        ["Francesco", 190000],
-                        ["Mette", 275000],
-                        ["Birgit", 700000],
-                        ["Lukas", 110000],
-                        ["Sandra", 75000] ]
-
+        def readInBidders():
+            with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
+                data = list(csv.reader(file))
+                sortedData = sorted(data, key=lambda data: data[2]) # bid/offer
+                return sortedData
+            
+        #simulierte bidders
+        self.bidders = readInBidders()
 
         # dyn.Layout buttons
         self.buttons = {}
@@ -111,10 +107,10 @@ class GebrauchtwarenWindow(QMainWindow):
         inner_layout.addLayout(head_layout, 8)
 
 
-        for x in range(len(self.bidder)):
-            other_buyer = QLabel(f"{self.bidder[x][0]}")
+        for x in range(len(self.bidders)):
+            other_buyer = QLabel(f"{self.bidders[x][0]}")
             other_buyer.setAlignment(Qt.AlignCenter)
-            other_buyer_price = QLabel(f"{locale.currency(int(self.bidder[x][1]), grouping=True)}")
+            other_buyer_price = QLabel(f"{locale.currency(int(self.bidders[x][1]), grouping=True)}")
             other_buyer_price.setAlignment(Qt.AlignCenter)
             buyer_info_layout = QHBoxLayout()
             buyer_info_layout.addWidget(other_buyer)
@@ -136,13 +132,13 @@ class GebrauchtwarenWindow(QMainWindow):
 
         buyer_layout = QHBoxLayout()
         content_layout.addLayout(buyer_layout, 2)
-        buyer = QLabel(f"{self.bidder[1][0]}")
-        price = QLabel(f"{locale.currency(int(self.bidder[1][1]), grouping=True)}")
+        buyer = QLabel(f"{self.bidders[1][0]}")
+        price = QLabel(f"{locale.currency(int(self.bidders[1][1]), grouping=True)}")
 
         button = QPushButton("Verkauf bestätigen")
-        self.buttons = button
-        button.clicked.connect(lambda : self.confirm_sell(self.bidder[1]))
-
+        button.clicked.connect(lambda: self.confirm_sell(self, price, buyer))
+        button.clicked.connect(lambda: self.bidderSell(self, price, buyer))
+        
 
         buyer_layout.addWidget(buyer)
         buyer_layout.addWidget(price)
@@ -168,17 +164,10 @@ class GebrauchtwarenWindow(QMainWindow):
         return button_click_handler
 
 
-    def confirm_sell(self, bidder):
-
-        #toast zum bestätigen
-
-
-        pass
-
-
-
-
-
+    def confirm_sell(self, gebot, bidder):
+        Helper.show_toast(f"{bidder} hat den Verkauf über {gebot}€ abgeschlossen.", 
+                          QMessageBox.Information,
+                          QMessageBox.Ok, 2000)        
 
 
     def calc_wert(self, product, loss, jahre):
@@ -190,12 +179,11 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper2.replace.text(self,locale.currency(new_value, grouping=True),self.findChild(QLabel, "wert_status"))
 
 
-    def sell(self, product):  # sell and handle money transfers
-        normalPreis = int(product)
-        provision = normalPreis * 0.01
-        # Helper_Accounts.update_userBalance("Klaus", provision) # this is the real one
-        Helper_Accounts.update_userBalance("Test", provision)  # this is for test
-
+    def bidderSell(self, gebot, bidder):  # sell and handle money transfers
+        verkaufsPreis = int(gebot * 0.99)
+        Helper_Accounts.update_biddersBalance(bidder, verkaufsPreis)
+        provision = int(gebot * 0.01)
+        Helper_Accounts.update_klausBalance(provision)
 
 
 def main():
