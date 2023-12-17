@@ -13,9 +13,6 @@ PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 
 
-# Wie Helper, aber besser
-
-
 class conf:
 
     @staticmethod
@@ -49,7 +46,6 @@ class load:
 
         conf.locale_setup(self)
 
-        # Brauche Starteseite ... immernoch zu viele abhängigkeiten
         def getCurUser():
                 return Helper_Accounts.UserHandler.get_current_user()[2]
         try:
@@ -63,6 +59,8 @@ class load:
         self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
         self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))
         self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
+
+
 
     def logout_button(self, button):
         button.clicked.connect(lambda: switches.switch_to.login(self))
@@ -85,3 +83,30 @@ class load:
                     if model == column:
                         return row
 
+
+
+    def product_pic(self, row):
+
+        pfad = os.path.join(PIC_PATH, r"Traktoren")
+
+        if row[2] == "z":
+            pfad = os.path.join(PIC_PATH, r"Zubehör")
+
+        gesucht = row[0]
+
+        for dateiname in os.listdir(pfad):
+            if gesucht in dateiname:
+                voll_pfad = os.path.join(pfad, dateiname)
+                pixmap = QPixmap(voll_pfad)
+                return pixmap
+
+
+    def product_info(self, liste):
+        info = []
+        for x in range(len(liste)):
+            if liste[x][2] == "t":
+                info.append(load.traktor_data(self, liste[x][0]))
+            if liste[x][2] == "z":
+                info.append(load.zub_data(self, liste[x][0]))
+
+        return info

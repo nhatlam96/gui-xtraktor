@@ -19,7 +19,7 @@ class accessoriesWindow(QMainWindow):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
 
-        # Simulierte übergabeparameter
+        # übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()
         product = self.load_data(platzhalter)
         acc_platzhalter = "Sieglinde"

@@ -19,16 +19,17 @@ class AccessoriesHandler:
 
 
 class ProductHandler:
-    current_product: str = ""
+    # current_product = []
+    current_product = ""
 
     @staticmethod
     def get_current_product():
         return ProductHandler.current_product
 
     @staticmethod
-    def set_current_product(product, anz):
+    def set_current_product(product):
+        # ProductHandler.current_product = [product, 1, typ] so muss eig sein, startseite muss übergabe ändern
         ProductHandler.current_product = product
-
 
 class BuyHandler:
     current_shoppinglist = []
@@ -57,6 +58,64 @@ class BuyHandler:
     @staticmethod
     def clear_current_shoppinglist():
         BuyHandler.current_shoppinglist = []
+
+
+class InvHandler:
+    current_inventar = [["Axos_340_CX", 5, "t"]]
+
+    @staticmethod
+    def get_inv():
+        return InvHandler.current_inventar
+
+    @staticmethod
+    def add_to_inv(product, anz, typ):
+        for item in InvHandler.current_inventar:
+            if product == item[0]:
+                item[1] += anz
+                break
+        else:
+            InvHandler.current_inventar.append([product, anz, typ])
+
+    @staticmethod
+    def remove_from_inv(product, anz):
+        for item in InvHandler.current_inventar:
+            if item[0] == product:
+                item[1] -= anz
+                if item[1] <= 0:
+                    InvHandler.current_inventar.remove(item)
+                    break
+
+
+
+class SellHandler:
+    sell_list = []
+
+    @staticmethod
+    def get_current_sell_list():
+        return SellHandler.sell_list
+
+    @staticmethod
+    def add_to_sell_list(product, anz, typ):
+        for item in SellHandler.sell_list:
+            if product == item[0]:
+                item[1] += anz
+                break
+        else:
+            SellHandler.sell_list.append([product, anz, typ])
+
+    @staticmethod
+    def remove_from_sell_list(product, anz):
+        for item in InvHandler.current_inventar:
+            if item[0] == product:
+                item[1] -= anz
+                if item[1] <= 0:
+                    InvHandler.current_inventar.remove(item)
+                    break
+
+
+
+
+
 
 
 def show_toast(message, icon, button, time_in_ms):

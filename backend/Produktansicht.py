@@ -1,45 +1,19 @@
 import locale
 import os.path
-import sys
 import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
-from PyQt5.QtCore import Qt, QSize
 import Helper
-import Helper_Accounts
 import switches
 import Helper2
+
+from Vollbild_Klasse import FullScreenImage
+
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
-
-class FullScreenImage(QMainWindow):
-    def __init__(self, image_path):
-        super().__init__()
-        self.setWindowTitle("Full Screen Image")
-
-        content_widget = QWidget(self)
-        self.setCentralWidget(content_widget)
-
-        layout = QHBoxLayout(content_widget)
-        layout.setAlignment(Qt.AlignCenter)
-
-        label = QLabel()
-        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # QLabel ist expanding zweimal(Hor, ver)
-
-        pixmap = QPixmap(image_path)
-        label.setPixmap(pixmap)
-        label.setAlignment(Qt.AlignCenter)  #label wird mittig gesetzt
-        label.setScaledContents(True)  # label wird skaliert
-
-        layout.addWidget(label)
-
-        label.mousePressEvent = self.close_fullscreen
-
-    def close_fullscreen(self, event):
-        self.close()
 
 
 class ProductWindow(QMainWindow):
@@ -47,18 +21,11 @@ class ProductWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
 
-        # Simulierte übergabeparameter
-        platzhalter = Helper.ProductHandler.current_product
-
-        platzhalter = Helper.ProductHandler.current_product
-        product = Helper2.load.traktor_data(self, platzhalter)
-        print(type(product))
-        acc_platzhalter = Helper_Accounts.UserHandler.get_current_user()[0]  # bekommt acc von startseite
-        acc = self.load_acc(acc_platzhalter)
-        loss = int(self.load_loss(product[0]))
-        z_list = self.load_zub(product[0])  # kompatibles Zubehoer []
+        # übergabeparameter
+        self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)
+        self.loss = int(self.load_loss(self.product[0]))
+        self.z_list = self.load_zub(self.product[0])  # kompatibles Zubehoer []
         self.spinbox = self.findChild(QSpinBox, "spinBox")
-
         self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
@@ -66,20 +33,19 @@ class ProductWindow(QMainWindow):
         Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
-        self.add_widget(z_list, product)
+        self.add_widget()
 
         # Produktseite laden
-        if product is None: product = [i * 0 for i in range(10)]
-        self.load_ui(product, acc)
-        self.load_lager(product)
-        self.load_pic(product)
+        self.load_ui()
+        self.load_lager(self.product)
+        self.load_pic(self.product)
 
         # Aktionen
-        self.buy_Button.clicked.connect(lambda: self.buy(product[1], self.anz))
-        self.spinBox.valueChanged.connect(lambda value: self.calc_wert(product[4], loss, value))
+        self.buy_Button.clicked.connect(lambda: self.buy(self.product[1], self.anz))
+        self.spinBox.valueChanged.connect(lambda value: self.calc_wert(self.product[4], self.loss, value))
         self.spinBox_2.valueChanged.connect(lambda value: self.set_anz(value))
 
-        # Connect the mousePressEvent to the picture label
+        # Mausevent mit Bild verknüpfen
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
@@ -87,21 +53,17 @@ class ProductWindow(QMainWindow):
 
     @staticmethod
     def show_fullscreen(event, pixmap):
-        if event.button() == Qt.LeftButton:
-            fullscreen_window = FullScreenImage(pixmap)
-            fullscreen_window.show()
+        FullScreenImage.show_fullscreen(event, pixmap)
 
-    def load_ui(self, product, user):
+    def load_ui(self):
         Helper2.conf.locale_setup(self)
-        Helper2.replace.text(self,
-                             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
-                             )
-        Helper2.replace.text(self,
-                             locale.currency(int(product[4]), grouping=True), self.findChild(QLabel, "preis_status")
-                             )
-        Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
-        Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
-        Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
+        Helper2.replace.text(self,f"{self.product[0]} - {self.product[1]}",
+                             self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(self, locale.currency(int(self.product[4]), grouping=True),
+                             self.findChild(QLabel, "preis_status"))
+        Helper2.replace.text(self, self.product[2], self.findChild(QLabel, "ps_status"))
+        Helper2.replace.text(self, self.product[3], self.findChild(QLabel, "kmh_status"))
+        Helper2.replace.text(self, self.product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
 
     def set_anz(self, value):
@@ -113,7 +75,7 @@ class ProductWindow(QMainWindow):
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
-            data_list = []  # welche werte wichtig? andere methode? ohne zwischenspeicher?
+            data_list = []
 
             for row in csv_reader:
                 for column in row:
@@ -121,7 +83,6 @@ class ProductWindow(QMainWindow):
                         data_list.append(row)
                         break
 
-            print(data_list)  # zu testzweck
             return data_list
 
     def load_loss(self, platzhalter):
@@ -178,7 +139,10 @@ class ProductWindow(QMainWindow):
                 if row[0] == user:
                     return row
 
-    def add_widget(self, zusatz, product):
+    def add_widget(self):
+
+        zusatz = self.z_list
+
         # dynamisches Layout laden
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
 
@@ -229,13 +193,9 @@ class ProductWindow(QMainWindow):
         new_value = normalPreis * (verlustRate) ** jahre
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
+        Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
 
-        Helper2.replace.text(self,
-                             locale.currency(new_value, grouping=True),
-                             self.findChild(QLabel, "wert_status"),
-                             )
-
-    def buy(self, model, anz):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+    def buy(self, model, anz):
         if anz > 0:
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
                               QMessageBox.Ok, 2500)

@@ -223,7 +223,7 @@ class Startseite(QMainWindow):
             if label is not None:
                 text = label
                 print(text)
-                Helper.ProductHandler.set_current_product(text, 0)
+                Helper.ProductHandler.set_current_product(text)
                 switches.switch_to.product(self)
             else:
                 print("Label ist None")
