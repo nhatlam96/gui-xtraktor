@@ -1,6 +1,7 @@
 import csv
 import os
-import Helper
+from datetime import datetime, timedelta
+
 from PyQt5.QtWidgets import QLineEdit
 
 from Helper import CSV_PATH
@@ -27,6 +28,31 @@ class UserHandler:
                 if row[0] == user:
                     UserHandler.current_user = row
                     break
+
+
+def update_user_last_login(username):
+    with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        rows = list(reader)
+
+    for row in rows:
+        if row['username'] == username:
+            last_login = row['last_login']
+            if not last_login:
+                # If last_login is empty, add the current timestamp
+                row['last_login'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                # If last_login is not empty, add half a year (approx. 182.5 days)
+                last_login_datetime = datetime.strptime(last_login, "%Y-%m-%d %H:%M:%S")
+                new_last_login = last_login_datetime + timedelta(days=182.5)
+                row['last_login'] = new_last_login.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Write the updated data back to the CSV file
+    with open(ACCOUNTS_FILE_PATH, mode='w', newline='') as csvfile:
+        fieldnames = ['username', 'password', 'budget', 'role', 'last_login']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def check_credentials(username, password):
@@ -138,6 +164,7 @@ def update_userprofile(self, user):
                 row['password'] = self.passwordLineEdit.text()
                 row['budget'] = self.budgetLineEdit.text()
 
+
 def update_userBalance(user, amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -148,6 +175,7 @@ def update_userBalance(user, amount):
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
+
 
 # äquivalent zu user, backwards compatibility
 def update_accountsBalance(account, amount):
@@ -161,6 +189,7 @@ def update_accountsBalance(account, amount):
                 csv.writer(file).writerows(data)
                 return True
 
+
 def update_biddersBalance(bidder, amount):
     with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -171,7 +200,8 @@ def update_biddersBalance(bidder, amount):
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
-      
+
+
 def update_klausBalance(amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
