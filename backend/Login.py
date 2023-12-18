@@ -1,4 +1,6 @@
+import atexit
 import os.path
+import subprocess
 import sys
 
 from PyQt5 import uic
@@ -6,7 +8,10 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 
 import switches
 from Helper import show_toast
-from Helper_Accounts import UserHandler, check_credentials, update_user_last_login
+from Helper_Accounts import UserHandler, check_credentials
+
+# Reference to the TimeMaster subprocess
+time_master_process = None
 
 
 class Login(QMainWindow):
@@ -30,7 +35,6 @@ class Login(QMainWindow):
 
         if check_credentials(username, password):
             UserHandler.set_current_user(self, username)
-            update_user_last_login(username)
             switches.switch_to.startseite(self)
             show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok, 1750)
         else:
@@ -38,11 +42,25 @@ class Login(QMainWindow):
 
 
 def main():
-    app = QApplication(sys.argv)  # construct QApp before QWidget
+    global time_master_process
+
+    # Start TimeMaster.py as a separate process
+    time_master_process = subprocess.Popen(["python", "-m", "TimeMaster"])
+
+    app = QApplication(sys.argv)
     window = Login()
     window.setWindowTitle("X-Traktor")
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_())  # exit cleanly
+    window.show()
+    sys.exit(app.exec_())
+
+
+@atexit.register
+def on_exit():
+    global time_master_process
+    if time_master_process:
+        # noinspection PyUnresolvedReferences
+        time_master_process.terminate()
+        print("TimeMaster terminated")
 
 
 if __name__ == "__main__":
