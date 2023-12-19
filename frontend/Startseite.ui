@@ -50,7 +50,7 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,5">
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <item alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QFrame" name="frame">
             <property name="styleSheet">
@@ -82,63 +82,6 @@ font-size: 20px;</string>
             </layout>
            </widget>
           </item>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QFrame" name="frame_16">
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="sell_Button">
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="baseSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton{
-	background-color: orange;
-}</string>
-               </property>
-               <property name="text">
-                <string>Verkaufen</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item alignment="Qt::AlignRight|Qt::AlignTop">
            <widget class="QFrame" name="frame_3">
             <property name="styleSheet">
@@ -147,7 +90,7 @@ font-weight: bold;
 font-size: 20px;</string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
+             <enum>QFrame::Box</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -200,7 +143,7 @@ font-size: 20px;</string>
 }</string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -707,8 +650,9 @@ QPushButton#such_infor_commit:pressed {
                   <property name="styleSheet">
                    <string notr="true">QLineEdit#Lineedit_suchfeld {
 	background-color: white;
-	line-height: 1.5;
-	font-size: 20px;
+	line-height: 2.5;
+	height: 35px;
+	font-size: 25px;
 	border-bottom: 3px solid green;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
@@ -758,6 +702,7 @@ QPushButton#pushButton_suchen:pressed {
                 <string notr="true">QScrollArea#scrollArea{
 	background-color: white;
 	margin-top: 15px;
+	color: white;
 }
 </string>
                </property>
@@ -782,7 +727,7 @@ QPushButton#pushButton_suchen:pressed {
                   <x>0</x>
                   <y>0</y>
                   <width>567</width>
-                  <height>616</height>
+                  <height>613</height>
                  </rect>
                 </property>
                 <property name="styleSheet">

@@ -396,8 +396,9 @@ class Ui_Startseite(object):
         self.Lineedit_suchfeld.setFont(font)
         self.Lineedit_suchfeld.setStyleSheet("QLineEdit#Lineedit_suchfeld {\n"
 "    background-color: white;\n"
-"    line-height: 1.5;\n"
-"    font-size: 20px;\n"
+"    line-height: 2.5;\n"
+"    height: 35px;\n"
+"    font-size: 25px;\n"
 "    border-bottom: 3px solid green;\n"
 "    border-top-left-radius: 8px;\n"
 "    border-top-right-radius: 8px;\n"
@@ -431,6 +432,7 @@ class Ui_Startseite(object):
         self.scrollArea.setStyleSheet("QScrollArea#scrollArea{\n"
 "    background-color: white;\n"
 "    margin-top: 15px;\n"
+"    color: white;\n"
 "}\n"
 "")
         self.scrollArea.setFrameShape(QtWidgets.QFrame.Box)
@@ -440,7 +442,7 @@ class Ui_Startseite(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 567, 616))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 567, 613))
         self.scrollAreaWidgetContents.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
