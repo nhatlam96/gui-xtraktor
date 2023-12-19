@@ -7,7 +7,7 @@ from Helper import CSV_PATH
 
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
-
+INVENTAR_FILE_PATH = os.path.join("..", "resources", "csv", "Inventar.csv")
 
 class UserHandler:
     current_user = []
@@ -186,3 +186,16 @@ def update_klausBalance(amount):
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
+            
+def readInventar(user):
+    with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+    
+    userData = []
+    for row in data:
+        if user in row:
+            userData.append(row)
+    return userData
+
+def writeInventar(user):
+    pass
