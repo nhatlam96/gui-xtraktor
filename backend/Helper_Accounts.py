@@ -189,6 +189,8 @@ def update_klausBalance(amount):
                 return True
             
 def readInventar(user): # Get
+    user = UserHandler.get_current_user() or user
+
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
     
@@ -200,8 +202,7 @@ def readInventar(user): # Get
 
 def writeInventar(modellName, neueAnzahl, t_z):
 
-    #user = UserHandler.get_current_user()
-    user = "Sieglinde"
+    user = UserHandler.get_current_user()
     found = 0
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
@@ -225,6 +226,3 @@ def writeInventar(modellName, neueAnzahl, t_z):
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(sortedData)
         return True
-    
-
-writeInventar("ayaya", 94, "t")
