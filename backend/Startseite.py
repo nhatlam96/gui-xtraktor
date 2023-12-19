@@ -78,6 +78,7 @@ class Startseite(QMainWindow):
         self.max_preis.addItems(self.add_max_preis())
         self.min_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_minPreis(currentValue))
         self.max_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_maxPreis(currentValue))
+        self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
 
         print(self.buttons)
         self.show()

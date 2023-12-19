@@ -23,6 +23,7 @@ class SellWindow(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "Sell.ui"), self)
 
         Helper2.conf.locale_setup(self)
+        self.load_ui()
 
         Helper.InvHandler.add_to_inv("Axion_950",3,"t")
 
@@ -47,6 +48,10 @@ class SellWindow(QMainWindow):
 
 
         self.show()
+
+
+    def load_ui(self):
+        Helper2.load.complete_header(self)
 
 
 
@@ -174,7 +179,7 @@ class SellWindow(QMainWindow):
             label5 = QPushButton("Mehr Info")
 
             self.buttons_tab2[x] = label5
-            #label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2], spin=spinbox: self.make_button_click_handler(label, spin.value(), typ))
+            label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2]: self.make_button_click_handler2(label, typ))
 
             if self.sell_liste[x][2] == "t":
                 label6 = QLabel(locale.currency(int(self.sell_info_liste[x][4]), grouping=True))
@@ -208,6 +213,20 @@ class SellWindow(QMainWindow):
             self.info_liste = Helper2.load.product_info(self, self.inventar_liste) if self.inventar_liste else []
             self.create_tab1_content()
 
+
+    def make_button_click_handler2(self, label, anz, typ):
+
+        if anz > 0:
+
+            Helper.InvHandler.remove_from_inv(label, anz)
+            Helper.SellHandler.add_to_sell_list(label, anz, typ)
+
+            self.sell_liste = Helper.SellHandler.get_current_sell_list()
+            self.sell_info_liste = Helper2.load.product_info(self, self.sell_liste) if self.inventar_liste else []
+
+            self.inventar_liste = Helper.InvHandler.get_inv()
+            self.info_liste = Helper2.load.product_info(self, self.inventar_liste) if self.inventar_liste else []
+            self.create_tab1_content()
 
 
 def main():

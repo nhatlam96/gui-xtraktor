@@ -24,10 +24,9 @@ class GebrauchtwarenWindow(QMainWindow):
         # alles Simulation, denn braucht integration durch Startseite, die noch nicht fertig ist
 
         # Simulierte übergabeparameter
-        platzhalter = [["Axos_340_CX", 5, "t"]]
-        self.product = platzhalter
-        self.product_info = Helper2.load.product_info(self, platzhalter)[0]
-        acc = ["Sieglinde", 100000]
+        self.product = Helper.current_Sell_Handler.get_current_sell_item()
+        self.product_info = Helper2.load.product_info(self, self.product)[0]
+        acc = Helper_Accounts.UserHandler.get_current_user()
 
         def readInBidders():
             with open(BIDDERS_FILE_PATH, 'r', newline='') as file:

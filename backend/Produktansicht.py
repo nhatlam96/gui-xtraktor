@@ -195,6 +195,7 @@ class ProductWindow(QMainWindow):
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
 
+
     def buy(self, model, anz):
         if anz > 0:
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", 

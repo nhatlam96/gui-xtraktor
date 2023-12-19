@@ -3,6 +3,7 @@ import os
 
 from PyQt5.QtWidgets import QLineEdit
 
+import Helper
 from Helper import CSV_PATH
 
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
@@ -197,7 +198,10 @@ def readInventar(user): # Get
             userData.append(row)
     return userData
 
-def writeInventar(user, modellName, neueAnzahl, t_z):
+def writeInventar(modellName, neueAnzahl, t_z):
+
+    user = UserHandler.get_current_user()
+
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
     
@@ -219,5 +223,5 @@ def writeInventar(user, modellName, neueAnzahl, t_z):
         csv.writer(file).writerows(sortedData)
         return True
     
-writeInventar("Klaus", "ayaya", 99, 'T')
+writeInventar("ayaya", 99, 't')
     

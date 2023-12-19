@@ -86,6 +86,22 @@ class InvHandler:
                     break
 
 
+class current_Sell_Handler:
+    current_sell_item = [["Axos_340_CX", 5, "t"]]
+
+    @staticmethod
+    def get_current_sell_item():
+        return current_Sell_Handler.current_sell_item
+
+    @staticmethod
+    def add_sell_item(product, anz, typ):
+        current_Sell_Handler.current_sell_item.append([product, anz, typ])
+
+    @staticmethod
+    def clear_sell_item(product, anz):
+        current_Sell_Handler.current_sell_item = []
+
+
 
 class SellHandler:
     sell_list = []
