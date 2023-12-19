@@ -13,6 +13,7 @@ import Helper2
 
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
+zubehoer_path = os.path.join("..", "resources", "Zubehör")
 
 class Startseite(QMainWindow):
 
@@ -24,8 +25,13 @@ class Startseite(QMainWindow):
 
         # Buttonaktionen in liste von dyn. Layout
         self.buttons = {}
-        self.datalist = self.load_list_data()       # ### original list of list information Trator
-        self.filtereddatalist = self.load_list_data()       # ### goal: emptying original data list to "filtern" content
+        # ### original list of list information Trator
+        self.datalist = self.load_list_data(os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv") )
+        # ### goal: emptying original data list to "filtern" content
+        self.filtereddatalist = self.load_list_data(os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv"))
+        self.zubehordatalist = self.load_list_data(os.path.join(csv_path, "Zubehör.csv"))
+        print(len(self.zubehordatalist))
+        self.zubehorfilter = []
 
         self.listImage = self.load_list_image()
         print(self.listImage)
@@ -48,13 +54,11 @@ class Startseite(QMainWindow):
         self.horizontalSlider_km.valueChanged.connect(self.km_changed)
         self.horizontalSlider_leistung.valueChanged.connect(self.leistung_changed)
 
-        # self.uic.lineEdit.editingFinished()         # press "enter" to finish
-        # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
-
         # ############ Spin Box bei dem Lager und Baujahr einstellen
 
         self.baujahr_spinBox.setMinimum(1900)
         self.baujahr_spinBox.setMaximum(2023)
+        self.baujahr_spinBox.valueChanged.connect(self.filter_baujahr_changed)
 
         # ########### Umgehen mit dem Ereignis, wenn User Value des Baujahr geaendert wurde
 
@@ -66,8 +70,7 @@ class Startseite(QMainWindow):
         self.comboBox_hersteller.addItems(self.add_hersteller())
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
 
-        self.typ_comboBox.addItem("")
-        self.typ_comboBox.addItems(self.add_typ())
+        self.typ_comboBox.addItems(["Traktor", "Zubehör"])
         self.typ_comboBox.currentTextChanged.connect(self.filter_changed_typ)
 
         self.horizontalSlider_leistung.valueChanged.connect(self.filter_changed_leistung)
@@ -82,6 +85,16 @@ class Startseite(QMainWindow):
 
         print(self.buttons)
         self.show()
+
+    def filter_baujahr_changed(self):
+        self.filtereddatalist = []
+        intUmwandlung = int(self.baujahr_value_nehmen())
+
+        for index in range(len(self.datalist)):
+            if intUmwandlung == int(self.datalist[index][5]):
+                self.filtereddatalist.append(self.datalist[index])
+
+        self.setup_waren_ui()
 
     def filter_changed_minPreis(self, currentValue):
 
@@ -155,13 +168,10 @@ class Startseite(QMainWindow):
     # ########## Typ Eintrag muss noch einmal diskutieren, weil ich ("Tu") nicht weiß, ob es um Verkehr oder Zubehör geht
     # ######### danke
     def filter_changed_typ(self, currentTyp):
-        self.filtereddatalist = []
-        print(f"currentyp {currentTyp}")
-        for index in range(len(self.datalist)):
-            if self.datalist[index][1] == currentTyp:
-                self.filtereddatalist.append(self.datalist[index])
-        print(self.filtereddatalist)
-        self.setup_waren_ui()
+
+        if (currentTyp == "Zubehör"):
+            self.zubehor_setup()
+        else: self.setup_waren_ui()
 
     def filter_changed_hersteller(self, currentHersteller):
 
@@ -215,26 +225,13 @@ class Startseite(QMainWindow):
 
     # ########## Add Artikel in Typ ComboBox hinzu
 
-    def add_typ(self):
-        typ_eintraeger = []
-        Arbeitmaschinen_csv_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
-
-        with open(Arbeitmaschinen_csv_path, "r") as file:
-            csv_file_reader = csv.reader(file)
-            next(csv_file_reader)
-
-            for row in csv_file_reader:
-                typ_eintraeger.append(row[1])
-
-        return set(typ_eintraeger)
-
-    def load_list_data(self):
+    def load_list_data(self, csvListpath):
 
         main_list = []
-        csv_list_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
+        csv_list_path = csvListpath # os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
 
         with open(csv_list_path, "r") as file:
-            csv_file_reader = csv.reader(file)
+            csv_file_reader = csv.reader(file)      # list von CSV file erstellen
             next(csv_file_reader)  # Auf Header Info springen
             vermitteln_to_list = list(csv_file_reader)  # csv reader file in List vermitteln
 
@@ -272,8 +269,8 @@ class Startseite(QMainWindow):
             inner_layout1 = QVBoxLayout()
             herstell_label = QLabel("Hersteller: " + str(data_list[index][0]))
             modell_label = QLabel("Modell: " + str(data_list[index][1]))
-            inner_layout1.addWidget(herstell_label)
-            inner_layout1.addWidget(modell_label)
+            inner_layout1.addWidget(herstell_label, stretch = 1)
+            inner_layout1.addWidget(modell_label, stretch = 1)
 
             inner_layout2 = QVBoxLayout()
             preis = QLabel("Preis: " + str(data_list[index][4]))
@@ -282,37 +279,75 @@ class Startseite(QMainWindow):
             self.buttons[index] = kaufen
             kaufen.clicked.connect(self.make_button_click_handler(str(data_list[index][1])))
 
-            inner_layout2.addWidget(preis)
-            inner_layout2.addWidget(kaufen)
+            inner_layout2.addWidget(preis, stretch = 1)
+            inner_layout2.addWidget(kaufen, stretch = 1)
 
             inner_layout3 = QHBoxLayout()
             ps = QLabel("PS: " + str(data_list[index][2]))
             leistung = QLabel("Leistung: " + str(data_list[index][2]))
             km = QLabel("Km/h: " + str(data_list[index][3]))
-            inner_layout3.addWidget(ps)
-            inner_layout3.addWidget(leistung)
-            inner_layout3.addWidget(km)
+            inner_layout3.addWidget(ps, stretch = 1)
+            inner_layout3.addWidget(leistung, stretch = 1)
+            inner_layout3.addWidget(km, stretch = 1)
 
             inner_layout4 = QHBoxLayout()
-            inner_layout4.addLayout(inner_layout1)
-            inner_layout4.addLayout(inner_layout2)
+            inner_layout4.addLayout(inner_layout1, stretch = 1)
+            inner_layout4.addLayout(inner_layout2, stretch = 1)
 
             inner_layout5 = QVBoxLayout()
-            inner_layout5.addLayout(inner_layout4)
-            inner_layout5.addLayout(inner_layout3)
+            inner_layout5.addLayout(inner_layout4, stretch = 1)
+            inner_layout5.addLayout(inner_layout3, stretch = 1)
 
             inner_layout6 = QHBoxLayout()
             bild_label = QLabel()
             picture = QPixmap(imageList[index])
-            scale_picture = picture.scaled(200,200,Qt.KeepAspectRatio)
+            scale_picture = picture.scaled(300,300,Qt.KeepAspectRatio)
             bild_label.setPixmap(scale_picture)
-            inner_layout6.addWidget(bild_label)
-            inner_layout6.addLayout(inner_layout5)
+            inner_layout6.addWidget(bild_label, stretch = 1)
+            inner_layout6.addLayout(inner_layout5, stretch = 1)
 
             inner_layout.addLayout(inner_layout6)
             layout.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
+
+    def zubehor_setup(self):
+
+        scroll_area = self.findChild(QScrollArea, "scrollArea")
+        inhalt_layout = QWidget()
+        layout = QVBoxLayout(inhalt_layout)
+
+        zubehorList = self.zubehordatalist
+
+        for index in range(len(zubehorList)):
+            innerWidget = QWidget()
+            inner_layout = QHBoxLayout(innerWidget)
+
+            layout1 = QHBoxLayout()
+            name_label = QLabel("Zubehör: " + str(zubehorList[index][0]))
+            preis_label = QLabel("Preis: " + str(zubehorList[index][1]))
+            layout1.addWidget(name_label, stretch = 1)
+            layout1.addWidget(preis_label, stretch = 1)
+
+            layout2 = QHBoxLayout()
+            hersteller = QLabel("Hersteller: " + str(zubehorList[index][3]))
+            bestand = QLabel("Bestand: " + str(zubehorList[index][2]))
+            layout2.addWidget(hersteller, stretch = 1)
+            layout2.addWidget(bestand, stretch = 1)
+
+            layout3 = QVBoxLayout()
+            layout3.addLayout(layout1, stretch = 1)
+            layout3.addLayout(layout2, stretch = 1)
+
+            layout4 = QHBoxLayout()
+            bilder = QLabel("test")
+            layout4.addWidget(bilder, stretch = 1)
+            layout4.addLayout(layout3, stretch = 1)
+
+            inner_layout.addLayout(layout4)
+            layout.addWidget(innerWidget)
+
+        scroll_area.setWidget(inhalt_layout)
 
     def make_button_click_handler(self, label):
         def button_click_handler():
