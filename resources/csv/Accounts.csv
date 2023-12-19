@@ -1,7 +1,7 @@
 username,password,budget,role
-Klaus,1234,3000000,Verkaeufer (Neuware)
-Oskar,1234,270000,Kaeufer (Neuware)
-Benni,1234,250000,Kaeufer (Neuware)
-Daniela,1234,200000,Kaeufer (Neuware)
-Horst,1234,550000,Kaeufer (Neuware)
-Sieglinde,1234,204000,Kaeufer (Neuware)
+Klaus,1234,3000000,Admin
+Oskar,1234,270000,User
+Benni,1234,250000,User
+Daniela,1234,200000,User
+Horst,1234,550000,User
+Sieglinde,1234,204000,User

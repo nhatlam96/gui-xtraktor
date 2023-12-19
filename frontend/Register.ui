@@ -60,17 +60,7 @@
             </item>
             <item>
              <property name="text">
-              <string>Kaeufer (Neuware)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Kaeufer (Gebraucht)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Verkaeufer (Gebraucht)</string>
+              <string>User</string>
              </property>
             </item>
            </widget>

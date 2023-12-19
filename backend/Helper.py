@@ -31,6 +31,7 @@ class ProductHandler:
         # ProductHandler.current_product = [product, 1, typ] so muss eig sein, startseite muss übergabe ändern
         ProductHandler.current_product = product
 
+
 class BuyHandler:
     current_shoppinglist = []
 
@@ -102,7 +103,6 @@ class current_Sell_Handler:
         current_Sell_Handler.current_sell_item = []
 
 
-
 class SellHandler:
     sell_list = []
 
@@ -127,11 +127,6 @@ class SellHandler:
                 if item[1] <= 0:
                     InvHandler.current_inventar.remove(item)
                     break
-
-
-
-
-
 
 
 def show_toast(message, icon, button, time_in_ms):
