@@ -202,7 +202,6 @@ def readInventar(user): # Get
 
 def writeInventar(modellName, neueAnzahl, t_z, user):
     user = UserHandler.get_current_user() or user
-    user = "Sieglinde"
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
