@@ -70,6 +70,8 @@ class WarenkorbWindow(QMainWindow):
                 Helper_Accounts.UserHandler.set_current_user(self, user[0])
                 Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
+# genau hier drinnen > . < 
+
                 Helper.BuyHandler.clear_current_shoppinglist()
                 self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
                 self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
