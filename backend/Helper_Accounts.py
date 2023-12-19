@@ -1,6 +1,6 @@
 import csv
 import os
-import Helper
+
 from PyQt5.QtWidgets import QLineEdit
 
 from Helper import CSV_PATH
@@ -138,6 +138,7 @@ def update_userprofile(self, user):
                 row['password'] = self.passwordLineEdit.text()
                 row['budget'] = self.budgetLineEdit.text()
 
+
 def update_userBalance(user, amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -148,6 +149,7 @@ def update_userBalance(user, amount):
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
+
 
 # äquivalent zu user, backwards compatibility
 def update_accountsBalance(account, amount):
@@ -161,6 +163,7 @@ def update_accountsBalance(account, amount):
                 csv.writer(file).writerows(data)
                 return True
 
+
 def update_biddersBalance(bidder, amount):
     with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -171,7 +174,8 @@ def update_biddersBalance(bidder, amount):
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
-      
+
+
 def update_klausBalance(amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))

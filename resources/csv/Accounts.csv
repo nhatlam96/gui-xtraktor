@@ -1,5 +1,5 @@
 username,password,budget,role
-Klaus,1234,3000000,Verkaeufer (Neuware),Default=,3000000
+Klaus,1234,3000000,Verkaeufer (Neuware)
 Oskar,1234,270000,Kaeufer (Neuware)
 Benni,1234,250000,Kaeufer (Neuware)
 Daniela,1234,200000,Kaeufer (Neuware)
