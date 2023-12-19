@@ -12,14 +12,16 @@ def get_program_time():
 
 
 def save_program_time(program_time):
+    formatted_time = program_time.format("YYYY-MM-DD HH:mm:ss")
     with open(PROGRAM_TIME_FILE_PATH, 'w') as time_file:
-        time_file.write(program_time.format("YYYY-MM-DD HH:mm:ss"))
+        time_file.write(formatted_time)
+    return formatted_time
 
 
 def update_program_time():
     updated_time = get_program_time().shift(months=2)
-    save_program_time(updated_time)
-    return updated_time
+    saved_time = save_program_time(updated_time)
+    return saved_time
 
 
 while True:
