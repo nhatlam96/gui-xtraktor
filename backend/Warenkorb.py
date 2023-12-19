@@ -59,6 +59,7 @@ class WarenkorbWindow(QMainWindow):
                              self.findChild(QLabel, "summe_status"))
 
     def buy(self, liste, user):
+
         confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
         if confirmation == QMessageBox.Yes:
             print(liste)
