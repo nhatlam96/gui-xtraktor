@@ -40,7 +40,6 @@ class WarenkorbWindow(QMainWindow):
 
         self.show()
 
-
     def load_ui(self):
         Helper2.load.complete_header(self)
         self.add_shopping_items(self.info_list, self.shopping_list)
@@ -48,8 +47,6 @@ class WarenkorbWindow(QMainWindow):
         Helper2.replace.text(self,
                              str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
-
-
 
     def set_anz(self, number, value):
         self.shopping_list[number][1] = value
@@ -59,34 +56,38 @@ class WarenkorbWindow(QMainWindow):
                              self.findChild(QLabel, "summe_status"))
 
     def buy(self, liste, user):
+        # Check if the shopping list is empty
+        if not self.shopping_list:
+            Helper.show_toast("Shopping list is empty!", QMessageBox.Warning, QMessageBox.Ok, 1750)
+            return
+        else:
+            confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
+            if confirmation == QMessageBox.Yes:
+                print(liste)
 
-        confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
-        if confirmation == QMessageBox.Yes:
-            print(liste)
+                summe = self.calc_sum(self.info_list, self.shopping_list)  # self, info_liste, shopping_liste
+                # check if enough budget is available and then subtract the sum from the budget
+                if summe <= int(user[2]):
+                    update_userBalance(user[0], -summe)
+                    Helper_Accounts.UserHandler.set_current_user(self, user[0])
+                    Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
-            summe = self.calc_sum(self.info_list, self.shopping_list)  # self, info_liste, shopping_liste
-            # check if enough budget is available and then subtract the sum from the budget
-            if summe <= int(user[2]):
-                update_userBalance(user[0], -summe)
-                Helper_Accounts.UserHandler.set_current_user(self, user[0])
-                Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
+                    # genau hier drinnen > . <
 
-# genau hier drinnen > . <
+                    for item in self.shopping_list:
+                        Helper_Accounts.writeInventar(item[0], item[1], item[2])
 
-                for item in self.shopping_list:
-                    Helper_Accounts.writeInventar(item[0], item[1], item[2])
-
-                Helper.BuyHandler.clear_current_shoppinglist()
-                self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
-                self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
-                print(self.shopping_list)
-                self.add_shopping_items(self.info_list, self.shopping_list)
-                self.add_sum_list(self.info_list, self.shopping_list)
-                Helper2.load.complete_header(self)
-                Helper2.replace.text(self, str(locale.currency(int(0), grouping=True)),
-                                     self.findChild(QLabel, "summe_status"))
-            else:
-                Helper.show_toast("Nicht genug Budget!", QMessageBox.Warning, QMessageBox.Ok, 1750)
+                    Helper.BuyHandler.clear_current_shoppinglist()
+                    self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+                    self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
+                    print(self.shopping_list)
+                    self.add_shopping_items(self.info_list, self.shopping_list)
+                    self.add_sum_list(self.info_list, self.shopping_list)
+                    Helper2.load.complete_header(self)
+                    Helper2.replace.text(self, str(locale.currency(int(0), grouping=True)),
+                                         self.findChild(QLabel, "summe_status"))
+                else:
+                    Helper.show_toast("Nicht genug Budget!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
     def calc_sum(self, info_liste, shopping_liste):
         summe = 0
