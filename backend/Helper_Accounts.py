@@ -187,7 +187,7 @@ def update_klausBalance(amount):
                 csv.writer(file).writerows(data)
                 return True
             
-def readInventar(user):
+def readInventar(user): # Get
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
     
@@ -197,5 +197,27 @@ def readInventar(user):
             userData.append(row)
     return userData
 
-def writeInventar(user):
-    pass
+def writeInventar(user, modellName, neueAnzahl, t_z):
+    with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+    
+    if neueAnzahl > 0: # > 0 = update
+        for row in data:
+            if user in row and modellName in row: # update existing
+                row[2] = neueAnzahl # Push
+        #--------
+        else: # create new
+            data.append([user, modellName, neueAnzahl, t_z]) # Post
+        #--------
+    else: # 0 = delete
+        for row in data:
+            if user in row and modellName in row: # find rows to delete
+                data.remove(row) # Delete
+    
+    sortedData = sorted(data)#, key=lambda data: data[0]*/) # sort by user
+    with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
+        csv.writer(file).writerows(sortedData)
+        return True
+    
+writeInventar("Klaus", "ayaya", 99, 'T')
+    
