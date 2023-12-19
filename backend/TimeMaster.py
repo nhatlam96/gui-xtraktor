@@ -78,19 +78,29 @@ def update_launch_time():
     return saved_time
 
 
-def update_program_time():
-    updated_time = get_program_time().shift(months=2)
+def update_program_time(months):
+    updated_time = get_program_time().shift(months=months)
     saved_time = save_program_time(updated_time)
     return saved_time
 
 
+# für die Berechnung der Wertminderungen
 def get_time_difference_since_program_start():
     current_time = get_program_time()
-    return current_time - launch_time
+    difference = current_time - launch_time
+
+    # Calculate the difference in years
+    years = difference.days / 365.25
+
+    # Format the result to have one decimal place
+    formatted_years = "{:.2f}".format(years)
+
+    return formatted_years
 
 
+# initialisiert die LaunchTime bei jedem Programmstart
 launch_time = get_program_time()
 while True:
     time.sleep(10)
-    print(update_program_time())
-    print(get_time_difference_since_program_start())
+    update_program_time(2)
+    print("Delta in Years: ", get_time_difference_since_program_start())
