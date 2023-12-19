@@ -6,12 +6,13 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 import switches
 import Helper
 import Helper2
 
 csv_path = os.path.join("..", "resources", "csv")
-image_path = "..\resources\Traktoren"
+image_path = os.path.join("..", "resources", "Traktoren")
 
 class Startseite(QMainWindow):
 
@@ -173,15 +174,15 @@ class Startseite(QMainWindow):
         print(self.filtereddatalist)
         self.setup_waren_ui()
 
-    # ########## aktuelle Value von Baujahr nehmen
+    # ########## aktuelle Value von Baujahr aufnehmen
     def baujahr_value_nehmen(self):
         return self.baujahr_spinBox.value()
 
-    # ############ aktuelle Value von Km nehmen
+    # ############ aktuelle Value von Km aufnehmen
     def km_value_nehmen(self):
         return self.horizontalSlider_km.value()
 
-    # ############ aktuelle Value von Leistung nehmen
+    # ############ aktuelle Value von Leistung aufnehmen
     def leistung_value_nehmen(self):
         return self.horizontalSlider_leistung.value()
 
@@ -302,7 +303,8 @@ class Startseite(QMainWindow):
             inner_layout6 = QHBoxLayout()
             bild_label = QLabel()
             picture = QPixmap(imageList[index])
-            bild_label.setPixmap(picture)
+            scale_picture = picture.scaled(200,200,Qt.KeepAspectRatio)
+            bild_label.setPixmap(scale_picture)
             inner_layout6.addWidget(bild_label)
             inner_layout6.addLayout(inner_layout5)
 
