@@ -1,7 +1,7 @@
 import os
 import time
+
 import arrow
-from datetime import timedelta
 
 PROGRAM_TIME_FILE_PATH = os.path.join("..", "resources", "csv", "ProgramTime.csv")
 
@@ -9,7 +9,7 @@ PROGRAM_TIME_FILE_PATH = os.path.join("..", "resources", "csv", "ProgramTime.csv
 def get_launch_time():
     with open(PROGRAM_TIME_FILE_PATH, 'r') as time_file:
         # Skip the header line
-        header_line = time_file.readline().strip()
+        time_file.readline().strip()
         launch_time_str, _ = time_file.readline().strip().split(',')
         return arrow.get(launch_time_str, "YYYY-MM-DD HH:mm:ss")
 
@@ -17,13 +17,13 @@ def get_launch_time():
 def get_program_time():
     with open(PROGRAM_TIME_FILE_PATH, 'r') as time_file:
         # Skip the header line
-        header_line = time_file.readline().strip()
+        time_file.readline().strip()
         _, program_time_str = time_file.readline().strip().split(',')
         return arrow.get(program_time_str, "YYYY-MM-DD HH:mm:ss")
 
 
 def save_program_time(program_time):
-    formatted_time = program_time.format("YYYY-MM-DD HH:mm:ss")
+    program_time_formatted = program_time.format("YYYY-MM-DD HH:mm:ss")
     lines = []
 
     with open(PROGRAM_TIME_FILE_PATH, 'r') as time_file:
@@ -36,19 +36,20 @@ def save_program_time(program_time):
             lines.append(line.strip())
 
     # Update the program_time
-    launch_time = lines[0].split(",")[0].strip()
-    updated_line = f"{launch_time},{formatted_time}\n"
+    launch_time_extracted = lines[1].split(",")[0].strip()
+    updated_line = f"{launch_time_extracted},{program_time_formatted}\n"
     lines[1] = updated_line
 
     # Write the updated lines back to the file
     with open(PROGRAM_TIME_FILE_PATH, 'w') as time_file:
         time_file.write("\n".join(lines))
 
-    return formatted_time
+    return program_time_formatted
 
 
-def save_launch_time(launch_time):
-    formatted_time = launch_time.format("YYYY-MM-DD HH:mm:ss")
+def save_launch_time(program_time):
+    # Currently, the launch_time is the same as the program_time
+    launch_time_formatted = program_time.format("YYYY-MM-DD HH:mm:ss")
     lines = []
 
     with open(PROGRAM_TIME_FILE_PATH, 'r') as time_file:
@@ -61,15 +62,15 @@ def save_launch_time(launch_time):
             lines.append(line.strip())
 
     # Update the launch_time
-    program_time = lines[1].split(",")[1].strip()
-    updated_line = f"{formatted_time},{program_time}\n"
+    program_time_extracted = lines[1].split(",")[1].strip()
+    updated_line = f"{launch_time_formatted},{program_time_extracted}\n"
     lines[0] = updated_line
 
     # Write the updated lines back to the file
     with open(PROGRAM_TIME_FILE_PATH, 'w') as time_file:
         time_file.write("\n".join(lines))
 
-    return formatted_time
+    return launch_time_formatted
 
 
 def update_launch_time():
@@ -88,7 +89,7 @@ def get_time_difference_since_program_start():
     return current_time - launch_time
 
 
-launch_time = get_launch_time()
+launch_time = get_program_time()
 while True:
     time.sleep(10)
     print(update_program_time())
