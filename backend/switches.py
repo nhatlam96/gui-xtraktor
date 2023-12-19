@@ -20,8 +20,7 @@ class switch_to:
 
     @staticmethod
     def product(old_window):
-        if old_window is not None:
-            old_window.close()
+
 
         window = ProductWindow()
         window.show()
