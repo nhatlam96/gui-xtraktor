@@ -82,7 +82,7 @@ font-size: 20px;</string>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Sell_Button">
+              <widget class="QPushButton" name="sell_Button">
                <property name="text">
                 <string>VERKAUFEN</string>
                </property>
