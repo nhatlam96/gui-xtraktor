@@ -213,6 +213,6 @@ class SellWindow(QMainWindow):
 
     def make_button_click_handler2(self, label, anz, typ):
         Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
-        switches.switch_to.Sell_item_Access(self)
+        switches.switch_to.Sell_item(self)
 
 

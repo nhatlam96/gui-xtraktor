@@ -7,7 +7,7 @@ from Login import Login
 from Warenkorb import WarenkorbWindow
 from Sell import SellWindow
 from Gebrauchtwaren import GebrauchtwarenWindow
-from GebrauchtwarenAccessories import GebrauchtwarenWindowAccessories
+"""from GebrauchtwarenAccessories import GebrauchtwarenWindowAccessories"""
 
 class switch_to:
 
@@ -75,9 +75,9 @@ class switch_to:
         window = GebrauchtwarenWindow()
         window.show()
 
-    @staticmethod
+    """@staticmethod
     def Sell_item_Access(old_window):
         if old_window is not None:
             old_window.close()
         window = GebrauchtwarenWindowAccessories()
-        window.show()
+        window.show()"""
