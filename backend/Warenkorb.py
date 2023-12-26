@@ -63,7 +63,6 @@ class WarenkorbWindow(QMainWindow):
         else:
             confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
             if confirmation == QMessageBox.Yes:
-                print(liste)
 
                 summe = self.calc_sum(self.info_list, self.shopping_list)  # self, info_liste, shopping_liste
                 # check if enough budget is available and then subtract the sum from the budget
@@ -80,7 +79,6 @@ class WarenkorbWindow(QMainWindow):
                     Helper.BuyHandler.clear_current_shoppinglist()
                     self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
                     self.info_list = self.load_info(self.shopping_list) if self.shopping_list else []
-                    print(self.shopping_list)
                     self.add_shopping_items(self.info_list, self.shopping_list)
                     self.add_sum_list(self.info_list, self.shopping_list)
                     Helper2.load.complete_header(self)

@@ -4,7 +4,7 @@ import os
 from PyQt5.QtWidgets import QLineEdit
 
 import Helper
-from Helper import CSV_PATH
+CSV_PATH = os.path.join("..", "resources", "csv")
 
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
@@ -188,15 +188,15 @@ def update_klausBalance(amount):
                 csv.writer(file).writerows(data)
                 return True
             
-def readInventar(user): # Get
-    user = UserHandler.get_current_user() or user
+def readInventar(): # Get
+    user = UserHandler.get_current_user()
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
     
     userData = []
     for row in data:
-        if user in row:
+        if user[0] in row:
             userData.append(row)
     return userData
 
@@ -211,11 +211,11 @@ def writeInventar(modellName, neueAnzahl, t_z):
     if neueAnzahl > 0: # > 0 = update
         for row in data:
             if user in row and modellName in row: # update existing
-                row[2] = neueAnzahl # Push
+                row[1] = neueAnzahl # Push
                 found = 1
 
         if found == 0:
-            data.append([user, modellName, neueAnzahl, t_z]) # Post
+            data.append([modellName, neueAnzahl, t_z, user[0]]) # Post
 
     else: # 0 = delete
         for row in data:

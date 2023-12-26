@@ -61,7 +61,6 @@ class accessoriesWindow(QMainWindow):
 
     def set_anz(self, value):
         self.anz = value
-        print(self.anz)
 
     def load_hers(self, product):
         conv_text = ", ".join(product[3:])

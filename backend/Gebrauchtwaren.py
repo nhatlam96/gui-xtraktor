@@ -17,46 +17,29 @@ BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 
 class GebrauchtwarenWindow(QMainWindow):
     def __init__(self):
-        super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
+        super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
 
-
-        # alles Simulation, denn braucht integration durch Startseite, die noch nicht fertig ist
-
-        # Simulierte übergabeparameter
+        # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
-        self.product_info = Helper2.load.product_info(self, self.product)[0]
-        acc = Helper_Accounts.UserHandler.get_current_user()
+        self.product_info = Helper2.load.product_info(self, [self.product])[0]
 
-        def readInBidders():
-            with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
-                data = list(csv.reader(file))
-                
-            for bidder in data:
-                if not Helper3.isInterested():
-                    data.remove(bidder)
-            for bidder in data:
-                bidder[1] = Helper3.genKaufangebot(bidder[1])
+        print("GEBRACUHT: ")
+        print(self.product)
+        print(self.product_info)
 
-            # bestOffer = max(data, key=lambda data: data[1])               
-            sortedOffers = sorted(data, key=lambda data: data[1]) # bid/offer
-            return sortedOffers
-            
         #simulierte bidders
-        self.bidders = readInBidders()
-
-        # dyn.Layout buttons
-        self.buttons = {}
+        #self.bidders = self.readInBidders()
+        #print(self.bidders)
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
-        self.add_widget()
+        #self.add_widget()
 
         # Produktseite laden
-        self.load_ui(self.product_info, acc)
-        self.load_pic(self.product_info)
+        self.load_ui()
 
 
         self.show()
@@ -64,39 +47,48 @@ class GebrauchtwarenWindow(QMainWindow):
 
 
 
-    def load_ui(self, product, user):
-        Helper2.replace.text(self,
-                             f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
-                             )
-        Helper2.replace.text(self,
-                             locale.currency(int(product[4]), grouping=True), self.findChild(QLabel, "alt_preis_status")
-                             )
-        Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
-        Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
-        Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
-        Helper2.load.complete_header(self)
+    def load_ui(self):
+
+        pixmap = Helper2.load.product_pic(self, self.product)
+        label = self.findChild(QLabel, "picture")
+        label.setPixmap(pixmap)
 
 
-    def load_pic(self, row):
-        gesucht = row[1]
-        pfad = os.path.join(PIC_PATH, r"Traktoren")
+        if self.product[2] == "t":
+            Helper2.replace.text(self,
+                                 f"{self.product_info[0]} - {self.product_info[1]}", self.findChild(QLabel, "name_label")
+                                 )
+            Helper2.replace.text(self,
+                                 locale.currency(int(self.product_info[4]), grouping=True), self.findChild(QLabel, "alt_preis_status")
+                                 )
+            Helper2.replace.text(self, f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
+            Helper2.replace.text(self, self.product_info[2], self.findChild(QLabel, "ps_status"))
+            Helper2.replace.text(self, self.product_info[3], self.findChild(QLabel, "kmh_status"))
+            Helper2.replace.text(self, self.product_info[5], self.findChild(QLabel, "baujahr_status"))
+            Helper2.load.complete_header(self)
+        else:
+            Helper2.replace.text(self,
+                                 f"Zubehör - {self.product_info[0]}",
+                                 self.findChild(QLabel, "name_label")
+                                 )
+            Helper2.replace.text(self,
+                                 locale.currency(int(self.product_info[1]), grouping=True),
+                                 self.findChild(QLabel, "alt_preis_status")
+                                 )
 
-        for dateiname in os.listdir(pfad):
-            if gesucht in dateiname:
-                voll_pfad = os.path.join(pfad, dateiname)
-                Helper2.replace.img(self, voll_pfad, self.findChild(QLabel, "picture"))
+    def readInBidders(self):
+        with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
+            data = list(csv.reader(file))
 
-    def load_zpic(self, name):
-        gesucht = name
-        pfad = os.path.join(PIC_PATH, r"Zubehör")
+        for bidder in data:
+            if not Helper3.isInterested():
+                data.remove(bidder)
+        for bidder in data:
+            bidder[1] = Helper3.genKaufangebot(bidder[1])
 
-        for dateiname in os.listdir(pfad):
-            if gesucht in dateiname:
-                voll_pfad = os.path.join(pfad, dateiname)
-                pixmap = QPixmap(voll_pfad)
-                scaled_pixmap = pixmap.scaled(64, 64)
-                return scaled_pixmap
-
+        # bestOffer = max(data, key=lambda data: data[1])
+        sortedOffers = sorted(data, key=lambda data: data[1])  # bid/offer
+        return sortedOffers
 
 
     def add_widget(self):
@@ -193,13 +185,3 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper_Accounts.update_klausBalance(provision)
 
 
-def main():
-    app = QApplication(sys.argv)  # construct QApp before QWidget
-    window = GebrauchtwarenWindow()
-    window.setWindowTitle("X-Traktor")
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_())  # exit cleanly
-
-
-if __name__ == "__main__":
-    main()

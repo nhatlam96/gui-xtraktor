@@ -3,6 +3,8 @@ import os
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMessageBox
 
+import Helper_Accounts
+
 CSV_PATH = os.path.join("..", "resources", "csv")
 
 
@@ -62,7 +64,17 @@ class BuyHandler:
 
 
 class InvHandler:
-    current_inventar = [["Axos_340_CX", 5, "t"]]
+    current_inventar = []
+
+    @staticmethod
+    def def_inv():
+        InvHandler.current_inventar = Helper_Accounts.readInventar()
+
+    @staticmethod
+    def write_inv_in_csv():
+        for x in range(len(InvHandler.current_inventar)):
+            item = InvHandler.current_inventar[x]
+            Helper_Accounts.writeInventar(item[0], item[1], item[2])
 
     @staticmethod
     def get_inv():
@@ -81,14 +93,14 @@ class InvHandler:
     def remove_from_inv(product, anz):
         for item in InvHandler.current_inventar:
             if item[0] == product:
-                item[1] -= anz
+                item[1] = int(item[1]) - anz
                 if item[1] <= 0:
                     InvHandler.current_inventar.remove(item)
-                    break
+                break
 
 
 class current_Sell_Handler:
-    current_sell_item = [["Axos_340_CX", 5, "t"]]
+    current_sell_item = []
 
     @staticmethod
     def get_current_sell_item():
@@ -96,7 +108,7 @@ class current_Sell_Handler:
 
     @staticmethod
     def add_sell_item(product, anz, typ):
-        current_Sell_Handler.current_sell_item.append([product, anz, typ])
+        current_Sell_Handler.current_sell_item = [product, anz, typ]
 
     @staticmethod
     def clear_sell_item(product, anz):
@@ -123,10 +135,10 @@ class SellHandler:
     def remove_from_sell_list(product, anz):
         for item in InvHandler.current_inventar:
             if item[0] == product:
-                item[1] -= anz
+                item[1] = int(item[1]) - anz
                 if item[1] <= 0:
                     InvHandler.current_inventar.remove(item)
-                    break
+                break
 
 
 def show_toast(message, icon, button, time_in_ms):

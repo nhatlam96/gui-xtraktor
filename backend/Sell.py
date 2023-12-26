@@ -25,8 +25,6 @@ class SellWindow(QMainWindow):
         Helper2.conf.locale_setup(self)
         self.load_ui()
 
-        Helper.InvHandler.add_to_inv("Axion_950",3,"t")
-
         self.inventar_liste = Helper.InvHandler.get_inv()
         self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
 
@@ -40,7 +38,7 @@ class SellWindow(QMainWindow):
         self.create_tab1_content()
 
 
-        Button1 =self.findChild(QPushButton, "inv_Button")
+        Button1 = self.findChild(QPushButton, "inv_Button")
         Button1.clicked.connect(lambda: self.create_tab1_content())
 
         Button2 = self.findChild(QPushButton, "anz_Button")
@@ -103,7 +101,7 @@ class SellWindow(QMainWindow):
             label4 = QLabel(f"Im Besitz: {self.inventar_liste[x][1]} Stück")
             spinbox = QSpinBox()
             spinbox.setSuffix(" Stück")
-            spinbox.setMaximum(self.inventar_liste[x][1])
+            spinbox.setMaximum(int(self.inventar_liste[x][1]))
 
             label5 = QPushButton("Verkaufen")
 
@@ -179,7 +177,7 @@ class SellWindow(QMainWindow):
             label5 = QPushButton("Mehr Info")
 
             self.buttons_tab2[x] = label5
-            label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2]: self.make_button_click_handler2(label, typ))
+            label5.clicked.connect(lambda nr=x, label=self.sell_liste[x][0], anz=self.sell_liste[x][1], typ=self.sell_liste[x][2]: self.make_button_click_handler2(label, anz, typ))
 
             if self.sell_liste[x][2] == "t":
                 label6 = QLabel(locale.currency(int(self.sell_info_liste[x][4]), grouping=True))
@@ -215,27 +213,6 @@ class SellWindow(QMainWindow):
 
 
     def make_button_click_handler2(self, label, anz, typ):
+        Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
+        switches.switch_to.Sell_item(self)
 
-        if anz > 0:
-
-            Helper.InvHandler.remove_from_inv(label, anz)
-            Helper.SellHandler.add_to_sell_list(label, anz, typ)
-
-            self.sell_liste = Helper.SellHandler.get_current_sell_list()
-            self.sell_info_liste = Helper2.load.product_info(self, self.sell_liste) if self.inventar_liste else []
-
-            self.inventar_liste = Helper.InvHandler.get_inv()
-            self.info_liste = Helper2.load.product_info(self, self.inventar_liste) if self.inventar_liste else []
-            self.create_tab1_content()
-
-
-def main():
-    app = QApplication(sys.argv)  # construct QApp before QWidget
-    window = SellWindow()
-    window.setWindowTitle("X-Traktor")
-    window.show()  # class Mainwindow aufrufen
-    sys.exit(app.exec_())  # exit cleanly
-
-
-if __name__ == "__main__":
-    main()

@@ -28,7 +28,6 @@ class Startseite(QMainWindow):
         self.filtereddatalist = self.load_list_data()       # ### goal: emptying original data list to "filtern" content
 
         self.listImage = self.load_list_image()
-        print(self.listImage)
 
         # ### Zurücksetzen Button und Bestätigen Button deklarieren
         self.bufferleer_button.clicked.connect(self.empty_search_info)
@@ -80,7 +79,6 @@ class Startseite(QMainWindow):
         self.max_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_maxPreis(currentValue))
         self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
 
-        print(self.buttons)
         self.show()
 
     def filter_changed_minPreis(self, currentValue):

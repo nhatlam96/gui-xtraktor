@@ -14,7 +14,6 @@ class switch_to:
     def register(old_window):
         if old_window is not None:
             old_window.close()
-
         window = Register()
         window.show()
 
@@ -29,7 +28,6 @@ class switch_to:
     def startseite(old_window):
         if old_window is not None:
             old_window.close()
-
         window = Startseite()
         window.show()
 
@@ -37,7 +35,6 @@ class switch_to:
     def login(old_window):
         if old_window is not None:
             old_window.close()
-
         window = Login()
         window.show()
 
@@ -45,7 +42,6 @@ class switch_to:
     def nutzer(old_window):
         if old_window is not None:
             old_window.close()
-
         window = UserprofileWindow()
         window.show()
 
@@ -53,7 +49,6 @@ class switch_to:
     def accessories(old_window):
         if old_window is not None:
             old_window.close()
-
         window = accessoriesWindow()
         window.show()
 
@@ -61,7 +56,6 @@ class switch_to:
     def shopping_cart(old_window):
         if old_window is not None:
             old_window.close()
-
         window = WarenkorbWindow()
         window.show()
 
@@ -70,7 +64,6 @@ class switch_to:
     def Inventar(old_window):
         if old_window is not None:
             old_window.close()
-
         window = SellWindow()
         window.show()
 

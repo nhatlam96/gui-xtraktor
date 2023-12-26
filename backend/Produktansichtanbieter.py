@@ -86,7 +86,6 @@ class ProductWindowAnbieter(QMainWindow):
                         data_list.append(row)
                         break
 
-            print(data_list)  # zu testzweck
             return data_list
 
     def load_loss(self, platzhhalter):

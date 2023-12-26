@@ -7,6 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 
 import switches
+import Helper
 from Helper import show_toast
 from Helper_Accounts import UserHandler, check_credentials
 
@@ -35,6 +36,7 @@ class Login(QMainWindow):
 
         if check_credentials(username, password):
             UserHandler.set_current_user(self, username)
+            Helper.InvHandler.def_inv()
             switches.switch_to.startseite(self)
             show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok, 1750)
         else:

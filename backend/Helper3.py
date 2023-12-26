@@ -77,7 +77,3 @@ def getSumme(geraeteArt, geraeteTyp, anzahl, account):
     canAff = accountCanAfford(summe) if summe else False
     return summe, canAff
 
-# print(getSumme(geraeteArt = "Traktor",
-#                   geraeteTyp = "Profi_6000",
-#                   anzahl = 5,
-#                   account= "Klaus"))

@@ -68,7 +68,6 @@ class ProductWindow(QMainWindow):
 
     def set_anz(self, value):
         self.anz = value
-        print(self.anz)
 
     def load_zub(self, model):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
