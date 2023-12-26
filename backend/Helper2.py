@@ -65,20 +65,17 @@ class load:
     def logout_button(self, button):
         button.clicked.connect(lambda: switches.switch_to.login(self))
 
-    def traktor_data(self, placeholder):
+    def traktor_data(self, model):
         csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
         with open(csv_path, mode="r") as file:
             for row in csv.reader(file):
-                if row[1] == placeholder:
+                if row[1] == model:
                     return row
             
     def zub_data(self, model):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
-
         with open(pfad, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
+            for row in csv.reader(file):
                 for column in row:
                     if model == column:
                         return row

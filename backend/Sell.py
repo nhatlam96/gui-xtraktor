@@ -31,7 +31,6 @@ class SellWindow(QMainWindow):
         self.sell_liste = Helper.SellHandler.get_current_sell_list()
         self.sell_info_liste = Helper2.load.product_info(self, self.sell_liste)
 
-
         self.buttons_tab1 = {}
         self.buttons_tab2 = {}
 
@@ -214,5 +213,6 @@ class SellWindow(QMainWindow):
 
     def make_button_click_handler2(self, label, anz, typ):
         Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
-        switches.switch_to.Sell_item(self)
+        switches.switch_to.Sell_item_Access(self)
+
 
