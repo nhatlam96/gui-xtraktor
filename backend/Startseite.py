@@ -1,16 +1,20 @@
 import csv
+import locale
 import os
 import os.path
 import sys
 
-from PyQt5 import uic
+from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 import switches
 import Helper
 import Helper2
+import Helper4
 
+
+# Ressourcenpfade
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
 
@@ -20,85 +24,91 @@ class Startseite(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
-        Helper2.load.complete_header(self)
 
-        # Buttonaktionen in liste von dyn. Layout
+        # NEUES LISTENMODEL MUSS NOCH ANGEWENDET WERDEN
+        self.traktor_Liste = Helper2.load.all_traktor_data(self)
+        self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
+        self.traktor_filter_Liste = Helper2.load.all_traktor_data(self)
+        self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
+
+
+        # ERST NACH TRAKTOREN MACHEN
+        """self.zubehoer_Liste = Helper2.load.all_zubehoer_data(self)
+        self.zubehoer_infos = Helper2.load.product_info(self, self.zubehoer_Liste)
+        self.zubehoer_filter_Liste = Helper2.load.all_zubehoer_data(self)
+        self.zubehoer_filter_infos = Helper2.load.product_info(self, self.zubehoer_filter_Liste)"""
+
+
+        # Zwischenspeicher für Listen
+        #self.datalist = self.load_list_data()               # Standard Liste
+        #self.filtereddatalist = self.load_list_data()       # Liste mit Filter
+
+        # lokale Umgebung laden
+        Helper2.conf.locale_setup(self)
+
+        # Button dict. von dyn. Layout
         self.buttons = {}
-        self.datalist = self.load_list_data()       # ### original list of list information Trator
-        self.filtereddatalist = self.load_list_data()       # ### goal: emptying original data list to "filtern" content
 
-        self.listImage = self.load_list_image()
+        # Seite laden
+        self.setup_waren_ui()
+        self.load_ui()
 
-        # ### Zurücksetzen Button und Bestätigen Button deklarieren
-        self.bufferleer_button.clicked.connect(self.empty_search_info)
-        self.such_infor_commit.clicked.connect(self.confirm_search_info)
+        self.show()
 
-        # ### Such_pushButton in Suchfeld einstellen
 
+
+    def load_ui(self):
+        Helper2.load.complete_header(self)
+        self.load_filter_ui()
+
+
+    def load_filter_ui(self):
+
+
+        # Suchfeld -> bitte button zum Sortieren hinzufügen
         self.pushButton_suchen.clicked.connect(self.confirm_suchfeld_info)
         self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
         # self.lineEdit.returnPressed()           # return content if you press "enter"
 
-        self.setup_waren_ui() # ### Eine Frage, Wenn ich diese Code nach oben schiebe, funktioniert das nicht mehr, Warum?
-
-        # ### Ereignisse bei den QSlider von Preis, Leistung und Kilometer umgehen und Werte
-        # ### auf die entsprechenden Label anzuzeigen
-
-        self.horizontalSlider_km.valueChanged.connect(self.km_changed)
-        self.horizontalSlider_leistung.valueChanged.connect(self.leistung_changed)
-
-        # self.uic.lineEdit.editingFinished()         # press "enter" to finish
-        # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
-
-        # ############ Spin Box bei dem Lager und Baujahr einstellen
-
-        self.baujahr_spinBox.setMinimum(1900)
-        self.baujahr_spinBox.setMaximum(2023)
-
-        # ########### Umgehen mit dem Ereignis, wenn User Value des Baujahr geaendert wurde
-
-        # self.uic.baujahr_spinBox.valueChanged.connect(self.Baujahr_Value_aendern)
-
-        # ########## Fügen Artikel in ComboBox hinzu
-
+        # Hersteller
         self.comboBox_hersteller.addItem("")
         self.comboBox_hersteller.addItems(self.add_hersteller())
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
 
+        # Typ
         self.typ_comboBox.addItem("")
         self.typ_comboBox.addItems(self.add_typ())
         self.typ_comboBox.currentTextChanged.connect(self.filter_changed_typ)
 
-        self.horizontalSlider_leistung.valueChanged.connect(self.filter_changed_leistung)
-        self.horizontalSlider_km.valueChanged.connect(self.filter_changed_km)
+        # Baujahr
+        self.baujahr_spinBox.setMinimum(1900)
+        self.baujahr_spinBox.setMaximum(2023)
 
-        # ########## Preis Eintrage umgehen
-        self.min_preis.addItems(self.add_min_preis())   # ### allow only adding string
+        # Leistung & Km/h
+        self.horizontalSlider_km.valueChanged.connect(self.km_changed)
+        self.horizontalSlider_km.valueChanged.connect(self.filter_changed_km)
+        self.horizontalSlider_leistung.valueChanged.connect(self.leistung_changed)
+        self.horizontalSlider_leistung.valueChanged.connect(self.filter_changed_leistung)
+
+        # Preis
+        self.min_preis.addItems(self.add_min_preis())  # allow only adding string
         self.max_preis.addItems(self.add_max_preis())
         self.min_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_minPreis(currentValue))
         self.max_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_maxPreis(currentValue))
         self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
 
-        self.show()
+        # Zurücksetzen & Bestätigen
+        self.bufferleer_button.clicked.connect(self.empty_search_info)
+        self.such_infor_commit.clicked.connect(self.confirm_search_info)
 
-    def filter_changed_minPreis(self, currentValue):
 
-        self.filtereddatalist = []
-        intUmwandlung = int(currentValue)
-        for index in range(len(self.datalist)):
-            if intUmwandlung <= int(self.datalist[index][4]):
-                self.filtereddatalist.append(self.datalist[index])
-        self.setup_waren_ui()
+        # Tu´s Ideen
+        # self.uic.lineEdit.editingFinished()         # press "enter" to finish
+        # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
 
-    def filter_changed_maxPreis(self, currentValue):
+        # self.uic.baujahr_spinBox.valueChanged.connect(self.Baujahr_Value_aendern)
 
-        self.filtereddatalist = []
 
-        intUmwandlung = int(currentValue)
-        for index in range(len(self.datalist)):
-            if intUmwandlung >= int(self.datalist[index][4]) or int(self.datalist[index][4]) > int(self.get_minPreis()):
-                self.filtereddatalist.append(self.datalist[index])
-        self.setup_waren_ui()
 
     def add_min_preis(self):
         preis_item = []
@@ -123,74 +133,50 @@ class Startseite(QMainWindow):
             preis_items[count] = str(preis_items[count])
         return preis_items
 
+    def filter_changed_minPreis(self, currentValue):
+        Helper4.FilterHandler.set_Filter(pre_min=currentValue)
+        print(Helper4.FilterHandler.get_Filter())
+
+    def filter_changed_maxPreis(self, currentValue):
+        Helper4.FilterHandler.set_Filter(pre_max=currentValue)
+        print(Helper4.FilterHandler.get_Filter())
+
+    def filter_changed_km(self, currentKm):
+        Helper4.FilterHandler.set_Filter(ges=currentKm)
+        print(Helper4.FilterHandler.get_Filter())
+
+    def filter_changed_leistung(self, currentLeistung):
+        Helper4.FilterHandler.set_Filter(lei=currentLeistung)
+        print(Helper4.FilterHandler.get_Filter())
+
+    def filter_changed_typ(self, currentTyp):
+        Helper4.FilterHandler.set_Filter(typ=currentTyp)
+        print(Helper4.FilterHandler.get_Filter())
+
+    def filter_changed_hersteller(self, currentHersteller):
+        Helper4.FilterHandler.set_Filter(her=currentHersteller)
+        print(Helper4.FilterHandler.get_Filter())
+
+
     def get_minPreis(self):
         return self.min_preis.currentText()
 
     def get_maxPreis(self):
         return  self.max_preis.currentText()
 
-    def filter_changed_km(self, currentKm):
-        self.filtereddatalist = []
-        intUmwandlung_km = int(currentKm)
-
-        for index in range(len(self.datalist)):
-            if intUmwandlung_km >= int(self.datalist[index][3]):
-                self.filtereddatalist.append(self.datalist[index])
-
-        self.setup_waren_ui()
-
-    def filter_changed_leistung(self, currentLeistung):
-        self.filtereddatalist = []
-        intUmwandlung_currentLeistung = int(currentLeistung)
-
-        for index in range(len(self.datalist)):
-            intUmwandlung_datalist = int(self.datalist[index][2])
-            if intUmwandlung_currentLeistung >= intUmwandlung_datalist:
-                self.filtereddatalist.append(self.datalist[index])
-
-        self.setup_waren_ui()
-
-    # ########## Typ Eintrag muss noch einmal diskutieren, weil ich ("Tu") nicht weiß, ob es um Verkehr oder Zubehör geht
-    # ######### danke
-    def filter_changed_typ(self, currentTyp):
-        self.filtereddatalist = []
-        print(f"currentyp {currentTyp}")
-        for index in range(len(self.datalist)):
-            if self.datalist[index][1] == currentTyp:
-                self.filtereddatalist.append(self.datalist[index])
-        print(self.filtereddatalist)
-        self.setup_waren_ui()
-
-    def filter_changed_hersteller(self, currentHersteller):
-
-        print(f"hersteller {currentHersteller}")
-        self.filtereddatalist = []
-
-        for x in range(len(self.datalist)):
-            if self.datalist[x][0] == currentHersteller:
-                self.filtereddatalist.append(self.datalist[x])
-
-        print(self.filtereddatalist)
-        self.setup_waren_ui()
-
-    # ########## aktuelle Value von Baujahr aufnehmen
     def baujahr_value_nehmen(self):
         return self.baujahr_spinBox.value()
 
-    # ############ aktuelle Value von Km aufnehmen
     def km_value_nehmen(self):
         return self.horizontalSlider_km.value()
 
-    # ############ aktuelle Value von Leistung aufnehmen
     def leistung_value_nehmen(self):
         return self.horizontalSlider_leistung.value()
 
-    # ########## Km Wert auf Km_label anzeigen lassen
     def km_changed(self):
         km_value = self.km_value_nehmen()
         self.km_anzeigt.setText(f"Aktuelle Wert: {km_value}")
 
-    # ########## Leistung Wert auf Leistung_label anzeigen lassen
     def leistung_changed(self):
         leistung_value = self.leistung_value_nehmen()
         self.leistung_anzeigt.setText(f"Aktuelle Wert: {leistung_value}")
@@ -239,76 +225,88 @@ class Startseite(QMainWindow):
             for index in range(len(vermitteln_to_list)):
                 main_list.append(vermitteln_to_list[index])
 
+        print(main_list)
         return main_list
 
-    def load_list_image(self):
-        imageList = []
-        validImage_extension = [".jpg", ".jpeg", ".png", ".gif", ".bmp"]
 
-        for file in os.listdir(os.path.join("..", "resources", "Traktoren")):
-            get_extendsion = os.path.splitext(file)[1]
 
-            if get_extendsion.lower() in validImage_extension:
-                imageList.append(os.path.join(image_path, file))
-        print(imageList)
-        return imageList
-
-    # ########## Funktion für Dynamic aufladen
     def setup_waren_ui(self):
 
         scroll_area = self.findChild(QScrollArea, "scrollArea")
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
 
-        data_list = self.filtereddatalist   # ### get only content list of Item if user find Traktor details
+        liste = self.traktor_filter_Liste
+        info_liste = self.traktor_filter_infos
 
-        imageList = self.load_list_image()
-        for index in range(len(data_list)):
+
+        for x in range(len(liste)):
+
             new_widget = QWidget()
-            inner_layout = QHBoxLayout(new_widget)
+            new_widget.setMaximumHeight(200)
 
-            inner_layout1 = QVBoxLayout()
-            herstell_label = QLabel("Hersteller: " + str(data_list[index][0]))
-            modell_label = QLabel("Modell: " + str(data_list[index][1]))
-            inner_layout1.addWidget(herstell_label)
-            inner_layout1.addWidget(modell_label)
+            inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
 
-            inner_layout2 = QVBoxLayout()
-            preis = QLabel("Preis: " + str(data_list[index][4]))
+            picture_layout = QVBoxLayout()
+            inner_layout.addLayout(picture_layout, 1)
+
+            label1 = QLabel()
+            picture_layout.addWidget(label1)
+            pixmap = Helper2.load.product_pic(self, liste[x])
+            scaled_pixmap = pixmap.scaled(200, 200)
+            label1.setPixmap(scaled_pixmap)
+
+            info_layout = QVBoxLayout()
+            inner_layout.addLayout(info_layout, 3)
+
+            name_layout = QVBoxLayout()
+            info_layout.addLayout(name_layout, 1)
+
+            if liste[x][2] == "t":
+                label2 = QLabel(f"{info_liste[x][0]} | {liste[x][0]}")
+            elif liste[x][2] == "z":
+                label2 = QLabel(f"Zubehoer | {liste[x][0]}")
+            else:
+                label2 = QLabel()
+
+            name_layout.addWidget(label2)
+
+            desc_layout = QVBoxLayout()
+            info_layout.addLayout(desc_layout, 4)
+
+
+            ps = QLabel(f"PS: {info_liste[x][2]}")
+            km = QLabel(f"Km/h: {info_liste[x][3]}")
+            baujahr = QLabel(f"Baujahr: {info_liste[x][5]}")
+
+            desc_layout.addWidget(ps)
+            desc_layout.addWidget(km)
+            desc_layout.addWidget(baujahr)
+
+            value_layout = QVBoxLayout()
+            inner_layout.addLayout(value_layout, 3)
+
             kaufen = QPushButton("Kaufen")
 
-            self.buttons[index] = kaufen
-            kaufen.clicked.connect(self.make_button_click_handler(str(data_list[index][1])))
+            self.buttons[x] = kaufen
+            kaufen.clicked.connect(self.make_button_click_handler(str(liste[x][0])))
 
-            inner_layout2.addWidget(preis)
-            inner_layout2.addWidget(kaufen)
+            if liste[x][2] == "t":
+                label6 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
+            elif liste[x][2] == "z":
+                label6 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
+            else:
+                label6 = QLabel()
 
-            inner_layout3 = QHBoxLayout()
-            ps = QLabel("PS: " + str(data_list[index][2]))
-            leistung = QLabel("Leistung: " + str(data_list[index][2]))
-            km = QLabel("Km/h: " + str(data_list[index][3]))
-            inner_layout3.addWidget(ps)
-            inner_layout3.addWidget(leistung)
-            inner_layout3.addWidget(km)
 
-            inner_layout4 = QHBoxLayout()
-            inner_layout4.addLayout(inner_layout1)
-            inner_layout4.addLayout(inner_layout2)
+            value_layout.addWidget(kaufen)
+            value_layout.addWidget(label6)
+            value_layout.setAlignment(label6, QtCore.Qt.AlignHCenter)
 
-            inner_layout5 = QVBoxLayout()
-            inner_layout5.addLayout(inner_layout4)
-            inner_layout5.addLayout(inner_layout3)
 
-            inner_layout6 = QHBoxLayout()
-            bild_label = QLabel()
-            picture = QPixmap(imageList[index])
-            scale_picture = picture.scaled(200,200,Qt.KeepAspectRatio)
-            bild_label.setPixmap(scale_picture)
-            inner_layout6.addWidget(bild_label)
-            inner_layout6.addLayout(inner_layout5)
+            layout.addWidget(new_widget)  # widget dem container hinzufügen
 
-            inner_layout.addLayout(inner_layout6)
-            layout.addWidget(new_widget)
+            # erstellten Container einfügen in QScrollArea
 
         scroll_area.setWidget(content_widget)
 
@@ -323,6 +321,11 @@ class Startseite(QMainWindow):
                 print("Label ist None")
 
         return button_click_handler
+
+
+
+
+
 
     # ### Löschen alle Einträge, in den User Suchinformation darauf geschrieben haben
     def empty_search_info(self):

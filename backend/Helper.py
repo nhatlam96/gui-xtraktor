@@ -133,11 +133,11 @@ class SellHandler:
 
     @staticmethod
     def remove_from_sell_list(product, anz):
-        for item in InvHandler.current_inventar:
+        for item in SellHandler.sell_list:
             if item[0] == product:
                 item[1] = int(item[1]) - anz
                 if item[1] <= 0:
-                    InvHandler.current_inventar.remove(item)
+                    SellHandler.sell_list.remove(item)
                 break
 
 
