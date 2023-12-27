@@ -36,6 +36,12 @@ class Startseite(QMainWindow):
         self.listImage = self.load_list_image()
         print(self.listImage)
 
+        # ### Aktuelle ausgewaehlte Produkte abspeichern (fuer Produkt Filter dienen)
+
+        self.ausgewaehlteProdukt = {}
+
+        self.ausgewaehlteProdukt_Lange = len(self.ausgewaehlteProdukt)
+
         # ### Zurücksetzen Button und Bestätigen Button deklarieren
         self.bufferleer_button.clicked.connect(self.empty_search_info)
         self.such_infor_commit.clicked.connect(self.confirm_search_info)
@@ -158,10 +164,19 @@ class Startseite(QMainWindow):
         self.filtereddatalist = []
         intUmwandlung_currentLeistung = int(currentLeistung)
 
-        for index in range(len(self.datalist)):
-            intUmwandlung_datalist = int(self.datalist[index][2])
-            if intUmwandlung_currentLeistung >= intUmwandlung_datalist:
-                self.filtereddatalist.append(self.datalist[index])
+        if (self.ausgewaehlteProdukt_Lange == 0):
+            for index in range(len(self.datalist)):
+                intUmwandlung_datalist = int(self.datalist[index][2])
+                if intUmwandlung_currentLeistung >= intUmwandlung_datalist:
+                    self.filtereddatalist.append(self.datalist[index])
+                    self.ausgewaehlteProdukt.add(self.datalist[index])
+
+        else:
+            new_list = list(self.ausgewaehlteProdukt)
+            for index in range(self.ausgewaehlteProdukt_Lange):
+                intUmwandlung_datalist = int(new_list[index][2])
+                if intUmwandlung_currentLeistung >= intUmwandlung_datalist:
+                    self.filtereddatalist.append(new_list[index])
 
         self.setup_waren_ui()
 
@@ -271,11 +286,25 @@ class Startseite(QMainWindow):
             modell_label = QLabel("Modell: " + str(data_list[index][1]))
             inner_layout1.addWidget(herstell_label, stretch = 1)
             inner_layout1.addWidget(modell_label, stretch = 1)
+            # ### CSS for label
+            herstell_label.setStyleSheet("color: white; font-weight: 500; text-align: center; padding: 5px;")
+            modell_label.setStyleSheet("color: white; font-weight: 500; text-align: center; padding: 5px;")
 
             inner_layout2 = QVBoxLayout()
-            preis = QLabel("Preis: " + str(data_list[index][4]))
+            preis = QLabel("Preis: " + str(data_list[index][4]) + " €")
             kaufen = QPushButton("Kaufen")
-
+            kaufen.setStyleSheet("""
+                QPushButton {
+                    color: white;
+                    background-color: rgb(230, 126, 34);
+                    max-width: 200px;
+                }
+                QPushButton:hover {
+                    cursor: pointer;
+                    opacity: 0.8;
+                }
+            """)
+            preis.setStyleSheet("color: white; font-weight:500; text-align: center; padding:5px")
             self.buttons[index] = kaufen
             kaufen.clicked.connect(self.make_button_click_handler(str(data_list[index][1])))
 
@@ -284,8 +313,11 @@ class Startseite(QMainWindow):
 
             inner_layout3 = QHBoxLayout()
             ps = QLabel("PS: " + str(data_list[index][2]))
+            ps.setStyleSheet("color: white; font-weight:500; text-align: center; padding:5px")
             leistung = QLabel("Leistung: " + str(data_list[index][2]))
+            leistung.setStyleSheet("color: white; font-weight:500; text-align: center; padding:5px")
             km = QLabel("Km/h: " + str(data_list[index][3]))
+            km.setStyleSheet("color: white; font-weight:500; text-align: center; padding:5px")
             inner_layout3.addWidget(ps, stretch = 1)
             inner_layout3.addWidget(leistung, stretch = 1)
             inner_layout3.addWidget(km, stretch = 1)
@@ -301,8 +333,14 @@ class Startseite(QMainWindow):
             inner_layout6 = QHBoxLayout()
             bild_label = QLabel()
             picture = QPixmap(imageList[index])
-            scale_picture = picture.scaled(300,300,Qt.KeepAspectRatio)
+            scale_picture = picture.scaled(400,400,Qt.KeepAspectRatio)
             bild_label.setPixmap(scale_picture)
+            bild_label.setStyleSheet("""
+                QLabel{
+                    max-width: 400px;
+                    max-height: 400px;
+                }
+            """)
             inner_layout6.addWidget(bild_label, stretch = 1)
             inner_layout6.addLayout(inner_layout5, stretch = 1)
 
