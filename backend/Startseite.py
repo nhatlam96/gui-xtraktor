@@ -28,8 +28,12 @@ class Startseite(QMainWindow):
         # NEUES LISTENMODEL MUSS NOCH ANGEWENDET WERDEN
         self.traktor_Liste = Helper2.load.all_traktor_data(self)
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
-        self.traktor_filter_Liste = Helper2.load.all_traktor_data(self)
+
+        self.traktor_filter_Liste = self.get_filtered_list()
         self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
+
+        self.hersteller_Liste = Helper4.load.hersteller_dict().keys()
+        self.model_Liste = Helper4.load.get_all_model()
 
 
         # ERST NACH TRAKTOREN MACHEN
@@ -38,10 +42,18 @@ class Startseite(QMainWindow):
         self.zubehoer_filter_Liste = Helper2.load.all_zubehoer_data(self)
         self.zubehoer_filter_infos = Helper2.load.product_info(self, self.zubehoer_filter_Liste)"""
 
+        # Signale
+        self.pushButton_suchen.clicked.connect(self.confirm_suchfeld_info)
+        self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
+        self.typ_comboBox.currentTextChanged.connect(lambda value: self.filter_changed_typ(value))
+        self.baujahr_spinBox.valueChanged.connect(lambda value: self.filter_changed_baujahr(value))
+        self.horizontalSlider_km.valueChanged.connect(lambda value: self.filter_changed_km(value))
+        self.horizontalSlider_leistung.valueChanged.connect(lambda value: self.filter_changed_leistung(value))
+        self.min_preis.valueChanged.connect(lambda value: self.filter_changed_minPreis(value))
+        self.max_preis.valueChanged.connect(lambda value: self.filter_changed_maxPreis(value))
+        self.bufferleer_button.clicked.connect(self.empty_search_info)
+        self.such_infor_commit.clicked.connect(self.confirm_search_info)
 
-        # Zwischenspeicher für Listen
-        #self.datalist = self.load_list_data()               # Standard Liste
-        #self.filtereddatalist = self.load_list_data()       # Liste mit Filter
 
         # lokale Umgebung laden
         Helper2.conf.locale_setup(self)
@@ -59,6 +71,7 @@ class Startseite(QMainWindow):
 
     def load_ui(self):
         Helper2.load.complete_header(self)
+        self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
         self.load_filter_ui()
 
 
@@ -66,169 +79,79 @@ class Startseite(QMainWindow):
 
 
         # Suchfeld -> bitte button zum Sortieren hinzufügen
-        self.pushButton_suchen.clicked.connect(self.confirm_suchfeld_info)
-        self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
+        #self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
         # self.lineEdit.returnPressed()           # return content if you press "enter"
 
         # Hersteller
+        self.comboBox_hersteller.blockSignals(True)
         self.comboBox_hersteller.addItem("")
-        self.comboBox_hersteller.addItems(self.add_hersteller())
-        self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
+        self.comboBox_hersteller.addItems(self.hersteller_Liste)
+        self.comboBox_hersteller.blockSignals(False)
 
         # Typ
+        self.typ_comboBox.blockSignals(True)
+        self.typ_comboBox.clear()
         self.typ_comboBox.addItem("")
-        self.typ_comboBox.addItems(self.add_typ())
-        self.typ_comboBox.currentTextChanged.connect(self.filter_changed_typ)
+        self.typ_comboBox.addItems(self.model_Liste)
+        self.typ_comboBox.blockSignals(False)
 
         # Baujahr
+        self.baujahr_spinBox.blockSignals(True)
         self.baujahr_spinBox.setMinimum(1900)
         self.baujahr_spinBox.setMaximum(2023)
+        self.baujahr_spinBox.blockSignals(False)
+
+
+
 
         # Leistung & Km/h
-        self.horizontalSlider_km.valueChanged.connect(self.km_changed)
-        self.horizontalSlider_km.valueChanged.connect(self.filter_changed_km)
-        self.horizontalSlider_leistung.valueChanged.connect(self.leistung_changed)
-        self.horizontalSlider_leistung.valueChanged.connect(self.filter_changed_leistung)
+
 
         # Preis
-        self.min_preis.addItems(self.add_min_preis())  # allow only adding string
-        self.max_preis.addItems(self.add_max_preis())
-        self.min_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_minPreis(currentValue))
-        self.max_preis.currentTextChanged.connect(lambda currentValue: self.filter_changed_maxPreis(currentValue))
-        self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
+
 
         # Zurücksetzen & Bestätigen
-        self.bufferleer_button.clicked.connect(self.empty_search_info)
-        self.such_infor_commit.clicked.connect(self.confirm_search_info)
-
-
-        # Tu´s Ideen
-        # self.uic.lineEdit.editingFinished()         # press "enter" to finish
-        # self.uic.lineEdit.returnPressed()           # return content if you press "enter"
-
-        # self.uic.baujahr_spinBox.valueChanged.connect(self.Baujahr_Value_aendern)
 
 
 
-    def add_min_preis(self):
-        preis_item = []
-        start_preis = 100000
-
-        for count in range(20):
-            preis_item.append(start_preis)
-            start_preis += 100000
-
-        for count in range(20):
-            preis_item[count] = str(preis_item[count])  # ### string Umwandlung
-        return preis_item
-
-    def add_max_preis(self):
-        preis_items = []
-        end_preis = 100000
-
-        for count in range(20):
-            preis_items.append(end_preis)
-            end_preis += 100000
-        for count in range(20):
-            preis_items[count] = str(preis_items[count])
-        return preis_items
-
-    def filter_changed_minPreis(self, currentValue):
-        Helper4.FilterHandler.set_Filter(pre_min=currentValue)
-        print(Helper4.FilterHandler.get_Filter())
-
-    def filter_changed_maxPreis(self, currentValue):
-        Helper4.FilterHandler.set_Filter(pre_max=currentValue)
-        print(Helper4.FilterHandler.get_Filter())
-
-    def filter_changed_km(self, currentKm):
-        Helper4.FilterHandler.set_Filter(ges=currentKm)
-        print(Helper4.FilterHandler.get_Filter())
-
-    def filter_changed_leistung(self, currentLeistung):
-        Helper4.FilterHandler.set_Filter(lei=currentLeistung)
-        print(Helper4.FilterHandler.get_Filter())
-
-    def filter_changed_typ(self, currentTyp):
-        Helper4.FilterHandler.set_Filter(typ=currentTyp)
-        print(Helper4.FilterHandler.get_Filter())
-
-    def filter_changed_hersteller(self, currentHersteller):
-        Helper4.FilterHandler.set_Filter(her=currentHersteller)
-        print(Helper4.FilterHandler.get_Filter())
 
 
-    def get_minPreis(self):
-        return self.min_preis.currentText()
-
-    def get_maxPreis(self):
-        return  self.max_preis.currentText()
-
-    def baujahr_value_nehmen(self):
-        return self.baujahr_spinBox.value()
-
-    def km_value_nehmen(self):
-        return self.horizontalSlider_km.value()
-
-    def leistung_value_nehmen(self):
-        return self.horizontalSlider_leistung.value()
-
-    def km_changed(self):
-        km_value = self.km_value_nehmen()
-        self.km_anzeigt.setText(f"Aktuelle Wert: {km_value}")
-
-    def leistung_changed(self):
-        leistung_value = self.leistung_value_nehmen()
-        self.leistung_anzeigt.setText(f"Aktuelle Wert: {leistung_value}")
-
-    # ########## Add Artikel in die Hersteller ComboBox hinzu
-
-    def add_hersteller(self):
-        Hersteller_eintraeger = []
-        Arbeitmaschinen_csv_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
-
-        # ### Öffnen ein csv File und das durch eigene Value abspeichert
-        with open(Arbeitmaschinen_csv_path, "r") as file:
-            csv_file_reader = csv.reader(file)
-            next(csv_file_reader)  # ### Verzichten auf Header Zeile
-
-            for row in csv_file_reader:
-                Hersteller_eintraeger.append(row[0])
-
-        return set(Hersteller_eintraeger)
-
-    # ########## Add Artikel in Typ ComboBox hinzu
-
-    def add_typ(self):
-        typ_eintraeger = []
-        Arbeitmaschinen_csv_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
-
-        with open(Arbeitmaschinen_csv_path, "r") as file:
-            csv_file_reader = csv.reader(file)
-            next(csv_file_reader)
-
-            for row in csv_file_reader:
-                typ_eintraeger.append(row[1])
-
-        return set(typ_eintraeger)
-
-    def load_list_data(self):
-
-        main_list = []
-        csv_list_path = os.path.join(csv_path, "mobile Arbeitsmaschinen Landwirtschaft.csv")
-
-        with open(csv_list_path, "r") as file:
-            csv_file_reader = csv.reader(file)
-            next(csv_file_reader)  # Auf Header Info springen
-            vermitteln_to_list = list(csv_file_reader)  # csv reader file in List vermitteln
-
-            for index in range(len(vermitteln_to_list)):
-                main_list.append(vermitteln_to_list[index])
-
-        print(main_list)
-        return main_list
+    def filter_changed_hersteller(self, value):
+        Helper4.FilterHandler.set_Filter(her=value)
+        self.model_Liste = Helper4.load.get_model(value)
+        self.typ_comboBox.blockSignals(True)  # connect unterbrechen
+        self.typ_comboBox.clear()
+        self.typ_comboBox.addItem("")
+        self.typ_comboBox.addItems(self.model_Liste)
+        self.typ_comboBox.blockSignals(False)
+        print("HERSTELLER")
 
 
+    def filter_changed_typ(self, value):
+        Helper4.FilterHandler.set_Filter(typ=value)
+        print("TYP")
+
+    def filter_changed_baujahr(self, value):
+        Helper4.FilterHandler.set_Filter(bau=value)
+        print("baujahr")
+
+    def filter_changed_leistung(self, value):
+        Helper4.FilterHandler.set_Filter(lei=value)
+        self.leistung_anzeigt.setText(f"Aktuelle Wert: {value}")
+        print("leistung")
+
+    def filter_changed_km(self, value):
+        Helper4.FilterHandler.set_Filter(ges=value)
+        self.km_anzeigt.setText(f"Aktuelle Wert: {value}")
+        print("kmh")
+
+    def filter_changed_minPreis(self, value):
+        Helper4.FilterHandler.set_Filter(pre_min=value)
+        print("minPreis")
+
+    def filter_changed_maxPreis(self, value):
+        Helper4.FilterHandler.set_Filter(pre_max=value)
+        print("maxPreis")
 
     def setup_waren_ui(self):
 
@@ -323,32 +246,85 @@ class Startseite(QMainWindow):
         return button_click_handler
 
 
+    def get_filtered_list(self):
+
+        filtered_list = []
+
+        Filter = Helper4.FilterHandler.get_Filter()
+        print("NEUE FILTER")
+        print(Filter)
+
+        her = Filter['Hersteller'] if Filter['Hersteller'] != '' else None
+        typ = Filter['Typ'] if Filter['Typ'] != '' else None
+        bau = Filter['Baujahr'] if Filter['Baujahr'] != '' else None
+        lei = Filter['Leistung'] if Filter['Leistung'] != '' else None
+        ges = Filter['Geschwindigkeit'] if Filter['Geschwindigkeit'] != '' else None
+        min_pre = Filter['Preis'][0] if Filter['Preis'][0] != '' else None
+        max_pre = Filter['Preis'][1] if Filter['Preis'][1] != '' else None
+
+        for x in range(len(self.traktor_infos)):
+            if her is not None:
+                if self.traktor_infos[x][0] != her:
+                    continue
+
+            if typ is not None:
+                if self.traktor_infos[x][1] != typ:
+                    continue
+
+            if max_pre is not None:
+                if int(self.traktor_infos[x][4]) > int(max_pre):
+                    continue
+
+            if min_pre is not None:
+                if int(self.traktor_infos[x][4]) < int(min_pre):
+                    continue
+
+            if ges is not None:
+                if int(self.traktor_infos[x][3]) < int(ges):
+                    continue
+
+            if lei is not None:
+                if int(self.traktor_infos[x][2]) < int(lei):
+                    continue
+
+            if bau is not None:
+                if int(self.traktor_infos[x][5]) < int(bau):
+                    continue
+
+            filtered_list.append(self.traktor_Liste[x])
+
+
+        print(filtered_list)
+
+        return filtered_list
 
 
 
-
-    # ### Löschen alle Einträge, in den User Suchinformation darauf geschrieben haben
     def empty_search_info(self):
 
-        self.horizontalSlider_leistung.setValue(0)
-        self.horizontalSlider_km.setValue(0)
-        self.baujahr_spinBox.setValue(1900)
         self.comboBox_hersteller.setCurrentText("")
         self.typ_comboBox.setCurrentText("")
+        self.baujahr_spinBox.setValue(1900)
+        self.horizontalSlider_leistung.setValue(0)
+        self.horizontalSlider_km.setValue(0)
+        self.min_preis.setValue(0)
+        self.max_preis.setValue(300000)
 
-        self.setup_waren_ui() # ### Idee ist, alle Item wieder anzeigen, funktioniert aber noch nicht
+        Helper4.FilterHandler.clear_Filter()
 
-    # ########## Alle Informationen zurückgeben, die User bereits eingetragen hat
+        self.load_ui()
+
+        self.setup_waren_ui()
+
+
     def confirm_search_info(self):
-        print("Button click!")
-        # ###print("Preis: ", self.horizontalSlider_preis.value())  # get the value of Preis
-        print("Zustand: ", self.comboBox_zustand.currentText())  # get the value of Zustand
-        print("Leistung: ", self.horizontalSlider_leistung.value())  # get the value of Leistung
-        print("Km/h: ", self.horizontalSlider_km.value())  # get the value of Leistung
-        print("Hersteller: ", self.comboBox_hersteller.currentText())  # get the value of Hersteller
-        print("Typ: ", self.typ_comboBox.currentText())  # get the value of Typ
-        print("Baujahr: ", self.baujahr_spinBox.value())  # get value of Baujahr SpinBox
-        # ### print("Auf Lager: ", self.auf_lager_spinBox.value())  # get value of Lager SpinBox
+
+        self.traktor_filter_Liste = self.get_filtered_list()
+        self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
+
+        self.setup_waren_ui()
+        self.load_ui()
+
 
     def confirm_suchfeld_info(self):
         such_Inhalt = self.Lineedit_suchfeld.text()
@@ -363,13 +339,5 @@ class Startseite(QMainWindow):
         self.setup_waren_ui()
 
     def confirm_suchfeld_info_with_enter(self):
-        such_Inhalt = self.Lineedit_suchfeld.text()
-        such_Inhalt_lower = such_Inhalt.lower()
-        self.filtereddatalist = []
-
-        for index in range(len(self.datalist)):
-            for item in self.datalist[index]:
-                if such_Inhalt_lower in item.lower():       # ### string in string suchen
-                    self.filtereddatalist.append(self.datalist[index])
-
         self.setup_waren_ui()
+        self.load_ui()

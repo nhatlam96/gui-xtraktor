@@ -231,39 +231,6 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_14">
-               <property name="frameShape">
-                <enum>QFrame::Box</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
-                <item>
-                 <widget class="QLabel" name="zustand_label">
-                  <property name="text">
-                   <string>Zustand</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="comboBox_zustand">
-                  <item>
-                   <property name="text">
-                    <string>Neu</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Gebraucht</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
               <widget class="QFrame" name="frame_13">
                <property name="frameShape">
                 <enum>QFrame::Box</enum>
@@ -396,16 +363,31 @@
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_11">
                    <item>
-                    <widget class="QComboBox" name="min_preis">
-                     <property name="placeholderText">
-                      <string>von...</string>
+                    <widget class="QSpinBox" name="min_preis">
+                     <property name="suffix">
+                      <string> €</string>
+                     </property>
+                     <property name="prefix">
+                      <string>min. </string>
+                     </property>
+                     <property name="maximum">
+                      <number>300000</number>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="max_preis">
-                     <property name="placeholderText">
-                      <string>bis...</string>
+                    <widget class="QSpinBox" name="max_preis">
+                     <property name="suffix">
+                      <string> €</string>
+                     </property>
+                     <property name="prefix">
+                      <string>max. </string>
+                     </property>
+                     <property name="maximum">
+                      <number>300000</number>
+                     </property>
+                     <property name="value">
+                      <number>300000</number>
                      </property>
                     </widget>
                    </item>
@@ -509,7 +491,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>642</width>
+                  <width>609</width>
                   <height>656</height>
                  </rect>
                 </property>

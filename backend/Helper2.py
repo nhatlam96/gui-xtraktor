@@ -104,14 +104,10 @@ class load:
             for row in csv_reader:
                 liste.append([row[0], "1", "z"])
 
-        print("TEST LISTE")
-        print(liste)
         return liste
 
 
     def product_pic(self, row):
-
-        print(row)
 
         pfad = os.path.join(PIC_PATH, r"Traktoren")
 
@@ -124,7 +120,6 @@ class load:
             if gesucht.lower() in dateiname.lower():
                 voll_pfad = os.path.join(pfad, dateiname)
                 pixmap = QPixmap(voll_pfad)
-                print("FOUND")
                 return pixmap
 
 
@@ -136,6 +131,4 @@ class load:
             if liste[x][2] == "z":
                 info.append(load.zub_data(self, liste[x][0]))
 
-        print("TEST INFO LISTE")
-        print(info)
         return info
