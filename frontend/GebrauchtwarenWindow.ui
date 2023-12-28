@@ -91,6 +91,13 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Budget:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="budget_label">
                <property name="inputMethodHints">
                 <set>Qt::ImhNone</set>
@@ -100,55 +107,6 @@
                </property>
                <property name="textFormat">
                 <enum>Qt::AutoText</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="acc_Button">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/Icons/icons/self.svg</normaloff>:/Icons/icons/self.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="shopping_Button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::StrongFocus</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/Icons/icons/shopping-cart.svg</normaloff>:/Icons/icons/shopping-cart.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
                </property>
               </widget>
              </item>
@@ -270,7 +228,7 @@
                    <item>
                     <widget class="QLabel" name="preis_label">
                      <property name="text">
-                      <string>Gesamtpreis</string>
+                      <string>originalpreis</string>
                      </property>
                     </widget>
                    </item>

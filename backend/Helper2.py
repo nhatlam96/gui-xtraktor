@@ -39,26 +39,33 @@ class replace:
 class load:
 
     def complete_header(self):
-        replace.icon(os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
-        replace.icon(os.path.join(ICON_PATH, r"user.svg"), self.findChild(QPushButton, "acc_Button"))
-        replace.icon(os.path.join(ICON_PATH, r"shopping-cart.svg"),
-                     self.findChild(QPushButton, "shopping_Button"))
+        def replace_icon(button, icon_path):
+            button_widget = self.findChild(QPushButton, button)
+            if button_widget:
+                replace.icon(os.path.join(ICON_PATH, icon_path), button_widget)
+                return True
+            return False
 
         conf.locale_setup(self)
 
-        def getCurUser():
-                return Helper_Accounts.UserHandler.get_current_user()[2]
-        try:
-            gCU = getCurUser()
-        except:
-            # No valid Userdata found. Probably index out of range
-            replace.text("Budget not found!", self.findChild(QLabel, "budget_label"))
-        else:
-            replace.text(str(locale.currency(int(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
-            
-        self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
-        self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))
-        self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
+        def set_budget_label():
+            try:
+                gCU = Helper_Accounts.UserHandler.get_current_user()[2]
+                replace.text(str(locale.currency(int(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
+            except Exception as e:
+                print(f"Error fetching user data: {e}")
+                replace.text("Budget not found!", self.findChild(QLabel, "budget_label"))
+
+        if replace_icon("home_Button", r"home.svg"):
+            self.home_Button.clicked.connect(lambda: switches.switch_to.startseite(self))
+        if replace_icon("acc_Button", r"user.svg"):
+            self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
+        if replace_icon("shopping_Button", r"shopping-cart.svg"):
+            self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))
+
+        set_budget_label()
+
+
 
 
 

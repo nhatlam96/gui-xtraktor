@@ -191,6 +191,12 @@
              </item>
              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
               <widget class="QLabel" name="picture">
+               <property name="maximumSize">
+                <size>
+                 <width>400</width>
+                 <height>400</height>
+                </size>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -264,7 +270,7 @@
                    <item>
                     <widget class="QLabel" name="preis_label">
                      <property name="text">
-                      <string>Gesamtpreis</string>
+                      <string>Originalpreis</string>
                      </property>
                     </widget>
                    </item>

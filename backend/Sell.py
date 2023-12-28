@@ -137,4 +137,7 @@ class SellWindow(QMainWindow):
 
         if anz > 0:
             Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
-            switches.switch_to.Sell_item(self)
+            if typ == "t":
+                switches.switch_to.Sell_item(self)
+            else:
+                switches.switch_to.Sell_item_Access(self)
