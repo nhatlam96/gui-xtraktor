@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Startseite</string>
   </property>
   <widget class="QWidget" name="frame_2">
    <layout class="QHBoxLayout" name="horizontalLayout_7">
