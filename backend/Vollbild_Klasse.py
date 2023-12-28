@@ -1,4 +1,3 @@
-# full_screen_image.py
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QLabel, QSizePolicy
 from PyQt5.QtCore import Qt

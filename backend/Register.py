@@ -30,6 +30,8 @@ class Register(QMainWindow):
 
         self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
 
+        self.show()
+
     """ for future use, when a role-based budget is implemented
     def update_budget_line_edit(self):
         if self.registerAsComboBox.currentText() == "Verkaeufer (Gebraucht)":

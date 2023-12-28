@@ -1,11 +1,12 @@
+import csv
 import locale
 import os.path
-import sys
-import csv
-from PyQt5.QtWidgets import *
-from PyQt5 import uic, Qt
+
+from PyQt5 import uic
 from PyQt5.QtGui import *
-import Helper, Helper2
+from PyQt5.QtWidgets import *
+
+import Helper2
 import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -120,10 +121,9 @@ class AccessoriesWindowAnbieter(QMainWindow):
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         
-        Helper2.replace.text(self, 
-                             locale.currency(new_value, grouping=True),
+        Helper2.replace.text(locale.currency(new_value, grouping=True),
                              self.findChild(QLabel, "wert_status"),
-        )
+                             )
 
     def calc_preis(self, product, value):
         new_preis = int(product)

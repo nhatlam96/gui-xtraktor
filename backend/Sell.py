@@ -1,20 +1,16 @@
 import locale
 import os.path
-import sys
-import csv
-from PyQt5.QtWidgets import *
+
 from PyQt5 import uic
-from PyQt5.QtGui import *
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtWidgets import *
+
 import Helper
-import Helper_Accounts
-import switches
 import Helper2
+import switches
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
-
 
 
 class SellWindow(QMainWindow):
@@ -36,21 +32,16 @@ class SellWindow(QMainWindow):
 
         self.create_tab1_content()
 
-
         Button1 = self.findChild(QPushButton, "inv_Button")
         Button1.clicked.connect(lambda: self.create_tab1_content())
 
         Button2 = self.findChild(QPushButton, "anz_Button")
         Button2.clicked.connect(lambda: self.create_tab2_content())
 
-
         self.show()
-
 
     def load_ui(self):
         Helper2.load.complete_header(self)
-
-
 
     def create_tab1_content(self):
 
@@ -105,7 +96,8 @@ class SellWindow(QMainWindow):
             label5 = QPushButton("Verkaufen")
 
             self.buttons_tab1[x] = label5
-            label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2], spin=spinbox: self.make_button_click_handler(label, spin.value(), typ))
+            label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2],
+                                          spin=spinbox: self.make_button_click_handler(label, spin.value(), typ))
 
             if self.inventar_liste[x][2] == "t":
                 label6 = QLabel(locale.currency(int(self.info_liste[x][4]), grouping=True))
@@ -123,8 +115,6 @@ class SellWindow(QMainWindow):
             layout.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
-
-
 
     def create_tab2_content(self):
 
@@ -176,7 +166,9 @@ class SellWindow(QMainWindow):
             label5 = QPushButton("Mehr Info")
 
             self.buttons_tab2[x] = label5
-            label5.clicked.connect(lambda nr=x, label=self.sell_liste[x][0], anz=self.sell_liste[x][1], typ=self.sell_liste[x][2]: self.make_button_click_handler2(label, anz, typ))
+            # noinspection PyUnresolvedReferences
+            label5.clicked.connect(lambda nr=x, label=self.sell_liste[x][0], anz=self.sell_liste[x][1],
+                                          typ=self.sell_liste[x][2]: self.make_button_click_handler2(label, anz, typ))
 
             if self.sell_liste[x][2] == "t":
                 label6 = QLabel(locale.currency(int(self.sell_info_liste[x][4]), grouping=True))
@@ -194,12 +186,9 @@ class SellWindow(QMainWindow):
 
         scroll_area.setWidget(content_widget)
 
-
-
     def make_button_click_handler(self, label, anz, typ):
 
         if anz > 0:
-
             Helper.InvHandler.remove_from_inv(label, anz)
             Helper.SellHandler.add_to_sell_list(label, anz, typ)
 
@@ -210,9 +199,6 @@ class SellWindow(QMainWindow):
             self.info_liste = Helper2.load.product_info(self, self.inventar_liste) if self.inventar_liste else []
             self.create_tab1_content()
 
-
     def make_button_click_handler2(self, label, anz, typ):
         Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
         switches.switch_to.Sell_item(self)
-
-

@@ -1,12 +1,12 @@
+import csv
 import locale
 import os.path
-from PyQt5.QtWidgets import *
+
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
 import Helper_Accounts
 import switches
-import csv
-import Helper
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -23,25 +23,25 @@ class conf:
 class replace:
 
     @staticmethod
-    def text(self, new_text, label):
+    def text(new_text, label):
         label.setText(str(new_text))
 
     @staticmethod
-    def img(self, image_name, label):
+    def img(image_name, label):
         pixmap = QPixmap(image_name)
         label.setPixmap(pixmap)
 
     @staticmethod
-    def icon(self, icon_name, label):
+    def icon(icon_name, label):
         icon = QIcon(icon_name)
         label.setIcon(icon)
 
 class load:
 
     def complete_header(self):
-        replace.icon(self, os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
-        replace.icon(self, os.path.join(ICON_PATH, r"user.svg"), self.findChild(QPushButton, "acc_Button"))
-        replace.icon(self, os.path.join(ICON_PATH, r"shopping-cart.svg"),
+        replace.icon(os.path.join(ICON_PATH, r"home.svg"), self.findChild(QPushButton, "home_Button"))
+        replace.icon(os.path.join(ICON_PATH, r"user.svg"), self.findChild(QPushButton, "acc_Button"))
+        replace.icon(os.path.join(ICON_PATH, r"shopping-cart.svg"),
                      self.findChild(QPushButton, "shopping_Button"))
 
         conf.locale_setup(self)
@@ -52,9 +52,9 @@ class load:
             gCU = getCurUser()
         except:
             # No valid Userdata found. Probably index out of range
-            replace.text(self, "Budget not found!", self.findChild(QLabel, "budget_label"))
+            replace.text("Budget not found!", self.findChild(QLabel, "budget_label"))
         else:
-            replace.text(self, str(locale.currency(int(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
+            replace.text(str(locale.currency(int(gCU), grouping=True)), self.findChild(QLabel, "budget_label"))
             
         self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
         self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart(self))

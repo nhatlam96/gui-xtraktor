@@ -10,7 +10,6 @@ import Helper2
 
 from Vollbild_Klasse import FullScreenImage
 
-
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
@@ -26,7 +25,7 @@ class ProductWindow(QMainWindow):
         self.loss = int(self.load_loss(self.product[0]))
         self.z_list = self.load_zub(self.product[0])  # kompatibles Zubehoer []
         self.spinbox = self.findChild(QSpinBox, "spinBox")
-        self.buttons = {}   # speichert array von buttonaktionen für dyn. layout
+        self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
         # Währungsumgebung laden
@@ -57,13 +56,13 @@ class ProductWindow(QMainWindow):
 
     def load_ui(self):
         Helper2.conf.locale_setup(self)
-        Helper2.replace.text(self,f"{self.product[0]} - {self.product[1]}",
+        Helper2.replace.text(f"{self.product[0]} - {self.product[1]}",
                              self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(self, locale.currency(int(self.product[4]), grouping=True),
+        Helper2.replace.text(locale.currency(int(self.product[4]), grouping=True),
                              self.findChild(QLabel, "preis_status"))
-        Helper2.replace.text(self, self.product[2], self.findChild(QLabel, "ps_status"))
-        Helper2.replace.text(self, self.product[3], self.findChild(QLabel, "kmh_status"))
-        Helper2.replace.text(self, self.product[5], self.findChild(QLabel, "baujahr_status"))
+        Helper2.replace.text(self.product[2], self.findChild(QLabel, "ps_status"))
+        Helper2.replace.text(self.product[3], self.findChild(QLabel, "kmh_status"))
+        Helper2.replace.text(self.product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
 
     def set_anz(self, value):
@@ -94,18 +93,16 @@ class ProductWindow(QMainWindow):
 
     def load_lager(self, row):
         if int(row[6]) > 0:
-            Helper2.replace.img(self,
-                                os.path.join(ICON_PATH, r"check.svg"),
+            Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"),
                                 self.findChild(QLabel, "bestand_icon")
                                 )
             return True
         else:
-            Helper2.replace.img(self,
-                                os.path.join(ICON_PATH, r"cross.svg"),
+            Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"),
                                 self.findChild(QLabel, "bestand_icon")
                                 )
             self.buy_Button.setDisabled(True)
-            Helper2.replace.text(self, "ausverkauft", self.findChild(QPushButton, "buy_Button"))
+            Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
 
     def load_pic(self, row):
@@ -115,7 +112,7 @@ class ProductWindow(QMainWindow):
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
-                Helper2.replace.img(self, voll_pfad, self.findChild(QLabel, "picture"))
+                Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
 
     def load_zpic(self, name):
         gesucht = name
@@ -192,12 +189,11 @@ class ProductWindow(QMainWindow):
         new_value = normalPreis * (verlustRate) ** jahre
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
-        Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
-
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
 
     def buy(self, model, anz):
         if anz > 0:
-            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", 
+            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.",
                               QMessageBox.Information,
                               QMessageBox.Ok, 2500)
             print("aufruf buy()")

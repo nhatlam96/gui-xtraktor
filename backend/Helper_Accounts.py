@@ -3,12 +3,12 @@ import os
 
 from PyQt5.QtWidgets import QLineEdit
 
-import Helper
 CSV_PATH = os.path.join("..", "resources", "csv")
 
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 INVENTAR_FILE_PATH = os.path.join("..", "resources", "csv", "Inventar.csv")
+
 
 class UserHandler:
     current_user = []
@@ -187,42 +187,47 @@ def update_klausBalance(amount):
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
-            
-def readInventar(): # Get
+
+
+def readInventar():  # Get
     user = UserHandler.get_current_user()
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
-    
+
     userData = []
     for row in data:
         if user[0] in row:
             userData.append(row)
     return userData
 
-def writeInventar(modellName, neueAnzahl, t_z):
 
+def writeInventar(modellName, neueAnzahl, t_z):
     user = UserHandler.get_current_user()
     found = 0
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
-    
-    if neueAnzahl > 0: # > 0 = update
+
+    if neueAnzahl > 0:  # > 0 = update
         for row in data:
-            if user in row and modellName in row: # update existing
-                row[1] = neueAnzahl # Push
+            if user in row and modellName in row:  # update existing
+                row[1] = neueAnzahl  # Push
                 found = 1
 
         if found == 0:
-            data.append([modellName, neueAnzahl, t_z, user[0]]) # Post
+            data.append([modellName, neueAnzahl, t_z, user[0]])  # Post
 
-    else: # 0 = delete
+    else:
+        # 0 = delete
         for row in data:
-            if user in row and modellName in row: # find rows to delete
-                data.remove(row) # Delete
-    
-    sortedData = sorted(data)#, key=lambda data: data[0]*/) # sort by user
+            if user in row and modellName in row:  # find rows to delete
+                # Delete
+                data.remove(row)
+
+    # key=lambda data: data[0]*/)
+    # sort by user
+    sortedData = sorted(data)
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(sortedData)
         return True

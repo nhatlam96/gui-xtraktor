@@ -7,7 +7,9 @@ from Login import Login
 from Warenkorb import WarenkorbWindow
 from Sell import SellWindow
 from Gebrauchtwaren import GebrauchtwarenWindow
+
 """from GebrauchtwarenAccessories import GebrauchtwarenWindowAccessories"""
+
 
 class switch_to:
 
@@ -15,65 +17,55 @@ class switch_to:
     def register(old_window):
         if old_window is not None:
             old_window.close()
-        window = Register()
-        window.show()
+        Register()
 
     @staticmethod
     def product(old_window):
         if old_window is not None:
             old_window.close()
-        window = ProductWindow()
-        window.show()
+        ProductWindow()
 
     @staticmethod
     def startseite(old_window):
         if old_window is not None:
             old_window.close()
-        window = Startseite()
-        window.show()
+        Startseite()
 
     @staticmethod
     def login(old_window):
         if old_window is not None:
             old_window.close()
-        window = Login()
-        window.show()
+        Login()
 
     @staticmethod
     def nutzer(old_window):
         if old_window is not None:
             old_window.close()
-        window = UserprofileWindow()
-        window.show()
+        UserprofileWindow()
 
     @staticmethod
     def accessories(old_window):
         if old_window is not None:
             old_window.close()
-        window = accessoriesWindow()
-        window.show()
+        accessoriesWindow()
 
     @staticmethod
     def shopping_cart(old_window):
         if old_window is not None:
             old_window.close()
-        window = WarenkorbWindow()
-        window.show()
-
+        WarenkorbWindow()
 
     @staticmethod
     def Inventar(old_window):
         if old_window is not None:
             old_window.close()
-        window = SellWindow()
-        window.show()
+        SellWindow()
 
     @staticmethod
     def Sell_item(old_window):
         if old_window is not None:
             old_window.close()
-        window = GebrauchtwarenWindow()
-        window.show()
+        GebrauchtwarenWindow()
 
     """@staticmethod
     def Sell_item_Access(old_window):

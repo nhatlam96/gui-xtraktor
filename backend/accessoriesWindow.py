@@ -1,10 +1,11 @@
+import csv
 import locale
 import os.path
-import sys
-import csv
-from PyQt5.QtWidgets import *
-from PyQt5 import uic, Qt
+
+from PyQt5 import uic
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
 import Helper
 import Helper2
 
@@ -43,10 +44,10 @@ class accessoriesWindow(QMainWindow):
 
 
     def load_ui(self, product, user, hers_list):
-        Helper2.replace.text(self, product[0], self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(self, locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        Helper2.replace.text(self, f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
-        Helper2.replace.text(self, hers_list, self.findChild(QLabel, "comp_label"))
+        Helper2.replace.text(product[0], self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
+        Helper2.replace.text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        Helper2.replace.text(hers_list, self.findChild(QLabel, "comp_label"))
         Helper2.load.complete_header(self)
 
     def load_data(self, placeholder):
@@ -68,12 +69,12 @@ class accessoriesWindow(QMainWindow):
 
     def load_lager(self, row):
         if int(row[2]) > 0:
-            Helper2.replace.img(self, os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
+            Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
             return True
         else:
-            Helper2.replace.img(self, os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
+            Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
             self.buy_Button.setDisabled(True)
-            Helper2.replace.text(self, "ausverkauft", self.findChild(QPushButton, "buy_Button"))
+            Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
 
     def load_pic(self, row):
@@ -83,7 +84,7 @@ class accessoriesWindow(QMainWindow):
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
-                Helper2.replace.img(self, voll_pfad, self.findChild(QLabel, "picture"))
+                Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
 
     def load_zpic(self, name):
         gesucht = name
@@ -109,14 +110,13 @@ class accessoriesWindow(QMainWindow):
     def calc_wert(self, product, loss, value):
         preis = int(product.replace(".", ""))
         new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
-        Helper2.replace.text(self, locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         
-        Helper2.replace.text(self, 
-                             locale.currency(new_value, grouping=True),
+        Helper2.replace.text(locale.currency(new_value, grouping=True),
                              self.findChild(QLabel, "wert_status"),
-        )
+                             )
     
     def buy(self, model, anz, typ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         if anz > 0:

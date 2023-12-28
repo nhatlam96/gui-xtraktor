@@ -103,4 +103,4 @@ launch_time = get_program_time()
 while True:
     time.sleep(10)
     update_program_time(2)
-    print("Delta in Years: ", get_time_difference_since_program_start())
+    # print("Delta in Years: ", get_time_difference_since_program_start())

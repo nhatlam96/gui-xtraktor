@@ -38,7 +38,7 @@ class Login(QMainWindow):
             UserHandler.set_current_user(self, username)
             Helper.InvHandler.def_inv()
             switches.switch_to.startseite(self)
-            show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok, 1750)
+            # show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok, 1750)
         else:
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 

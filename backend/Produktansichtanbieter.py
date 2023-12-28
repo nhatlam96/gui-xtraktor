@@ -1,11 +1,12 @@
+import csv
 import locale
 import os.path
 import sys
-import csv
-from PyQt5.QtWidgets import *
-from PyQt5 import uic, Qt
+
+from PyQt5 import uic
 from PyQt5.QtGui import *
-import switches
+from PyQt5.QtWidgets import *
+
 import Helper2
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -46,21 +47,18 @@ class ProductWindowAnbieter(QMainWindow):
         self.show()
 
     def load_ui(self, product, user):
-        Helper2.replace.text(self,
-            f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
-        )
-        Helper2.replace.text(self,
-            locale.currency(int(product[4].replace(".", "")), grouping=True),
-            self.findChild(QLabel, "preis_status"),
-        )
-        Helper2.replace.text(self,
-            f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
-            self.findChild(QLabel, "budget_label"),
-        )
-        Helper2.replace.text(self, product[2], self.findChild(QLabel, "ps_status"))
-        Helper2.replace.text(self, product[3], self.findChild(QLabel, "kmh_status"))
-        Helper2.replace.text(self, product[5], self.findChild(QLabel, "baujahr_status"))
-        Helper2.replace.text(self, product[-1], self.findChild(QLabel, "lager_status"))
+        Helper2.replace.text(f"{product[0]} - {product[1]}", self.findChild(QLabel, "name_label")
+                             )
+        Helper2.replace.text(locale.currency(int(product[4].replace(".", "")), grouping=True),
+                             self.findChild(QLabel, "preis_status"),
+                             )
+        Helper2.replace.text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}",
+                             self.findChild(QLabel, "budget_label"),
+                             )
+        Helper2.replace.text(product[2], self.findChild(QLabel, "ps_status"))
+        Helper2.replace.text(product[3], self.findChild(QLabel, "kmh_status"))
+        Helper2.replace.text(product[5], self.findChild(QLabel, "baujahr_status"))
+        Helper2.replace.text(product[-1], self.findChild(QLabel, "lager_status"))
         Helper2.load.complete_header(self)
 
     def load_data(self, placeholder):
@@ -105,7 +103,7 @@ class ProductWindowAnbieter(QMainWindow):
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
-                Helper2.replace.img(self, voll_pfad, self.findChild(QLabel, "picture"))
+                Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
 
     def load_zpic(self, name):
         gesucht = name
@@ -166,10 +164,9 @@ class ProductWindowAnbieter(QMainWindow):
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         
-        Helper2.replace.text(self, 
-                             locale.currency(new_value, grouping=True),
+        Helper2.replace.text(locale.currency(new_value, grouping=True),
                              self.findChild(QLabel, "wert_status"),
-        )
+                             )
 
     def calc_preis(self, product, value):
         new_preis = int(product)

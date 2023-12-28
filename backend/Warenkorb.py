@@ -2,12 +2,11 @@ import locale
 import os.path
 
 from PyQt5 import uic
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import *
-import Helper_Accounts
 
 import Helper
 import Helper2
+import Helper_Accounts
 from Helper_Accounts import UserHandler, update_userBalance
 
 CSV_PATH = os.path.join("..", "resources", "csv")
@@ -44,15 +43,13 @@ class WarenkorbWindow(QMainWindow):
         Helper2.load.complete_header(self)
         self.add_shopping_items(self.info_list, self.shopping_list)
         self.add_sum_list(self.info_list, self.shopping_list)
-        Helper2.replace.text(self,
-                             str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
+        Helper2.replace.text(str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
     def set_anz(self, number, value):
         self.shopping_list[number][1] = value
         self.add_sum_list(self.info_list, self.shopping_list)
-        Helper2.replace.text(self,
-                             str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
+        Helper2.replace.text(str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
     def buy(self, liste, user):
@@ -82,12 +79,13 @@ class WarenkorbWindow(QMainWindow):
                     self.add_shopping_items(self.info_list, self.shopping_list)
                     self.add_sum_list(self.info_list, self.shopping_list)
                     Helper2.load.complete_header(self)
-                    Helper2.replace.text(self, str(locale.currency(int(0), grouping=True)),
+                    Helper2.replace.text(str(locale.currency(int(0), grouping=True)),
                                          self.findChild(QLabel, "summe_status"))
                 else:
                     Helper.show_toast("Nicht genug Budget!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
-    def calc_sum(self, info_liste, shopping_liste):
+    @staticmethod
+    def calc_sum(info_liste, shopping_liste):
         summe = 0
 
         for x in range(len(shopping_liste)):

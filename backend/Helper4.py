@@ -1,11 +1,5 @@
-import os
 import csv
-from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QMessageBox
-
-import Helper
-import Helper2
-import Helper_Accounts
+import os
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 
