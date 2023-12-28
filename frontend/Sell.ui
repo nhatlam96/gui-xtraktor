@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>728</height>
+    <width>1400</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,12 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1400</width>
+    <height>900</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
@@ -111,6 +117,34 @@
                </property>
                <property name="text">
                 <string>WEBSHOP.DE</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="navbaritems_frame">
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="rightMargin">
+              <number>9</number>
+             </property>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>INVENTAR</string>
                </property>
               </widget>
              </item>
@@ -220,7 +254,7 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,5">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,4">
           <item>
            <widget class="QFrame" name="navbar_frame">
             <property name="frameShape">
@@ -229,7 +263,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,6">
+            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="6">
              <property name="spacing">
               <number>6</number>
              </property>
@@ -239,47 +273,6 @@
              <property name="rightMargin">
               <number>0</number>
              </property>
-             <item alignment="Qt::AlignTop">
-              <widget class="QFrame" name="navbaritems_frame">
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
-                <property name="spacing">
-                 <number>6</number>
-                </property>
-                <property name="leftMargin">
-                 <number>9</number>
-                </property>
-                <property name="rightMargin">
-                 <number>9</number>
-                </property>
-                <item>
-                 <widget class="QPushButton" name="inv_Button">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Mein Inventar</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="anz_Button">
-                  <property name="text">
-                   <string>Meine Verkaufanzeigen</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
              <item>
               <widget class="QFrame" name="frame_3">
                <property name="frameShape">
@@ -297,7 +290,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QScrollArea" name="geb_scrollArea">
+                 <widget class="QScrollArea" name="bidders_scrollArea">
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -315,8 +308,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>129</width>
-                     <height>439</height>
+                     <width>240</width>
+                     <height>688</height>
                     </rect>
                    </property>
                   </widget>
@@ -347,8 +340,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>753</width>
-                  <height>568</height>
+                  <width>1042</width>
+                  <height>730</height>
                  </rect>
                 </property>
                </widget>

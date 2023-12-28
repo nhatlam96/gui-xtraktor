@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>972</width>
-    <height>860</height>
+    <width>1400</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>880</width>
-    <height>860</height>
+    <width>1400</width>
+    <height>900</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -183,6 +183,32 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
+              <widget class="QFrame" name="frame_14">
+               <property name="frameShape">
+                <enum>QFrame::Box</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="text">
+                   <string>Gesucht:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="ges_comboBox">
+                  <property name="placeholderText">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
               <widget class="QFrame" name="frame_10">
                <property name="frameShape">
                 <enum>QFrame::Box</enum>
@@ -216,7 +242,7 @@
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_6">
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
                 <item>
                  <widget class="QLabel" name="typ_label">
                   <property name="text">
@@ -249,10 +275,13 @@
                 <item>
                  <widget class="QSpinBox" name="baujahr_spinBox">
                   <property name="minimum">
-                   <number>1860</number>
+                   <number>1900</number>
                   </property>
                   <property name="maximum">
                    <number>2023</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>10</number>
                   </property>
                  </widget>
                 </item>
@@ -271,17 +300,23 @@
                 <item>
                  <widget class="QLabel" name="leistung_label">
                   <property name="text">
-                   <string>Leistung</string>
+                   <string>Leistung - PS</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QSlider" name="horizontalSlider_leistung">
                   <property name="maximum">
-                   <number>860</number>
+                   <number>900</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="tickPosition">
+                   <enum>QSlider::NoTicks</enum>
+                  </property>
+                  <property name="tickInterval">
+                   <number>0</number>
                   </property>
                  </widget>
                 </item>
@@ -317,10 +352,19 @@
                 <item>
                  <widget class="QSlider" name="horizontalSlider_km">
                   <property name="maximum">
-                   <number>100</number>
+                   <number>500</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>5</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="tickPosition">
+                   <enum>QSlider::NoTicks</enum>
+                  </property>
+                  <property name="tickInterval">
+                   <number>0</number>
                   </property>
                  </widget>
                 </item>
@@ -373,6 +417,9 @@
                      <property name="maximum">
                       <number>300000</number>
                      </property>
+                     <property name="singleStep">
+                      <number>10000</number>
+                     </property>
                     </widget>
                    </item>
                    <item>
@@ -385,6 +432,9 @@
                      </property>
                      <property name="maximum">
                       <number>300000</number>
+                     </property>
+                     <property name="singleStep">
+                      <number>10000</number>
                      </property>
                      <property name="value">
                       <number>300000</number>
@@ -443,7 +493,7 @@
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="7,1,2">
                 <item>
                  <widget class="QLineEdit" name="Lineedit_suchfeld">
                   <property name="font">
@@ -456,6 +506,19 @@
                   </property>
                   <property name="placeholderText">
                    <string>was suchen Sie?</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="sort_comboBox">
+                  <property name="editable">
+                   <bool>false</bool>
+                  </property>
+                  <property name="currentText">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>sortieren</string>
                   </property>
                  </widget>
                 </item>
@@ -491,8 +554,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>609</width>
-                  <height>656</height>
+                  <width>963</width>
+                  <height>693</height>
                  </rect>
                 </property>
                </widget>

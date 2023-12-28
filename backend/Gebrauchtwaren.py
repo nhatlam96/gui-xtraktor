@@ -32,7 +32,7 @@ class GebrauchtwarenWindow(QMainWindow):
         # print(self.bidders)
 
         # Währungsumgebung laden
-        Helper2.conf.locale_setup(self)
+        #Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
         # self.add_widget()
