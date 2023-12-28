@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>637</height>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,6 +23,9 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QFrame" name="frame_2">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(52, 73, 94);</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Box</enum>
       </property>
@@ -32,8 +35,13 @@
       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,2,8">
        <item>
         <widget class="QFrame" name="frame_4">
+         <property name="styleSheet">
+          <string notr="true">QFrame#frame_4 {
+	background-color: rgb(44, 62, 80);
+}</string>
+         </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
@@ -41,6 +49,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QFrame" name="frame_5">
+            <property name="styleSheet">
+             <string notr="true">background-color: white;</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
@@ -57,6 +68,12 @@
              </item>
              <item>
               <widget class="QLabel" name="label_2">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>WEBSHOP.DE</string>
                </property>
@@ -67,6 +84,9 @@
           </item>
           <item alignment="Qt::AlignRight|Qt::AlignTop">
            <widget class="QFrame" name="frame_6">
+            <property name="styleSheet">
+             <string notr="true">background-color: white;</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
@@ -76,6 +96,12 @@
             <layout class="QHBoxLayout" name="horizontalLayout_10">
              <item>
               <widget class="QLabel" name="budget_label">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>Budget</string>
                </property>
@@ -103,6 +129,12 @@
        </item>
        <item>
         <widget class="QFrame" name="frame_3">
+         <property name="styleSheet">
+          <string notr="true">QFrame#frame_3 {
+	background-color: rgb(44, 62, 80);
+	border-radius: 15px;
+}</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>
@@ -112,6 +144,29 @@
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QPushButton" name="pushButton">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton#pushButton {
+	background-color: rgb(0, 195, 0);
+	padding: 5px;
+	color: white;
+	border-radius: 20px;
+	max-width: 200px;
+	max-height: 40px;
+}
+QPushButton#pushButton:hover {
+	cursor: pointer;
+	background-color: rgb(37, 211, 102);
+}
+QPushButton#pushButton:pressed {
+	padding-left: 3px;
+	padding-bottom: 3px;
+}</string>
+            </property>
             <property name="text">
              <string>Icon</string>
             </property>
@@ -119,6 +174,29 @@
           </item>
           <item>
            <widget class="QPushButton" name="Logout">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton#Logout {
+	background-color:rgb(231, 76, 60);
+	padding: 5px;
+	color: white;
+	border-radius: 20px;
+	max-width: 200px;
+	max-height: 40px;
+}
+QPushButton#Logout:hover {
+	cursor: pointer;
+	background-color: rgb(230, 126, 34);
+}
+QPushButton#Logout:pressed {
+	padding-left: 3px;
+	padding-bottom: 3px;
+}</string>
+            </property>
             <property name="text">
              <string>Logout / Change User</string>
             </property>
@@ -130,7 +208,7 @@
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
@@ -138,8 +216,16 @@
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <widget class="QFrame" name="frame_8">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_8 {
+	background-color: rgb(44, 62, 80);
+	border-radius: 15px;
+	margin-bottom: 5px;
+	padding: 10px;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -147,13 +233,31 @@
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <widget class="QLabel" name="loginLabel">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+padding: 5px;</string>
+               </property>
                <property name="text">
-                <string>eingeloggt als:</string>
+                <string>Eingeloggt als:</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="loginStatusLabel">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+padding: 5px;</string>
+               </property>
                <property name="text">
                 <string>loginStatus</string>
                </property>
@@ -164,8 +268,16 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_11">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_11 {
+	background-color: rgb(44, 62, 80);
+	border-radius: 15px;
+	padding: 10px;
+	margin-bottom: 5px;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -173,6 +285,15 @@
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
               <widget class="QLabel" name="benutzernameLabel">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+padding: 5px;</string>
+               </property>
                <property name="text">
                 <string>Benutzername:</string>
                </property>
@@ -180,6 +301,15 @@
              </item>
              <item>
               <widget class="QLabel" name="usernameLabel">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+padding: 5px;</string>
+               </property>
                <property name="text">
                 <string>User</string>
                </property>
@@ -190,8 +320,16 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_13">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_13 {
+	background-color: rgb(44, 62, 80);
+	border-radius: 15px;
+	padding: 10px;
+	margin-bottom: 5px;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -199,6 +337,15 @@
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
               <widget class="QLabel" name="passwordLabel">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+padding: 5px;</string>
+               </property>
                <property name="text">
                 <string>Passwort:</string>
                </property>
@@ -206,8 +353,22 @@
              </item>
              <item>
               <widget class="QLineEdit" name="passwordLineEdit">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit#passwordLineEdit {
+	color: white;
+	border-bottom: 3px solid rgb(189, 195, 199);
+}</string>
+               </property>
                <property name="maxLength">
                 <number>16</number>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
                </property>
                <property name="echoMode">
                 <enum>QLineEdit::Password</enum>
@@ -219,6 +380,14 @@
              </item>
              <item>
               <widget class="QCheckBox" name="showPasswordCheckBox">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
                <property name="text">
                 <string>Show password</string>
                </property>
@@ -229,8 +398,16 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_7">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_7 {
+	background-color: rgb(44, 62, 80);
+	border-radius: 15px;
+	padding: 10px;
+	margin-bottom: 5px;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -238,6 +415,15 @@
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+padding: 5px;</string>
+               </property>
                <property name="text">
                 <string>Budget:</string>
                </property>
@@ -245,11 +431,25 @@
              </item>
              <item>
               <widget class="QLineEdit" name="budgetLineEdit">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit#budgetLineEdit {
+	color: white;
+	border-bottom: 3px solid rgb(189, 195, 199);
+}</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
                <property name="maxLength">
                 <number>9</number>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
                </property>
                <property name="placeholderText">
                 <string>Budget in €</string>
@@ -261,8 +461,15 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_12">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_12 {
+	background-color: rgb(44, 62, 80);
+	border-radius: 15px;
+	padding: 10px;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -270,6 +477,19 @@
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QPushButton" name="aenderungenVerwerfenButton">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton#aenderungenVerwerfenButton {
+	color: white;
+	padding: 5px 0px;
+	background-color: rgb(255, 51, 0);
+	max-height: 30px;
+}</string>
+               </property>
                <property name="text">
                 <string>Änderungen verwerfen</string>
                </property>
@@ -277,6 +497,19 @@
              </item>
              <item>
               <widget class="QPushButton" name="aenderungenSpeichernButton">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton#aenderungenSpeichernButton {
+	color: white;
+	padding: 5px 0px;
+	background-color: rgb(0, 153, 255);
+	max-height: 30px;
+}</string>
+               </property>
                <property name="text">
                 <string>Änderungen speichern</string>
                </property>

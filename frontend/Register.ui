@@ -29,6 +29,11 @@
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <widget class="QFrame" name="frame_3">
+      <property name="styleSheet">
+       <string notr="true">QFrame#frame_3{
+	background-color: rgb(44, 62, 80);
+}</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -47,6 +52,15 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QComboBox" name="registerAsComboBox">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(127, 140, 141);
+color: white;</string>
+            </property>
             <property name="currentIndex">
              <number>0</number>
             </property>
@@ -67,8 +81,20 @@
           </item>
           <item>
            <widget class="QLineEdit" name="usernameLineEdit">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(127, 140, 141);
+color: white;</string>
+            </property>
             <property name="maxLength">
              <number>16</number>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
             </property>
             <property name="placeholderText">
              <string>Username</string>
@@ -77,8 +103,20 @@
           </item>
           <item>
            <widget class="QLineEdit" name="passwordLineEdit">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(127, 140, 141);
+color: white;</string>
+            </property>
             <property name="maxLength">
              <number>16</number>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
             </property>
             <property name="echoMode">
              <enum>QLineEdit::Password</enum>
@@ -90,6 +128,14 @@
           </item>
           <item>
            <widget class="QCheckBox" name="showPasswordCheckBox">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: white;</string>
+            </property>
             <property name="text">
              <string>Show password</string>
             </property>
@@ -97,6 +143,15 @@
           </item>
           <item>
            <widget class="QLineEdit" name="budgetLineEdit">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(127, 140, 141);
+color: white;</string>
+            </property>
             <property name="inputMask">
              <string/>
             </property>
@@ -105,6 +160,9 @@
             </property>
             <property name="maxLength">
              <number>9</number>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
             </property>
             <property name="placeholderText">
              <string>Budget in €</string>
@@ -125,8 +183,30 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QPushButton" name="registerButton">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton#registerButton {
+	background-color: rgb(52, 152, 219);
+	border-radius: 10px;
+	color: white;
+	width: 100px;
+	height: 25px;
+}
+QPushButton#registerButton:hover {
+	cursor: pointer;
+	opacity: 0.5;
+}
+QPushButton#registerButton:pressed {
+	padding-left: 2px;
+	padding-bottom: 2px;
+}</string>
             </property>
             <property name="text">
              <string>Register</string>
@@ -135,8 +215,30 @@
           </item>
           <item>
            <widget class="QPushButton" name="goToLoginButton">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton#goToLoginButton {
+	background-color: rgb(230, 126, 34);
+	border-radius: 10px;
+	color: white;
+	width: 120px;
+	height: 25px;
+}
+QPushButton#goToLoginButton:hover {
+	cursor: pointer;
+	opacity: 0.5;
+}
+QPushButton#goToLoginButton:pressed {
+	padding-left: 2px;
+	padding-bottom: 2px;
+}</string>
             </property>
             <property name="text">
              <string>Back to login!</string>
