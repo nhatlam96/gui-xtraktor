@@ -379,15 +379,15 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
+          <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_3">
             <property name="text">
              <string>Kompatible Hersteller:</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="comp_label">
             <property name="text">
              <string>%%%</string>
@@ -426,7 +426,7 @@
                <x>0</x>
                <y>0</y>
                <width>936</width>
-               <height>510</height>
+               <height>532</height>
               </rect>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_9"/>

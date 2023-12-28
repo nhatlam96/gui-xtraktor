@@ -21,8 +21,8 @@ class AccessoriesHandler:
 
 
 class ProductHandler:
-    # current_product = []
     current_product = ""
+
 
     @staticmethod
     def get_current_product():

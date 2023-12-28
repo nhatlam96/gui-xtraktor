@@ -1,12 +1,21 @@
 from Nutzerprofil import UserprofileWindow
+
 from Produktansicht import ProductWindow
+
 from Register import Register
+
 from Startseite import Startseite
+
 from accessoriesWindow import accessoriesWindow
+from accessoriesWindowAnbieter import accessoriesWindowAnbieter
+
 from Login import Login
 from Warenkorb import WarenkorbWindow
 from Sell import SellWindow
 from Gebrauchtwaren import GebrauchtwarenWindow
+
+
+
 
 from Gebrauchtwaren_Accessories import GebrauchtwarenWindowAccessories
 
@@ -48,6 +57,12 @@ class switch_to:
         if old_window is not None:
             old_window.close()
         accessoriesWindow()
+
+    @staticmethod
+    def accessories_Anbieter(old_window):
+        if old_window is not None:
+            old_window.close()
+        accessoriesWindowAnbieter()
 
     @staticmethod
     def shopping_cart(old_window):

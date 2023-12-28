@@ -250,7 +250,6 @@ class Startseite(QMainWindow):
         def button_click_handler():
             if label is not None:
                 text = label
-                print(text)
                 Helper.ProductHandler.set_current_product(text)
                 switches.switch_to.product(self)
             else:

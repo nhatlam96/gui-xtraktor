@@ -47,22 +47,16 @@ class GebrauchtwarenWindow(QMainWindow):
         label = self.findChild(QLabel, "picture")
         label.setPixmap(pixmap)
 
-        if self.product[2] == "t":
-            Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
+        Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
                                  self.findChild(QLabel, "name_label"))
-            Helper2.replace.text(locale.currency(int(self.product_info[4]), grouping=True),
+        Helper2.replace.text(locale.currency(int(self.product_info[4]), grouping=True),
                                  self.findChild(QLabel, "alt_preis_status"))
-            Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
-            Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
-            Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
-            Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
-            Helper2.load.complete_header(self)
-        else:
-            Helper2.replace.text(f"Zubehör - {self.product_info[0]}",
-                                 self.findChild(QLabel, "name_label"))
-            Helper2.replace.text(locale.currency(int(self.product_info[1]), grouping=True),
-                                 self.findChild(QLabel, "alt_preis_status"))
-            Helper2.load.complete_header(self)
+        Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
+        Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
+        Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
+        Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
+        Helper2.load.complete_header(self)
+
 
     def readInBidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:

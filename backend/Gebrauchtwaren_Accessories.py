@@ -47,15 +47,19 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         label = self.findChild(QLabel, "picture")
         label.setPixmap(pixmap)
 
+        Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
         Helper2.replace.text(f"Zubehör - {self.product_info[0]}",
                                  self.findChild(QLabel, "name_label"))
         Helper2.replace.text(locale.currency(int(self.product_info[1]), grouping=True),
                                  self.findChild(QLabel, "alt_preis_status"))
         Helper2.load.complete_header(self)
+        Helper2.replace.text(f"{str(self.load_hers())}", self.findChild(QLabel, "comp_label"))
 
 
 
-
+    def load_hers(self):
+        conv_text = ", ".join(self.product_info[3:])
+        return conv_text
 
     def readInBidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
