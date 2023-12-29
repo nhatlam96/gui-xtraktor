@@ -231,3 +231,13 @@ def writeInventar(modellName, neueAnzahl, t_z):
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(sortedData)
         return True
+
+
+def get_bidders():
+    with open(BIDDERS_FILE_PATH , mode='r') as csvfile:
+        liste = []
+        reader = csv.reader(csvfile)
+        for row in reader:
+            liste.append(row)
+
+        return liste

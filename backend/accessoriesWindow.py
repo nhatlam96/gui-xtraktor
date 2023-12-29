@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import *
 
 import Helper
 import Helper2
+import Helper_Accounts
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -22,49 +23,52 @@ class accessoriesWindow(QMainWindow):
 
         # übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()
-        product = self.load_data(platzhalter)
-        acc_platzhalter = "Sieglinde"
-        acc = self.load_acc(acc_platzhalter)
-        hers_list = self.load_hers(product)  # kompatible Traktoren
+        self.product = Helper2.load.product_info(self,[[platzhalter, 1, "z"]])[0]
+        self.acc = Helper_Accounts.UserHandler.get_current_user()
+        self.hers_list = self.load_hers()  # kompatible Traktoren
         self.anz = 0
+        self.loss = int(self.load_loss())
+        self.ges_preis = 0
+        print(self.loss)
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
         # Produktseite laden
-        self.load_ui(product, acc, hers_list)
-        self.load_lager(product)
-        self.load_pic(product)
+        self.load_ui()
+        self.load_lager(self.product)
+        self.load_pic(self.product)
 
         # Aktionen
-        self.buy_Button.clicked.connect(lambda: self.buy(product[0], self.anz, "z"))
-        self.spinBox.valueChanged.connect(lambda value: self.set_anz(value))
+        self.buy_Button.clicked.connect(lambda: self.buy(self.anz, "z"))
+        self.anz_spinBox.valueChanged.connect(lambda value: self.set_anz(value))
+        self.wert_spinBox.valueChanged.connect(lambda value: self.calc_wert(value))
 
         self.show()
 
 
-    def load_ui(self, product, user, hers_list):
-        Helper2.replace.text(product[0], self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(locale.currency(int(product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        Helper2.replace.text(f"Budget:  {locale.currency(int(user[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
-        Helper2.replace.text(hers_list, self.findChild(QLabel, "comp_label"))
+    def load_ui(self):
+        Helper2.replace.text(self.product[0], self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(locale.currency(int(self.product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
+        Helper2.replace.text(f"Budget:  {locale.currency(int(self.acc[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+        Helper2.replace.text(self.hers_list, self.findChild(QLabel, "comp_label"))
         Helper2.load.complete_header(self)
 
-    def load_data(self, placeholder):
-        csv_path = os.path.join(CSV_PATH, r"Zubehör.csv")
 
-        with open(csv_path, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
-                if row[0] == placeholder:
-                    return row
+    def load_loss(self):
+        pfad = os.path.join(CSV_PATH, r"Wertminderung.csv")
+        with open(pfad, mode="r") as file:
+            for row in csv.reader(file):
+                if row[0] == "Zusatz":
+                    return int(row[1])
+            return 0
 
     def set_anz(self, value):
         self.anz = value
+        self.calc_preis(value)
 
-    def load_hers(self, product):
-        conv_text = ", ".join(product[3:])
+    def load_hers(self):
+        conv_text = ", ".join(self.product[3:])
         return conv_text
 
     def load_lager(self, row):
@@ -97,32 +101,24 @@ class accessoriesWindow(QMainWindow):
                 scaled_pixmap = pixmap.scaled(64, 64)
                 return scaled_pixmap
 
-    def load_acc(self, user):
-        pfad = os.path.join(CSV_PATH, r"Accounts.csv")
 
-        with open(pfad, mode="r") as file:
-            csv_reader = csv.reader(file)
-
-            for row in csv_reader:
-                if row[0] == user:
-                    return row
-
-    def calc_wert(self, product, loss, value):
-        preis = int(product.replace(".", ""))
-        new_value = -(value * (preis * loss / 100)) if (value * (preis * loss / 100)) < preis else -preis
+    def calc_wert(self, value):
+        preis = int(self.product[1].replace(".", ""))
+        new_value = -(value * (preis * self.loss / 100)) if (value * (preis * self.loss / 100)) < preis else -preis
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
-        # Zinseszinzprinzip:
-        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
-        
-        Helper2.replace.text(locale.currency(new_value, grouping=True),
-                             self.findChild(QLabel, "wert_status"),
-                             )
+
+
+    def calc_preis(self, value):
+        preis = int(self.product[1].replace(".", ""))
+        new_value = preis * value
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
+
+
     
-    def buy(self, model, anz, typ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+    def buy(self, anz, typ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
         if anz > 0:
-            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
+            Helper.show_toast(f"Sie haben {anz}x {self.product[0]} dem Warenkorb hinzugefügt.", QMessageBox.Information,
                               QMessageBox.Ok, 2500)
-            print("aufruf buy()")
-            Helper.BuyHandler.add_to_current_shoppinglist(model, anz, typ)
-            self.spinBox.setValue(0)
+            Helper.BuyHandler.add_to_current_shoppinglist(self.product[0], anz, typ)
+            self.anz_spinBox.setValue(0)
             print(Helper.BuyHandler.get_current_shoppinglist())

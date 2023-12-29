@@ -1,18 +1,22 @@
+import csv
 import locale
 import os
 import os.path
+import sys
 
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import *
-
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
+import switches
 import Helper
 import Helper2
 import Helper4
-import switches
 
+
+# Ressourcenpfade
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
-
 
 class Startseite(QMainWindow):
 
@@ -20,15 +24,21 @@ class Startseite(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
+
         # NEUES LISTENMODEL MUSS NOCH ANGEWENDET WERDEN
         self.traktor_Liste = Helper2.load.all_traktor_data(self)
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
+        print(self.traktor_infos)
 
         self.traktor_filter_Liste = self.get_filtered_list()
         self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
 
+        self.traktor_sorted_Liste = self.traktor_filter_Liste
+        self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
+
         self.hersteller_Liste = Helper4.load.hersteller_dict().keys()
         self.model_Liste = Helper4.load.get_all_model()
+
 
         # ERST NACH TRAKTOREN MACHEN
         """self.zubehoer_Liste = Helper2.load.all_zubehoer_data(self)
@@ -36,7 +46,7 @@ class Startseite(QMainWindow):
         self.zubehoer_filter_Liste = Helper2.load.all_zubehoer_data(self)
         self.zubehoer_filter_infos = Helper2.load.product_info(self, self.zubehoer_filter_Liste)"""
 
-        # Signale
+        # Signale Filter
         self.pushButton_suchen.clicked.connect(self.confirm_suchfeld_info)
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
         self.typ_comboBox.currentTextChanged.connect(lambda value: self.filter_changed_typ(value))
@@ -47,6 +57,10 @@ class Startseite(QMainWindow):
         self.max_preis.valueChanged.connect(lambda value: self.filter_changed_maxPreis(value))
         self.bufferleer_button.clicked.connect(self.empty_search_info)
         self.such_infor_commit.clicked.connect(self.confirm_search_info)
+
+        # Signale UI
+        self.sort_comboBox.currentTextChanged.connect(lambda value: self.get_sorted_list(value))
+
 
         # lokale Umgebung laden
         Helper2.conf.locale_setup(self)
@@ -60,15 +74,27 @@ class Startseite(QMainWindow):
 
         self.show()
 
+
+
     def load_ui(self):
         Helper2.load.complete_header(self)
         self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
+        self.sort_comboBox.blockSignals(True)
+        self.sort_comboBox.clear()
+        self.sort_comboBox.addItems([""])
+        self.sort_comboBox.addItems(["Höchster Preis zuerst", "Niedrigster Preis zuerst"])
+        self.sort_comboBox.blockSignals(False)
+
+
+
         self.load_filter_ui()
+
 
     def load_filter_ui(self):
 
+
         # Suchfeld -> bitte button zum Sortieren hinzufügen
-        # self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
+        #self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
         # self.lineEdit.returnPressed()           # return content if you press "enter"
 
         # Hersteller
@@ -78,10 +104,12 @@ class Startseite(QMainWindow):
         self.comboBox_hersteller.blockSignals(False)
 
         # Typ
+        help = self.typ_comboBox.currentText()
         self.typ_comboBox.blockSignals(True)
         self.typ_comboBox.clear()
         self.typ_comboBox.addItem("")
         self.typ_comboBox.addItems(self.model_Liste)
+        self.typ_comboBox.setCurrentText(help)
         self.typ_comboBox.blockSignals(False)
 
         # Baujahr
@@ -90,21 +118,20 @@ class Startseite(QMainWindow):
         self.baujahr_spinBox.setMaximum(2023)
         self.baujahr_spinBox.blockSignals(False)
 
-        # Leistung & Km/h
 
-        # Preis
 
-        # Zurücksetzen & Bestätigen
 
     def filter_changed_hersteller(self, value):
         Helper4.FilterHandler.set_Filter(her=value)
         self.model_Liste = Helper4.load.get_model(value)
+        self.typ_comboBox.setCurrentText("")
         self.typ_comboBox.blockSignals(True)  # connect unterbrechen
         self.typ_comboBox.clear()
         self.typ_comboBox.addItem("")
         self.typ_comboBox.addItems(self.model_Liste)
         self.typ_comboBox.blockSignals(False)
         print("HERSTELLER")
+
 
     def filter_changed_typ(self, value):
         Helper4.FilterHandler.set_Filter(typ=value)
@@ -138,8 +165,16 @@ class Startseite(QMainWindow):
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
 
-        liste = self.traktor_filter_Liste
-        info_liste = self.traktor_filter_infos
+        print("ZONE BETRETEN")
+        liste = self.traktor_sorted_Liste
+        info_liste = self.traktor_sorted_infos
+
+        print(liste)
+        print(info_liste)
+
+        print("ZONE VERLASSEN")
+
+
 
         for x in range(len(liste)):
 
@@ -175,6 +210,7 @@ class Startseite(QMainWindow):
             desc_layout = QVBoxLayout()
             info_layout.addLayout(desc_layout, 4)
 
+
             ps = QLabel(f"PS: {info_liste[x][2]}")
             km = QLabel(f"Km/h: {info_liste[x][3]}")
             baujahr = QLabel(f"Baujahr: {info_liste[x][5]}")
@@ -198,9 +234,11 @@ class Startseite(QMainWindow):
             else:
                 label6 = QLabel()
 
+
             value_layout.addWidget(kaufen)
             value_layout.addWidget(label6)
             value_layout.setAlignment(label6, QtCore.Qt.AlignHCenter)
+
 
             layout.addWidget(new_widget)  # widget dem container hinzufügen
 
@@ -212,13 +250,13 @@ class Startseite(QMainWindow):
         def button_click_handler():
             if label is not None:
                 text = label
-                print(text)
                 Helper.ProductHandler.set_current_product(text)
                 switches.switch_to.product(self)
             else:
                 print("Label ist None")
 
         return button_click_handler
+
 
     def get_filtered_list(self):
 
@@ -267,9 +305,65 @@ class Startseite(QMainWindow):
 
             filtered_list.append(self.traktor_Liste[x])
 
+
         print(filtered_list)
 
         return filtered_list
+
+
+    def get_sorted_list(self, value):
+
+        sorted_list = []
+
+        sort = value if value is not None else ''
+
+        print("NEUER SORT")
+        print(sort)
+
+        liste = self.get_filtered_list()
+        liste_infos = Helper2.load.product_info(self, liste)
+
+        # zip kombiniert beide listen damit die beiden zusammen bleiben
+        neue_liste = list(zip(liste, liste_infos))
+
+        if sort == "Höchster Preis zuerst":
+            # sortiert nach preis
+            sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][4]), reverse=True)
+
+            # nur die liste mit primärschlüssel ist nötig
+            sorted_list = [item[0] for item in sorted_combined]
+
+            print("SORT!!!")
+            print(sorted_list)
+
+            self.traktor_sorted_Liste = sorted_list
+            self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
+
+        if sort == "Niedrigster Preis zuerst":
+            # sortiert nach preis
+            sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][4]), reverse=False)
+
+            # nur die liste mit primärschlüssel ist nötig
+            sorted_list = [item[0] for item in sorted_combined]
+
+            print("SORT!!!")
+            print(sorted_list)
+
+            self.traktor_sorted_Liste = sorted_list
+            self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
+
+        if not sort:
+            self.traktor_sorted_Liste = self.traktor_filter_Liste
+            self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
+
+
+
+        self.setup_waren_ui()
+
+        print("UI GELADEN")
+
+
+
 
     def empty_search_info(self):
 
@@ -287,13 +381,15 @@ class Startseite(QMainWindow):
 
         self.setup_waren_ui()
 
+
     def confirm_search_info(self):
 
         self.traktor_filter_Liste = self.get_filtered_list()
         self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
-
+        self.get_sorted_list("")
         self.setup_waren_ui()
         self.load_ui()
+
 
     def confirm_suchfeld_info(self):
         such_Inhalt = self.Lineedit_suchfeld.text()
@@ -302,7 +398,7 @@ class Startseite(QMainWindow):
 
         for index in range(len(self.datalist)):
             for item in self.datalist[index]:
-                if such_Inhalt_lower in item.lower():  # ### string in string suchen
+                if such_Inhalt_lower in item.lower():       # ### string in string suchen
                     self.filtereddatalist.append(self.datalist[index])
 
         self.setup_waren_ui()

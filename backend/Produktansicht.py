@@ -22,6 +22,7 @@ class ProductWindow(QMainWindow):
 
         # übergabeparameter
         self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)
+        print(self.product)
         self.loss = int(self.load_loss(self.product[0]))
         self.z_list = self.load_zub(self.product[0])  # kompatibles Zubehoer []
         self.spinbox = self.findChild(QSpinBox, "spinBox")
@@ -178,6 +179,7 @@ class ProductWindow(QMainWindow):
                 text = label.text()
                 Helper.AccessoriesHandler.set_current_acc(text)
                 switches.switch_to.accessories(self)
+                #switches.switch_to.accessories_Anbieter(self)
             else:
                 print("Label ist None")
 

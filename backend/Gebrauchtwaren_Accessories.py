@@ -18,10 +18,10 @@ ICON_PATH = os.path.join("..", "resources", "icons")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 
 
-class GebrauchtwarenWindow(QMainWindow):
+class GebrauchtwarenWindowAccessories(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer
-        uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
+        uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindowAccessories.ui"), self)
 
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
@@ -32,7 +32,7 @@ class GebrauchtwarenWindow(QMainWindow):
         # print(self.bidders)
 
         # Währungsumgebung laden
-        #Helper2.conf.locale_setup(self)
+        Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
         # self.add_widget()
@@ -47,16 +47,19 @@ class GebrauchtwarenWindow(QMainWindow):
         label = self.findChild(QLabel, "picture")
         label.setPixmap(pixmap)
 
-        Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
-                                 self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(locale.currency(int(self.product_info[4]), grouping=True),
-                                 self.findChild(QLabel, "alt_preis_status"))
         Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
-        Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
-        Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
-        Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
+        Helper2.replace.text(f"Zubehör - {self.product_info[0]}",
+                                 self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(locale.currency(int(self.product_info[1]), grouping=True),
+                                 self.findChild(QLabel, "alt_preis_status"))
         Helper2.load.complete_header(self)
+        Helper2.replace.text(f"{str(self.load_hers())}", self.findChild(QLabel, "comp_label"))
 
+
+
+    def load_hers(self):
+        conv_text = ", ".join(self.product_info[3:])
+        return conv_text
 
     def readInBidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
