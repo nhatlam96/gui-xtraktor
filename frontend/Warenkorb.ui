@@ -48,7 +48,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item alignment="Qt::AlignLeft">
-           <widget class="QFrame" name="frame">
+           <widget class="QFrame" name="l_header_frame">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
@@ -106,7 +106,7 @@
            </widget>
           </item>
           <item alignment="Qt::AlignRight">
-           <widget class="QFrame" name="frame_2">
+           <widget class="QFrame" name="r_header_frame">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -123,6 +123,13 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Budget:</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QLabel" name="budget_label">
                <property name="font">
@@ -198,7 +205,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="content_frame_2">
+        <widget class="QFrame" name="content_frame">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(19, 20, 24);</string>
          </property>
@@ -210,7 +217,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1">
           <item>
-           <widget class="QFrame" name="frame_4">
+           <widget class="QFrame" name="items_frame">
             <property name="styleSheet">
              <string notr="true">background-color: rgb(19, 20, 24);</string>
             </property>
@@ -264,7 +271,7 @@ border-radius: 20px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="side_frame">
+           <widget class="QFrame" name="sum_frame">
             <property name="accessibleName">
              <string/>
             </property>
@@ -286,7 +293,7 @@ border-radius: 20px;</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,6,2">
              <item>
-              <widget class="QFrame" name="frame_3">
+              <widget class="QFrame" name="logo_frame">
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(255, 87, 0);
 border-radius: 15px;
@@ -338,15 +345,15 @@ margin: 5px 0;</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>326</width>
-                  <height>415</height>
+                  <width>332</width>
+                  <height>419</height>
                  </rect>
                 </property>
                </widget>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_14">
+              <widget class="QFrame" name="buy_frame">
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>

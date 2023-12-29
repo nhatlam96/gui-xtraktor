@@ -24,7 +24,6 @@ class Startseite(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
-
         # NEUES LISTENMODEL MUSS NOCH ANGEWENDET WERDEN
         self.traktor_Liste = Helper2.load.all_traktor_data(self)
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)

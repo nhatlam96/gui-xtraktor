@@ -50,6 +50,12 @@ class ProductWindow(QMainWindow):
 
         self.show()
 
+
+    def closeEvent(self, event):
+        print("Window is closing")
+        switches.WindowHandler.release_window(ProductWindow)
+        super().closeEvent(event)  # Fenster wird wirklich geschlossen
+
     @staticmethod
     def show_fullscreen(event, pixmap):
         FullScreenImage.show_fullscreen(event, pixmap)

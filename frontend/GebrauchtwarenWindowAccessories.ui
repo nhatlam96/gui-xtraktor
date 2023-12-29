@@ -172,7 +172,7 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,3">
           <item>
            <widget class="QFrame" name="frame_1">
             <property name="frameShape">

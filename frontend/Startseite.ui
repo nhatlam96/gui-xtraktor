@@ -35,7 +35,7 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,11">
+      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0">
        <item alignment="Qt::AlignTop">
         <widget class="QFrame" name="header_frame">
          <property name="frameShape">
@@ -138,6 +138,13 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Budget:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="budget_label">
                <property name="text">
                 <string>TextLabel</string>
@@ -172,7 +179,7 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,3">
+         <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="2,6">
           <item>
            <widget class="QFrame" name="frame_4">
             <property name="frameShape">
@@ -555,7 +562,7 @@
                   <x>0</x>
                   <y>0</y>
                   <width>963</width>
-                  <height>693</height>
+                  <height>700</height>
                  </rect>
                 </property>
                </widget>

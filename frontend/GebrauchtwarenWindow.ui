@@ -110,6 +110,20 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QPushButton" name="acc_Button">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="shopping_Button">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -130,7 +144,7 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,3">
           <item>
            <widget class="QFrame" name="frame_1">
             <property name="frameShape">

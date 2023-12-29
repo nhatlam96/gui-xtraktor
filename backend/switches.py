@@ -25,8 +25,11 @@ class WindowHandler:
             WindowHandler.open_windows[window_instance] = True
             return True
         elif WindowHandler.open_windows[window_instance] is True:
+            print("TRUE")
             return False
         else:
+            WindowHandler.open_windows[window_instance] = True
+            print("FALSE")
             return True
 
     @staticmethod
@@ -47,9 +50,9 @@ class switch_to:
 
     @staticmethod
     def product(old_window):
-        if old_window is not None:
-            old_window.close()
-        ProductWindow()
+        if WindowHandler.check_window(UserprofileWindow) == True:
+            window = ProductWindow()
+            window.show()
 
     @staticmethod
     def startseite(old_window):
