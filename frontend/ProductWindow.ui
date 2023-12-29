@@ -553,6 +553,12 @@ border-radius: 15px;</string>
                   <layout class="QVBoxLayout" name="verticalLayout_8">
                    <item>
                     <widget class="QPushButton" name="buy_Button">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>35</height>
+                      </size>
+                     </property>
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
@@ -569,7 +575,6 @@ border-radius: 15px;</string>
                       <string notr="true">QPushButton#buy_Button {
 	background-color: rgb(243, 156, 18);
 	color: white;
-	max-width: 120px;
 	height: 25px;
 	border-radius: 10px;
 	

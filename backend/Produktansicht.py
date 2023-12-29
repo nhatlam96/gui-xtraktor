@@ -1,6 +1,8 @@
 import locale
 import os.path
 import csv
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
@@ -19,6 +21,7 @@ class ProductWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
+
 
         # übergabeparameter
         self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)

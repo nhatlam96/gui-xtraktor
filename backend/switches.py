@@ -49,10 +49,13 @@ class switch_to:
         Register()
 
     @staticmethod
-    def product(old_window):
-        if WindowHandler.check_window(ProductWindow) == True:
+    def product():
+        if WindowHandler.check_window(ProductWindow) is True:
             window = ProductWindow()
             window.show()
+        else:
+            WindowHandler.release_window(ProductWindow)
+            switch_to.product()
 
     @staticmethod
     def startseite(old_window):
@@ -68,7 +71,7 @@ class switch_to:
 
     @staticmethod
     def nutzer(old_window):
-        if WindowHandler.check_window(UserprofileWindow) == True:
+        if WindowHandler.check_window(UserprofileWindow) is True:
             window = UserprofileWindow()
             window.show()
 
