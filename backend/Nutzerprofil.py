@@ -1,5 +1,5 @@
 import os.path
-
+import switches
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
@@ -12,9 +12,9 @@ class UserprofileWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Nutzerprofil.ui"), self)
+        self.destroyed.connect(lambda: self.printt())
 
         Helper2.load.complete_header(self)
-
         user = UserHandler.get_current_user()[0]
         display_userprofile(self, user)
 
@@ -29,7 +29,21 @@ class UserprofileWindow(QMainWindow):
 
         self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
 
+        print("AUFRUF NUTZER")
+
         self.show()
+
+    def closeEvent(self, event):
+        print("Window is closing")
+        switches.WindowHandler.release_window(UserprofileWindow)
+        super().closeEvent(event)  # Fenster wird wirklich geschlossen
+
+
+    def close_window(self):
+        self.close()
+
+    def printt(self):
+        print("DESTROY")
 
     def handle_save_changes(self):
         confirmation = show_toast_confirmation(self, "Are you sure you want to save changes?")

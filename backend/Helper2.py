@@ -4,7 +4,6 @@ import os.path
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-
 import Helper_Accounts
 import switches
 

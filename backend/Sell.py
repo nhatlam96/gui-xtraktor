@@ -70,10 +70,23 @@ class SellWindow(QMainWindow):
             else:
                 label2 = QLabel()
 
-            label3 = QLabel("Beschreibung")
+            info_layout.addWidget(label2, 1)
 
-            info_layout.addWidget(label2)
-            info_layout.addWidget(label3)
+
+            desc_layout = QVBoxLayout()
+            info_layout.addLayout(desc_layout, 3)
+
+            if self.inventar_liste[x][2] == "z":
+                pass
+            else:
+                ps = QLabel(f"PS: {self.info_liste[x][2]}")
+                km = QLabel(f"Km/h: {self.info_liste[x][3]}")
+                baujahr = QLabel(f"Baujahr: {self.info_liste[x][5]}")
+
+                desc_layout.addWidget(ps)
+                desc_layout.addWidget(km)
+                desc_layout.addWidget(baujahr)
+
 
             value_layout = QVBoxLayout()
             inner_layout.addLayout(value_layout, 3)
@@ -92,6 +105,9 @@ class SellWindow(QMainWindow):
             label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2],
                                           spin=spinbox: self.make_button_click_handler(label, spin.value(), typ))
 
+
+            value_innerlayout = QHBoxLayout()
+
             if self.inventar_liste[x][2] == "t":
                 label6 = QLabel(locale.currency(int(self.info_liste[x][4]), grouping=True))
             elif self.inventar_liste[x][2] == "z":
@@ -99,11 +115,16 @@ class SellWindow(QMainWindow):
             else:
                 label6 = QLabel()
 
+            label7 = QLabel(f"Alter: ")
+
+            value_innerlayout.addWidget(label7)
+            value_innerlayout.addWidget(label6)
+
             anz_layout.addWidget(label4)
             anz_layout.addWidget(spinbox)
 
             value_layout.addWidget(label5)
-            value_layout.addWidget(label6)
+            value_layout.addLayout(value_innerlayout)
 
             layout.addWidget(new_widget)
 

@@ -13,11 +13,28 @@ from Login import Login
 from Warenkorb import WarenkorbWindow
 from Sell import SellWindow
 from Gebrauchtwaren import GebrauchtwarenWindow
-
-
-
-
 from Gebrauchtwaren_Accessories import GebrauchtwarenWindowAccessories
+
+class WindowHandler:
+    open_windows = {}
+
+    @staticmethod
+    def check_window(window_instance):
+        if window_instance not in WindowHandler.open_windows:
+            print("ADD")
+            WindowHandler.open_windows[window_instance] = True
+            return True
+        elif WindowHandler.open_windows[window_instance] is True:
+            return False
+        else:
+            return True
+
+    @staticmethod
+    def release_window(window_instance):
+        print("RELEASE")
+        WindowHandler.open_windows[window_instance] = False
+
+
 
 
 class switch_to:
@@ -48,9 +65,10 @@ class switch_to:
 
     @staticmethod
     def nutzer(old_window):
-        if old_window is not None:
-            old_window.close()
-        UserprofileWindow()
+        if WindowHandler.check_window(UserprofileWindow) == True:
+            window = UserprofileWindow()
+            window.show()
+
 
     @staticmethod
     def accessories(old_window):
