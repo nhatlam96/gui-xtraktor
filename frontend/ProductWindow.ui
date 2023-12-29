@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>1000</height>
+    <width>1400</width>
+    <height>1200</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -279,7 +279,10 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,9">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
              <item alignment="Qt::AlignHCenter">
               <widget class="QLabel" name="name_label">
                <property name="sizePolicy">
@@ -374,7 +377,7 @@ margin-bottom: 3px;</string>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,1">
                    <item>
                     <widget class="QLabel" name="bestand_label">
                      <property name="font">
@@ -431,6 +434,32 @@ margin-bottom: 3px;</string>
                  </widget>
                 </item>
                 <item>
+                 <widget class="QFrame" name="frame_10">
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_15">
+                   <item>
+                    <widget class="QLabel" name="preis_label">
+                     <property name="text">
+                      <string>Stückpreis:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="preis_status">
+                     <property name="text">
+                      <string>%%%</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QFrame" name="frame_12">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(52, 73, 94);
@@ -445,7 +474,7 @@ margin-top: 3px;</string>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_14">
                    <item>
-                    <widget class="QSpinBox" name="spinBox_2">
+                    <widget class="QSpinBox" name="anz_spinBox">
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
@@ -456,10 +485,80 @@ margin-top: 3px;</string>
                       <string notr="true">background-color: rgb(127, 140, 141);
 color: white;</string>
                      </property>
+                     <property name="suffix">
+                      <string> Stück</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_6">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(52, 73, 94);
+border-radius: 15px;</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_6">
+                   <item>
+                    <widget class="QLabel" name="ges_label">
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;</string>
+                     </property>
+                     <property name="text">
+                      <string>Gesamtpreis:</string>
+                     </property>
                     </widget>
                    </item>
                    <item>
+                    <widget class="QLabel" name="ges_status">
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;
+</string>
+                     </property>
+                     <property name="text">
+                      <string>0,00 €</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_11">
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                   <item>
                     <widget class="QPushButton" name="buy_Button">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
@@ -508,55 +607,6 @@ QPushButton#buy_Button:pressed {
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
                 <item>
-                 <widget class="QFrame" name="frame_6">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(52, 73, 94);
-border-radius: 15px;</string>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::Box</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_6">
-                   <item>
-                    <widget class="QLabel" name="preis_label">
-                     <property name="font">
-                      <font>
-                       <pointsize>12</pointsize>
-                       <bold>true</bold>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: white;</string>
-                     </property>
-                     <property name="text">
-                      <string>Preis:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="preis_status">
-                     <property name="font">
-                      <font>
-                       <pointsize>12</pointsize>
-                       <bold>true</bold>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: white;
-</string>
-                     </property>
-                     <property name="text">
-                      <string>%%%</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QFrame" name="frame_7">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(52, 73, 94);
@@ -570,7 +620,7 @@ border-radius: 15px;</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_5">
                    <item>
-                    <widget class="QSpinBox" name="spinBox">
+                    <widget class="QSpinBox" name="wert_spinBox">
                      <property name="baseSize">
                       <size>
                        <width>3</width>
@@ -653,6 +703,32 @@ border-radius: 15px;</string>
                      <property name="styleSheet">
                       <string notr="true">color: white;</string>
                      </property>
+                     <property name="text">
+                      <string>0,00 €</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_17">
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_16">
+                   <item>
+                    <widget class="QLabel" name="rest_label">
+                     <property name="text">
+                      <string>Restwert:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="rest_status">
                      <property name="text">
                       <string>0,00 €</string>
                      </property>
@@ -878,8 +954,8 @@ border-radius: 15px;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>946</width>
-               <height>346</height>
+               <width>1346</width>
+               <height>423</height>
               </rect>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_9"/>

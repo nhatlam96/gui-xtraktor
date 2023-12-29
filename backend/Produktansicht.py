@@ -25,7 +25,6 @@ class ProductWindow(QMainWindow):
         print(self.product)
         self.loss = int(self.load_loss(self.product[0]))
         self.z_list = self.load_zub(self.product[0])  # kompatibles Zubehoer []
-        self.spinbox = self.findChild(QSpinBox, "spinBox")
         self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
@@ -42,8 +41,8 @@ class ProductWindow(QMainWindow):
 
         # Aktionen
         self.buy_Button.clicked.connect(lambda: self.buy(self.product[1], self.anz))
-        self.spinBox.valueChanged.connect(lambda value: self.calc_wert(self.product[4], self.loss, value))
-        self.spinBox_2.valueChanged.connect(lambda value: self.set_anz(value))
+        self.wert_spinBox.valueChanged.connect(lambda value: self.calc_wert(value))
+        self.anz_spinBox.valueChanged.connect(lambda value: self.set_anz(value))
 
         # Mausevent mit Bild verknüpfen
         picture_label = self.findChild(QLabel, "picture")
@@ -68,6 +67,22 @@ class ProductWindow(QMainWindow):
 
     def set_anz(self, value):
         self.anz = value
+        self.calc_preis(value)
+
+    def calc_preis(self, value):
+        preis = int(self.product[4])
+        new_value = preis * value
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
+
+    def calc_wert(self, jahre):
+        normalPreis = int(self.product[4])
+        verlustRate = (100 - self.loss) / 100
+        new_value = int(normalPreis * (verlustRate ** jahre)) # ** -> Potenz
+        Helper2.replace.text(locale.currency(new_value - normalPreis , grouping=True), self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
+
+
+
 
     def load_zub(self, model):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
@@ -185,13 +200,7 @@ class ProductWindow(QMainWindow):
 
         return button_click_handler
 
-    def calc_wert(self, product, loss, jahre):
-        normalPreis = int(product)
-        verlustRate = (100 - loss) / 100
-        new_value = normalPreis * (verlustRate) ** jahre
-        # Zinseszinzprinzip:
-        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
-        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+
 
     def buy(self, model, anz):
         if anz > 0:
@@ -200,5 +209,5 @@ class ProductWindow(QMainWindow):
                               QMessageBox.Ok, 2500)
             print("aufruf buy()")
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")
-            self.spinBox_2.setValue(0)
+            self.anz_spinBox.setValue(0)
             print(Helper.BuyHandler.get_current_shoppinglist())

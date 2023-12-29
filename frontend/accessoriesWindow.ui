@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>700</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -61,7 +61,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item alignment="Qt::AlignLeft|Qt::AlignTop">
-           <widget class="QFrame" name="frame">
+           <widget class="QFrame" name="l_header_frame">
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
@@ -103,7 +103,7 @@
            </widget>
           </item>
           <item alignment="Qt::AlignRight|Qt::AlignTop">
-           <widget class="QFrame" name="frame_2">
+           <widget class="QFrame" name="r_header_frame">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -201,7 +201,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QFrame" name="frame_1">
+           <widget class="QFrame" name="zub_frame">
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
@@ -245,16 +245,16 @@
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="frame_3">
+           <widget class="QFrame" name="info_frame">
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="2,1">
+            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="3,1,1">
              <item>
-              <widget class="QFrame" name="frame_5">
+              <widget class="QFrame" name="buy_frame">
                <property name="frameShape">
                 <enum>QFrame::Box</enum>
                </property>
@@ -379,13 +379,44 @@
                    <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="ges_status">
                      <property name="text">
-                      <string>%%%</string>
+                      <string>0,00 €</string>
                      </property>
                     </widget>
                    </item>
                   </layout>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QFrame" name="frame_7">
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <item>
+                    <widget class="QPushButton" name="buy_Button">
+                     <property name="text">
+                      <string>Kaufen</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="wert_frame">
+               <property name="frameShape">
+                <enum>QFrame::Box</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
                 <item>
                  <widget class="QFrame" name="frame_10">
                   <property name="frameShape">
@@ -424,7 +455,7 @@
                    <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="wert_status">
                      <property name="text">
-                      <string>%%%</string>
+                      <string>0,00 €</string>
                      </property>
                     </widget>
                    </item>
@@ -432,18 +463,25 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_7">
+                 <widget class="QFrame" name="frame_14">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
                    <item>
-                    <widget class="QPushButton" name="buy_Button">
+                    <widget class="QLabel" name="rest_label">
                      <property name="text">
-                      <string>Kaufen</string>
+                      <string>Restwert:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item alignment="Qt::AlignHCenter">
+                    <widget class="QLabel" name="rest_status">
+                     <property name="text">
+                      <string>0,00 €</string>
                      </property>
                     </widget>
                    </item>
@@ -454,7 +492,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_8">
+              <widget class="QFrame" name="hers_frame">
                <property name="frameShape">
                 <enum>QFrame::Box</enum>
                </property>

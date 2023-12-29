@@ -101,11 +101,13 @@ class accessoriesWindow(QMainWindow):
                 scaled_pixmap = pixmap.scaled(64, 64)
                 return scaled_pixmap
 
-
-    def calc_wert(self, value):
-        preis = int(self.product[1].replace(".", ""))
-        new_value = -(value * (preis * self.loss / 100)) if (value * (preis * self.loss / 100)) < preis else -preis
-        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+    def calc_wert(self, jahre):
+        normalPreis = int(self.product[1])
+        verlustRate = (100 - self.loss) / 100
+        new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz
+        Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
+                             self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
 
 
     def calc_preis(self, value):
