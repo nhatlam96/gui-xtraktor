@@ -50,7 +50,7 @@ class switch_to:
 
     @staticmethod
     def product(old_window):
-        if WindowHandler.check_window(UserprofileWindow) == True:
+        if WindowHandler.check_window(ProductWindow) == True:
             window = ProductWindow()
             window.show()
 
