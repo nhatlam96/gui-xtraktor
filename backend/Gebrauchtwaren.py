@@ -23,6 +23,9 @@ class GebrauchtwarenWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
 
+        print("AUFRUF GEBRAUCHT ACCESSORIES")
+
+
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
@@ -42,6 +45,11 @@ class GebrauchtwarenWindow(QMainWindow):
 
         self.show()
 
+    def closeEvent(self, event):
+        print("Window is closing")
+        switches.WindowHandler.release_window(GebrauchtwarenWindow)
+        super().closeEvent(event)  # Fenster wird wirklich geschlossen
+
     def load_ui(self):
         pixmap = Helper2.load.product_pic(self, self.product)
         label = self.findChild(QLabel, "picture")
@@ -56,7 +64,6 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
-
 
     def readInBidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:

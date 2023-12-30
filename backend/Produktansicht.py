@@ -4,6 +4,7 @@ import csv
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
+import Helper_Accounts
 import Helper
 import switches
 import Helper2
@@ -37,7 +38,6 @@ class ProductWindow(QMainWindow):
 
         # Produktseite laden
         self.load_ui()
-        self.load_lager()
         self.load_pic(self.product)
 
         # Aktionen
@@ -72,6 +72,13 @@ class ProductWindow(QMainWindow):
         Helper2.replace.text(self.product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self.product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
+
+        if Helper_Accounts.UserHandler.get_current_user()[3] == "Admin":
+            Helper2.replace.text("nachbestellen", self.findChild(QPushButton, "buy_Button"))
+            Helper2.replace.text(self.product[6], self.findChild(QLabel, "bestand_icon"))
+        else:
+            self.load_lager()
+
 
 
     def set_anz(self, value):
@@ -112,9 +119,11 @@ class ProductWindow(QMainWindow):
     def load_lager(self):
         if int(self.product[6]) > 0:
             Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"),self.findChild(QLabel, "bestand_icon"))
+            self.bestand_icon.setMaximumSize(32, 32)
             return True
         else:
             Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"),self.findChild(QLabel, "bestand_icon"))
+            self.bestand_icon.setMaximumSize(32, 32)
             self.buy_Button.setDisabled(True)
             Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False

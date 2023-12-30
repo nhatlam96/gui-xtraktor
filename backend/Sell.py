@@ -19,24 +19,33 @@ class SellWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Sell.ui"), self)
 
-        Helper2.conf.locale_setup(self)
-        self.load_ui()
+        print("AUFRUF SELL")
 
+        # Übergabeparameter
         self.inventar_liste = Helper.InvHandler.get_inv()
+        print(self.inventar_liste)
         self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
         self.bidders_liste = Helper_Accounts.get_bidders()
 
-        self.buttons_tab1 = {}
-        self.create_tab1_content()
-        self.add_bidders_tab()
+        # Lokale Umbegbung laden
+        Helper2.conf.locale_setup(self)
 
+        # Buttons von dyn. Layout
+        self.buttons_tab1 = {}
+
+        # UI laden
+        self.load_ui()
+
+        print("WORKS")
         self.show()
 
     def load_ui(self):
         Helper2.load.complete_header(self)
+        self.create_content()
+        self.add_bidders_tab()
 
 
-    def create_tab1_content(self):
+    def create_content(self):
 
         scroll_area = self.findChild(QScrollArea, "scrollArea")
 
@@ -159,6 +168,6 @@ class SellWindow(QMainWindow):
         if anz > 0:
             Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
             if typ == "t":
-                switches.switch_to.Sell_item(self)
+                switches.switch_to.Sell_item()
             else:
-                switches.switch_to.Sell_item_Access(self)
+                switches.switch_to.Sell_item_Access()

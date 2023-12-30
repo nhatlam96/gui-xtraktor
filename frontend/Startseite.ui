@@ -314,7 +314,7 @@
                 <item>
                  <widget class="QSlider" name="horizontalSlider_leistung">
                   <property name="maximum">
-                   <number>900</number>
+                   <number>700</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -359,7 +359,7 @@
                 <item>
                  <widget class="QSlider" name="horizontalSlider_km">
                   <property name="maximum">
-                   <number>500</number>
+                   <number>100</number>
                   </property>
                   <property name="singleStep">
                    <number>5</number>
@@ -500,9 +500,9 @@
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="7,1,2">
+               <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="5,2,2">
                 <item>
-                 <widget class="QLineEdit" name="Lineedit_suchfeld">
+                 <widget class="QLineEdit" name="searchbar_Lineedit">
                   <property name="font">
                    <font>
                     <italic>true</italic>
@@ -517,6 +517,13 @@
                  </widget>
                 </item>
                 <item>
+                 <widget class="QPushButton" name="search_pushButton">
+                  <property name="text">
+                   <string>suchen</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QComboBox" name="sort_comboBox">
                   <property name="editable">
                    <bool>false</bool>
@@ -526,13 +533,6 @@
                   </property>
                   <property name="placeholderText">
                    <string>sortieren</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_suchen">
-                  <property name="text">
-                   <string>suchen</string>
                   </property>
                  </widget>
                 </item>

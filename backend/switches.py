@@ -14,6 +14,10 @@ class WindowHandler:
 
     @staticmethod
     def check_window(window_instance):
+
+        # True status heißt, das Fenster ist geöffnet
+        # True return heißt, fenster darf geöffnet werden
+
         if window_instance not in WindowHandler.open_windows:
             print("ADD")
             WindowHandler.open_windows[window_instance] = True
@@ -53,9 +57,14 @@ class switch_to:
 
     @staticmethod
     def startseite(old_window):
-        if old_window is not None:
+        if WindowHandler.check_window(Startseite) is True:
             old_window.close()
-        Startseite()
+            window = Startseite()
+            window.show()
+        else:
+            old_window.close()
+
+
 
     @staticmethod
     def login(old_window):
@@ -72,9 +81,12 @@ class switch_to:
 
     @staticmethod
     def accessories(old_window):
-        if old_window is not None:
-            old_window.close()
-        accessoriesWindow()
+        if WindowHandler.check_window(accessoriesWindow) is True:
+            window = accessoriesWindow()
+            window.show()
+        else:
+            WindowHandler.release_window(accessoriesWindow)
+            switch_to.accessories()
 
     @staticmethod
     def shopping_cart(old_window):
@@ -89,14 +101,12 @@ class switch_to:
         SellWindow()
 
     @staticmethod
-    def Sell_item(old_window):
-        if old_window is not None:
-            old_window.close()
-        GebrauchtwarenWindow()
-
+    def Sell_item():
+        if WindowHandler.check_window(GebrauchtwarenWindow) is True:
+            window = GebrauchtwarenWindow()
+            window.show()
     @staticmethod
-    def Sell_item_Access(old_window):
-        if old_window is not None:
-            old_window.close()
-        window = GebrauchtwarenWindowAccessories()
-        window.show()
+    def Sell_item_Access():
+        if WindowHandler.check_window(GebrauchtwarenWindowAccessories) is True:
+            window = GebrauchtwarenWindowAccessories()
+            window.show()

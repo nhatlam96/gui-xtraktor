@@ -6,6 +6,7 @@ import switches
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
+import Helper
 from Helper import show_toast, show_toast_confirmation
 import Helper2
 from Helper_Accounts import add_user_to_csv, UserHandler, toggle_password_visibility
@@ -48,6 +49,7 @@ class UserprofileWindow(QMainWindow):
         self.close()
 
     def logout(self):
+        Helper.BuyHandler.clear_current_shoppinglist()
         switches.switch_to.login(self)
 
     def handle_save_changes(self):

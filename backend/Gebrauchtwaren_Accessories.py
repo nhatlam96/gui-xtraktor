@@ -23,6 +23,8 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindowAccessories.ui"), self)
 
+        print("AUFRUF GEBRAUCHT ACCESSORIES")
+
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
@@ -41,6 +43,11 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         self.load_ui()
 
         self.show()
+
+    def closeEvent(self, event):
+        print("Window is closing")
+        switches.WindowHandler.release_window(GebrauchtwarenWindowAccessories)
+        super().closeEvent(event)  # Fenster wird wirklich geschlossen
 
     def load_ui(self):
         pixmap = Helper2.load.product_pic(self, self.product)

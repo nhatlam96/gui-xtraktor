@@ -46,7 +46,6 @@ class Startseite(QMainWindow):
         self.zubehoer_filter_infos = Helper2.load.product_info(self, self.zubehoer_filter_Liste)"""
 
         # Signale Filter
-        self.pushButton_suchen.clicked.connect(self.confirm_suchfeld_info)
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
         self.typ_comboBox.currentTextChanged.connect(lambda value: self.filter_changed_typ(value))
         self.baujahr_spinBox.valueChanged.connect(lambda value: self.filter_changed_baujahr(value))
@@ -59,7 +58,7 @@ class Startseite(QMainWindow):
 
         # Signale UI
         self.sort_comboBox.currentTextChanged.connect(lambda value: self.get_sorted_list(value))
-
+        self.search_pushButton.clicked.connect(lambda: self.search_handler())
 
         # lokale Umgebung laden
         Helper2.conf.locale_setup(self)
@@ -73,7 +72,10 @@ class Startseite(QMainWindow):
 
         self.show()
 
-
+    def closeEvent(self, event):
+        print("Window is closing")
+        switches.WindowHandler.release_window(Startseite)
+        super().closeEvent(event)  # Fenster wird wirklich geschlossen
 
     def load_ui(self):
         Helper2.load.complete_header(self)
@@ -83,7 +85,7 @@ class Startseite(QMainWindow):
         self.sort_comboBox.addItems([""])
         self.sort_comboBox.addItems(["Höchster Preis zuerst", "Niedrigster Preis zuerst"])
         self.sort_comboBox.blockSignals(False)
-
+        self.home_Button.blockSignals(True)
 
 
         self.load_filter_ui()
@@ -391,18 +393,35 @@ class Startseite(QMainWindow):
         self.load_ui()
 
 
-    def confirm_suchfeld_info(self):
-        such_Inhalt = self.Lineedit_suchfeld.text()
-        such_Inhalt_lower = such_Inhalt.lower()
-        self.filtereddatalist = []
+    def search_handler(self):
+        search_text = self.searchbar_Lineedit.text() if self.searchbar_Lineedit.text() is not None else ""
+        print(f"\"{search_text}\"")
 
-        for index in range(len(self.datalist)):
-            for item in self.datalist[index]:
-                if such_Inhalt_lower in item.lower():       # ### string in string suchen
-                    self.filtereddatalist.append(self.datalist[index])
+        sorted_list = []
 
-        self.setup_waren_ui()
+        if search_text == "":
+            self.traktor_filter_Liste = self.traktor_Liste
+            self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
+        else:
+            print("SEARCHBAR SUCHT")
 
-    def confirm_suchfeld_info_with_enter(self):
-        self.setup_waren_ui()
-        self.load_ui()
+            liste = self.get_filtered_list()
+            liste_infos = Helper2.load.product_info(self, liste)
+
+            filtered_list = []
+
+            for key, info in zip(liste, liste_infos):
+                if search_text.lower() in info[0].lower() or search_text.lower() in info[1].lower():
+                    print("GEFUNDEN")
+                    print(info[0])
+                    print(info[1])
+                    print(search_text)
+                    print(key)
+                    # Überprüfe, ob der Suchtext in den ersten beiden Elementen von info enthalten ist
+                    filtered_list.append(key)
+
+            print(filtered_list)
+
+            self.setup_waren_ui()
+
+

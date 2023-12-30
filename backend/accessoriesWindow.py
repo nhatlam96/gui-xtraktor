@@ -6,6 +6,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+import switches
 import Helper
 import Helper2
 import Helper_Accounts
@@ -49,6 +50,11 @@ class accessoriesWindow(QMainWindow):
 
         self.show()
 
+
+    def closeEvent(self, event):
+        print("Window is closing")
+        switches.WindowHandler.release_window(accessoriesWindow)
+        super().closeEvent(event)  # Fenster wird wirklich geschlossen
 
     def load_ui(self):
         Helper2.replace.text(self.product[0], self.findChild(QLabel, "name_label"))

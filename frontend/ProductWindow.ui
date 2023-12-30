@@ -377,7 +377,7 @@ margin-bottom: 3px;</string>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,1">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0">
                    <item>
                     <widget class="QLabel" name="bestand_label">
                      <property name="font">
@@ -400,8 +400,8 @@ margin-bottom: 3px;</string>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>24</width>
-                       <height>24</height>
+                       <width>16777215</width>
+                       <height>16777215</height>
                       </size>
                      </property>
                      <property name="baseSize">
