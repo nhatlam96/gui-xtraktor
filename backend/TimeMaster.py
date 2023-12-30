@@ -80,12 +80,11 @@ def update_program_time(months):
     return saved_time
 
 
-# get_time_difference_since_program_start() moved to Helper.py
+# get_time_difference_since_program_time() moved to Helper.py
 
 
-# initialisiert die LaunchTime bei jedem Programmstart
+# initialises the LaunchTime at every program launch
 launch_time = save_launch_time(get_program_time())
 while True:
     time.sleep(10)
     update_program_time(2)
-    # print("Delta in Years: ", get_time_difference_since_program_start())
