@@ -3,6 +3,8 @@ import time
 
 import arrow
 
+from backend.Helper import get_program_time
+
 PROGRAM_TIME_FILE_PATH = os.path.join("..", "resources", "csv", "ProgramTime.csv")
 
 
@@ -14,13 +16,7 @@ def get_launch_time():
         return arrow.get(launch_time_str, "YYYY-MM-DD HH:mm:ss")
 
 
-def get_program_time():
-    with open(PROGRAM_TIME_FILE_PATH, 'r') as time_file:
-        # Skip the header line
-        time_file.readline().strip()
-        _, program_time_str = time_file.readline().strip().split(',')
-        return arrow.get(program_time_str, "YYYY-MM-DD HH:mm:ss")
-
+# get_program_time() moved to Helper.py
 
 def save_program_time(program_time):
     program_time_formatted = program_time.format("YYYY-MM-DD HH:mm:ss")
@@ -64,7 +60,7 @@ def save_launch_time(program_time):
     # Update the launch_time
     program_time_extracted = lines[1].split(",")[1].strip()
     updated_line = f"{launch_time_formatted},{program_time_extracted}\n"
-    lines[0] = updated_line
+    lines[1] = updated_line
 
     # Write the updated lines back to the file
     with open(PROGRAM_TIME_FILE_PATH, 'w') as time_file:
@@ -99,7 +95,7 @@ def get_time_difference_since_program_start():
 
 
 # initialisiert die LaunchTime bei jedem Programmstart
-launch_time = get_program_time()
+launch_time = save_launch_time(get_program_time())
 while True:
     time.sleep(10)
     update_program_time(2)

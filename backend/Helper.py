@@ -1,5 +1,6 @@
 import os
 
+import arrow
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMessageBox
 
@@ -159,3 +160,11 @@ def show_toast(message, icon, button, time_in_ms):
 
 def show_toast_confirmation(self, question):
     return QMessageBox.question(self, "Confirmation", question, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+
+def get_program_time():
+    with open(os.path.join("..", "resources", "csv", "ProgramTime.csv"), 'r') as time_file:
+        # Skip the header line
+        time_file.readline().strip()
+        _, program_time_str = time_file.readline().strip().split(',')
+        return arrow.get(program_time_str, "YYYY-MM-DD HH:mm:ss")

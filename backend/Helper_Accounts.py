@@ -202,39 +202,26 @@ def readInventar():  # Get
     return userData
 
 
-def writeInventar(modellName, neueAnzahl, t_z):
+def writeInventar(modell_name, anzahl, t_z, timestamp):
     user = UserHandler.get_current_user()
-    found = 0
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
-        data = list(csv.reader(file))
+        inventar_list = list(csv.reader(file))
 
-    if neueAnzahl > 0:  # > 0 = update
-        for row in data:
-            if user in row and modellName in row:  # update existing
-                row[1] = neueAnzahl  # Push
-                found = 1
-
-        if found == 0:
-            data.append([modellName, neueAnzahl, t_z, user[0]])  # Post
-
-    else:
-        # 0 = delete
-        for row in data:
-            if user in row and modellName in row:  # find rows to delete
-                # Delete
-                data.remove(row)
+    # at least one item must be ordered
+    if anzahl > 0:
+        inventar_list.append([modell_name, anzahl, t_z, user[0], timestamp])
 
     # key=lambda data: data[0]*/)
     # sort by user
-    sortedData = sorted(data)
+    sorted_inv_by_user = sorted(inventar_list)
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
-        csv.writer(file).writerows(sortedData)
+        csv.writer(file).writerows(sorted_inv_by_user)
         return True
 
 
 def get_bidders():
-    with open(BIDDERS_FILE_PATH , mode='r') as csvfile:
+    with open(BIDDERS_FILE_PATH, mode='r') as csvfile:
         liste = []
         reader = csv.reader(csvfile)
         for row in reader:

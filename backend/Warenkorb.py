@@ -8,6 +8,7 @@ import Helper
 import Helper2
 import Helper_Accounts
 from Helper_Accounts import UserHandler, update_userBalance
+from backend.Helper import get_program_time
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -71,7 +72,9 @@ class WarenkorbWindow(QMainWindow):
                     # genau hier drinnen > . <
 
                     for item in self.shopping_list:
-                        Helper_Accounts.writeInventar(item[0], item[1], item[2])
+                        Helper_Accounts.writeInventar(item[0], item[1], item[2], get_program_time().format("YYYY-MM"
+                                                                                                           "-DD "
+                                                                                                           "HH:mm:ss"))
 
                     Helper.BuyHandler.clear_current_shoppinglist()
                     self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
