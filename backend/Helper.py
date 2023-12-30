@@ -16,8 +16,8 @@ class AccessoriesHandler:
         return AccessoriesHandler.current_acc
 
     @staticmethod
-    def set_current_acc(Accessory):
-        AccessoriesHandler.current_acc = Accessory
+    def set_current_acc(accessory):
+        AccessoriesHandler.current_acc = accessory
 
 
 class ProductHandler:
@@ -168,14 +168,15 @@ def get_program_time():
 
 
 # für die Berechnung der Wertminderungen
-def get_time_difference_since_program_start(buy_timestamp):
+def get_time_difference_since_program_time(buy_timestamp_str):
+    # Parse the buy_timestamp string to an Arrow object
+    buy_timestamp = arrow.get(buy_timestamp_str, "YYYY-MM-DD HH:mm:ss")
     current_time = get_program_time()
     difference = current_time - buy_timestamp
 
     # Calculate the difference in years
     years = difference.days / 365.25
 
-    # Format the result to have one decimal place
-    formatted_years = "{:.2f}".format(years)
-
+    # Convert the result to a float with one decimal place and take its absolute value
+    formatted_years = abs(float("{:.2f}".format(years)))
     return formatted_years

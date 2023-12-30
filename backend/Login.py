@@ -4,10 +4,10 @@ import subprocess
 import sys
 
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-import switches
 import Helper
+import switches
 from Helper import show_toast
 from Helper_Accounts import UserHandler, check_credentials
 
@@ -31,12 +31,9 @@ class Login(QMainWindow):
 
         self.show()
 
-
-
     def load_ui(self):
         self.usernameLineEdit.setText("Sieglinde")
         self.passwordLineEdit.setText("1234")
-
 
     def login_check(self):
         username = self.usernameLineEdit.text()
@@ -46,7 +43,6 @@ class Login(QMainWindow):
             UserHandler.set_current_user(self, username)
             Helper.InvHandler.def_inv()
             switches.switch_to.startseite(self)
-            # show_toast("Login successful!", QMessageBox.Information, QMessageBox.Ok, 1750)
         else:
             show_toast("Invalid credentials!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
