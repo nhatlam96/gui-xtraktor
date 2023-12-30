@@ -212,9 +212,8 @@ def writeInventar(modell_name, anzahl, t_z, timestamp):
     if anzahl > 0:
         inventar_list.append([modell_name, anzahl, t_z, user[0], timestamp])
 
-    # key=lambda data: data[0]*/)
-    # sort by user
-    sorted_inv_by_user = sorted(inventar_list)
+    # sort by user (index 3 in each row)
+    sorted_inv_by_user = sorted(inventar_list, key=lambda data: data[3])
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(sorted_inv_by_user)
         return True

@@ -168,3 +168,17 @@ def get_program_time():
         time_file.readline().strip()
         _, program_time_str = time_file.readline().strip().split(',')
         return arrow.get(program_time_str, "YYYY-MM-DD HH:mm:ss")
+
+
+# für die Berechnung der Wertminderungen
+def get_time_difference_since_program_start(buy_timestamp):
+    current_time = get_program_time()
+    difference = current_time - buy_timestamp
+
+    # Calculate the difference in years
+    years = difference.days / 365.25
+
+    # Format the result to have one decimal place
+    formatted_years = "{:.2f}".format(years)
+
+    return formatted_years

@@ -80,18 +80,7 @@ def update_program_time(months):
     return saved_time
 
 
-# für die Berechnung der Wertminderungen
-def get_time_difference_since_program_start():
-    current_time = get_program_time()
-    difference = current_time - launch_time
-
-    # Calculate the difference in years
-    years = difference.days / 365.25
-
-    # Format the result to have one decimal place
-    formatted_years = "{:.2f}".format(years)
-
-    return formatted_years
+# get_time_difference_since_program_start() moved to Helper.py
 
 
 # initialisiert die LaunchTime bei jedem Programmstart
