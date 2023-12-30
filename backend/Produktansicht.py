@@ -1,8 +1,6 @@
 import locale
 import os.path
 import csv
-
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
@@ -22,12 +20,12 @@ class ProductWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
 
+        print("AUFRUF PRODUKT")
 
         # übergabeparameter
         self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)
-        print(self.product)
-        self.loss = int(self.load_loss(self.product[0]))
-        self.z_list = self.load_zub(self.product[0])  # kompatibles Zubehoer []
+        self.loss = int(Helper2.load.loss(self.product[0]))
+        self.z_list = self.load_zub()  # kompatibles Zubehoer []
         self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
 
@@ -39,7 +37,7 @@ class ProductWindow(QMainWindow):
 
         # Produktseite laden
         self.load_ui()
-        self.load_lager(self.product)
+        self.load_lager()
         self.load_pic(self.product)
 
         # Aktionen
@@ -63,6 +61,7 @@ class ProductWindow(QMainWindow):
     def show_fullscreen(event, pixmap):
         FullScreenImage.show_fullscreen(event, pixmap)
 
+
     def load_ui(self):
         Helper2.conf.locale_setup(self)
         Helper2.replace.text(f"{self.product[0]} - {self.product[1]}",
@@ -73,6 +72,7 @@ class ProductWindow(QMainWindow):
         Helper2.replace.text(self.product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self.product[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
+
 
     def set_anz(self, value):
         self.anz = value
@@ -93,7 +93,7 @@ class ProductWindow(QMainWindow):
 
 
 
-    def load_zub(self, model):
+    def load_zub(self):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
 
         with open(pfad, mode="r") as file:
@@ -102,30 +102,19 @@ class ProductWindow(QMainWindow):
 
             for row in csv_reader:
                 for column in row:
-                    if model == column:
+                    if self.product[0] == column:
                         data_list.append(row)
                         break
 
             return data_list
 
-    def load_loss(self, platzhalter):
-        pfad = os.path.join(CSV_PATH, r"Wertminderung.csv")
-        with open(pfad, mode="r") as file:
-            for row in csv.reader(file):
-                if row[0] == platzhalter:
-                    return int(row[1])
-            return 0
 
-    def load_lager(self, row):
-        if int(row[6]) > 0:
-            Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"),
-                                self.findChild(QLabel, "bestand_icon")
-                                )
+    def load_lager(self):
+        if int(self.product[6]) > 0:
+            Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"),self.findChild(QLabel, "bestand_icon"))
             return True
         else:
-            Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"),
-                                self.findChild(QLabel, "bestand_icon")
-                                )
+            Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"),self.findChild(QLabel, "bestand_icon"))
             self.buy_Button.setDisabled(True)
             Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
@@ -200,8 +189,7 @@ class ProductWindow(QMainWindow):
     def make_button_click_handler(self, label):
         def button_click_handler():
             if label is not None:
-                text = label.text()
-                Helper.AccessoriesHandler.set_current_acc(text)
+                Helper.AccessoriesHandler.set_current_acc(label.text())
                 switches.switch_to.accessories(self)
                 #switches.switch_to.accessories_Anbieter(self)
             else:

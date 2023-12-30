@@ -20,6 +20,8 @@ class WarenkorbWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Warenkorb.ui"), self)
 
+        print("AUFRUF WARENKORB")
+
         # Übergabeparameter
         user = UserHandler.get_current_user()
         self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()

@@ -65,12 +65,6 @@ class load:
         set_budget_label()
 
 
-
-
-
-    def logout_button(self, button):
-        button.clicked.connect(lambda: switches.switch_to.login(self))
-
     def traktor_data(self, model):
         csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
         with open(csv_path, mode="r") as file:
@@ -85,6 +79,15 @@ class load:
                 for column in row:
                     if model == column:
                         return row
+
+    @staticmethod
+    def loss(hersteller):
+        pfad = os.path.join(CSV_PATH, r"Wertminderung.csv")
+        with open(pfad, mode="r") as file:
+            for row in csv.reader(file):
+                if row[0] == hersteller:
+                    return int(row[1])
+            return 0
 
     def all_traktor_data(self):
         liste = []

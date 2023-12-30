@@ -142,10 +142,10 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QPushButton" name="Logout">
+           <widget class="QPushButton" name="logout_button">
             <property name="maximumSize">
              <size>
-              <width>210</width>
+              <width>16777215</width>
               <height>50</height>
              </size>
             </property>
@@ -155,19 +155,18 @@
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QPushButton#Logout {
+             <string notr="true">QPushButton#logout_button {
 	background-color:rgb(231, 76, 60);
 	padding: 5px;
 	color: white;
 	border-radius: 20px;
-	max-width: 200px;
 	max-height: 40px;
 }
-QPushButton#Logout:hover {
+QPushButton#logout_button:hover {
 	cursor: pointer;
 	background-color: rgb(230, 126, 34);
 }
-QPushButton#Logout:pressed {
+QPushButton#logout_button:pressed {
 	padding-left: 3px;
 	padding-bottom: 3px;
 }</string>

@@ -1,5 +1,5 @@
 import os.path
-
+import csv
 from PyQt5.QtCore import Qt
 
 import switches
@@ -8,34 +8,31 @@ from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
 
 from Helper import show_toast, show_toast_confirmation
 import Helper2
-from Helper_Accounts import add_user_to_csv, UserHandler, toggle_password_visibility, display_userprofile
+from Helper_Accounts import add_user_to_csv, UserHandler, toggle_password_visibility
+
+ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
 
 
 class UserprofileWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Nutzerprofil.ui"), self)
-        self.destroyed.connect(lambda: self.printt())
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-
-
-        Helper2.load.complete_header(self)
-        user = UserHandler.get_current_user()[0]
-        display_userprofile(self, user)
-
-        self.logoutButton = self.findChild(QPushButton, "Logout")
-        Helper2.load.logout_button(self, self.logoutButton)
-
-        self.aenderungenSpeichernButton = self.findChild(QPushButton, "aenderungenSpeichernButton")
-        self.aenderungenSpeichernButton.clicked.connect(self.handle_save_changes)
-
-        self.aenderungenVerwerfenButton = self.findChild(QPushButton, "aenderungenVerwerfenButton")
-        self.aenderungenVerwerfenButton.clicked.connect(lambda: display_userprofile(self, user))
-
-        self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
 
         print("AUFRUF NUTZER")
 
+        # Übergabeparameter
+        self.user = UserHandler.get_current_user()[0]
+
+        # Signale
+        self.aenderungenSpeichernButton.clicked.connect(self.handle_save_changes)
+        self.aenderungenVerwerfenButton.clicked.connect(lambda: self.display_userprofile())
+        self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
+        self.logout_button.clicked.connect(lambda: self.logout())
+
+        # load ui
+        self.display_userprofile()
+        Helper2.load.complete_header(self)
 
         self.show()
 
@@ -50,8 +47,8 @@ class UserprofileWindow(QMainWindow):
     def close_window(self):
         self.close()
 
-    def printt(self):
-        print("DESTROY")
+    def logout(self):
+        switches.switch_to.login(self)
 
     def handle_save_changes(self):
         confirmation = show_toast_confirmation(self, "Are you sure you want to save changes?")
@@ -60,3 +57,13 @@ class UserprofileWindow(QMainWindow):
             add_user_to_csv(user, self.passwordLineEdit.text(), self.budgetLineEdit.text(),
                             self.loginStatusLabel.text())
             show_toast("Changes saved!", QMessageBox.Information, QMessageBox.Ok, 1750)
+
+    def display_userprofile(self):
+        with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if row['username'] == self.user:
+                    self.loginStatusLabel.setText(row['role'])
+                    self.usernameLabel.setText(row['username'])
+                    self.passwordLineEdit.setText(row['password'])
+                    self.budgetLineEdit.setText(row['budget'])

@@ -21,23 +21,26 @@ class accessoriesWindow(QMainWindow):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
 
+        print("AUFRUF ACCESSORIES")
+
         # übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()
+        print(platzhalter)
         self.product = Helper2.load.product_info(self,[[platzhalter, 1, "z"]])[0]
         self.acc = Helper_Accounts.UserHandler.get_current_user()
         self.hers_list = self.load_hers()  # kompatible Traktoren
         self.anz = 0
-        self.loss = int(self.load_loss())
+        self.loss = int(Helper2.load.loss("Zusatz"))
         self.ges_preis = 0
-        print(self.loss)
+
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
         # Produktseite laden
         self.load_ui()
-        self.load_lager(self.product)
-        self.load_pic(self.product)
+        self.load_lager()
+        self.load_pic()
 
         # Aktionen
         self.buy_Button.clicked.connect(lambda: self.buy(self.anz, "z"))
@@ -54,15 +57,6 @@ class accessoriesWindow(QMainWindow):
         Helper2.replace.text(self.hers_list, self.findChild(QLabel, "comp_label"))
         Helper2.load.complete_header(self)
 
-
-    def load_loss(self):
-        pfad = os.path.join(CSV_PATH, r"Wertminderung.csv")
-        with open(pfad, mode="r") as file:
-            for row in csv.reader(file):
-                if row[0] == "Zusatz":
-                    return int(row[1])
-            return 0
-
     def set_anz(self, value):
         self.anz = value
         self.calc_preis(value)
@@ -71,8 +65,8 @@ class accessoriesWindow(QMainWindow):
         conv_text = ", ".join(self.product[3:])
         return conv_text
 
-    def load_lager(self, row):
-        if int(row[2]) > 0:
+    def load_lager(self):
+        if int(self.product[2]) > 0:
             Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
             return True
         else:
@@ -81,8 +75,8 @@ class accessoriesWindow(QMainWindow):
             Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
 
-    def load_pic(self, row):
-        gesucht = row[0]
+    def load_pic(self):
+        gesucht = self.product[0]
         pfad = os.path.join(PIC_PATH, r"Zubehör")
 
         for dateiname in os.listdir(pfad):
@@ -104,7 +98,7 @@ class accessoriesWindow(QMainWindow):
     def calc_wert(self, jahre):
         normalPreis = int(self.product[1])
         verlustRate = (100 - self.loss) / 100
-        new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz
+        new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz (Zinseszins)
         Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
                              self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
@@ -116,11 +110,11 @@ class accessoriesWindow(QMainWindow):
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
 
 
-    
-    def buy(self, anz, typ):  # weiterleiten an warenkorb mit parameter (user name, product modell)
+    def buy(self, anz, typ):
+        model = self.product[0]
         if anz > 0:
-            Helper.show_toast(f"Sie haben {anz}x {self.product[0]} dem Warenkorb hinzugefügt.", QMessageBox.Information,
+            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
                               QMessageBox.Ok, 2500)
-            Helper.BuyHandler.add_to_current_shoppinglist(self.product[0], anz, typ)
+            Helper.BuyHandler.add_to_current_shoppinglist(model, anz, typ)
             self.anz_spinBox.setValue(0)
             print(Helper.BuyHandler.get_current_shoppinglist())

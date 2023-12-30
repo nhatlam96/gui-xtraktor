@@ -1,5 +1,4 @@
 import os
-
 import arrow
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMessageBox
@@ -24,14 +23,12 @@ class AccessoriesHandler:
 class ProductHandler:
     current_product = ""
 
-
     @staticmethod
     def get_current_product():
         return ProductHandler.current_product
 
     @staticmethod
     def set_current_product(product):
-        # ProductHandler.current_product = [product, 1, typ] so muss eig sein, startseite muss übergabe ändern
         ProductHandler.current_product = product
 
 
@@ -75,7 +72,7 @@ class InvHandler:
     def write_inv_in_csv():
         for x in range(len(InvHandler.current_inventar)):
             item = InvHandler.current_inventar[x]
-            Helper_Accounts.writeInventar(item[0], item[1], item[2])
+            Helper_Accounts.writeInventar(item[0], item[1], item[2], item[3])
 
     @staticmethod
     def get_inv():

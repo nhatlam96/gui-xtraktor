@@ -22,15 +22,21 @@ class Login(QMainWindow):
 
         self.setWindowTitle("X-Traktor")
 
-        self.goToRegisterButton = self.findChild(QPushButton, "goToRegisterButton")
+        # Signale
         self.goToRegisterButton.clicked.connect(lambda: switches.switch_to.register(self))
-
         self.loginButton.clicked.connect(lambda: self.login_check())
 
+        # ui laden
+        self.load_ui()
+
+        self.show()
+
+
+
+    def load_ui(self):
         self.usernameLineEdit.setText("Sieglinde")
         self.passwordLineEdit.setText("1234")
 
-        self.show()
 
     def login_check(self):
         username = self.usernameLineEdit.text()
@@ -49,7 +55,7 @@ def main():
     print("Starting Login window...")
     global time_master_process
 
-    # Start TimeMaster.py as a separate process
+    # TimeMaster.py als seperaten Prozess öffnen
     time_master_process = subprocess.Popen(["python", "-m", "TimeMaster"])
 
     app = QApplication(sys.argv)
