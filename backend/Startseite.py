@@ -349,7 +349,7 @@ class Startseite(QMainWindow):
             self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
 
         if not sort:
-            self.comboBox_hersteller.setCurrentText("")
+            self.sort_comboBox.setCurrentText("")
             self.traktor_sorted_Liste = liste
             self.traktor_sorted_infos = liste_infos
 
