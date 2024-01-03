@@ -41,8 +41,13 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QFrame#main_frame {
+	background-color: rgb(52, 73, 94);
+}</string>
+      </property>
       <property name="frameShape">
-       <enum>QFrame::Box</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
@@ -56,8 +61,11 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(52, 73, 94);</string>
+         </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
@@ -71,8 +79,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: white;
+</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -108,6 +120,12 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                 <bold>true</bold>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
@@ -159,8 +177,11 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: white;</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -173,6 +194,12 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                 <bold>true</bold>
+                </font>
                </property>
                <property name="inputMethodHints">
                 <set>Qt::ImhNone</set>
@@ -248,8 +275,14 @@
        </item>
        <item>
         <widget class="QFrame" name="content_frame">
+         <property name="styleSheet">
+          <string notr="true">QFrame#content_frame {
+	background-color: rgb(52, 73, 94);
+}
+</string>
+         </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
@@ -257,8 +290,20 @@
          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,4">
           <item>
            <widget class="QFrame" name="navbar_frame">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QFrame#navbar_frame{
+	background-color: rgb(52, 73, 94);
+	padding: 0 10px ;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -284,6 +329,24 @@
                <layout class="QVBoxLayout" name="verticalLayout_6">
                 <item>
                  <widget class="QLabel" name="label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(52, 73, 94);
+border: 2px solid rgb(46, 204, 113);
+border-radius: 10px;</string>
+                  </property>
                   <property name="text">
                    <string>GebrauchtKäufer:</string>
                   </property>
@@ -323,8 +386,15 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_4">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_4 {
+ 	background-color: rgb(52, 73, 94);
+	border: 2px solid rgb(46, 204, 113);
+	border-radius: 15px;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -332,6 +402,12 @@
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QScrollArea" name="scrollArea">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(52, 73, 94);</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
                <property name="widgetResizable">
                 <bool>true</bool>
                </property>

@@ -32,6 +32,9 @@ class SellWindow(QMainWindow):
 
         # Buttons von dyn. Layout
         self.buttons_tab1 = {}
+        self.buttons_tab2 = {}
+
+        self.create_tab1_content()
 
         # UI laden
         self.load_ui()
@@ -104,12 +107,38 @@ class SellWindow(QMainWindow):
             value_layout.addLayout(anz_layout)
 
             label4 = QLabel(f"Im Besitz: {self.inventar_liste[x][1]} Stück")
+            label4.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+
             spinbox = QSpinBox()
             spinbox.setSuffix(" Stück")
             spinbox.setMaximum(int(self.inventar_liste[x][1]))
-
+            spinbox.setStyleSheet("""
+                background-color: rgb(52, 73, 94);
+                color: white;
+                min-height: 30px;
+                font-size: 16px;
+                font-weight: 500;
+            """)
             label5 = QPushButton("Verkaufen")
-
+            label5.setStyleSheet("""
+                QPushButton {
+                    background-color: rgb(230, 126, 34);
+                    border-radius: 10px;
+                    min-height: 30px;
+                    color: white;
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+                QPushButton:hover {
+                    cursor: pointer;
+                    background-color: rgb(241, 196, 15);
+                }
+                
+                QPushButton:pressed {
+                    padding-left: 3px;
+                    padding-bottom: 3px;
+                }
+            """)
             self.buttons_tab1[x] = label5
             label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2],
                                           zeit=self.inventar_liste[x][4], user = self.inventar_liste[x][3],
@@ -124,6 +153,7 @@ class SellWindow(QMainWindow):
                 label6 = QLabel(locale.currency(int(self.info_liste[x][1]), grouping=True))
             else:
                 label6 = QLabel()
+            label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
 
             label7 = QLabel(f"Alter: ")
 

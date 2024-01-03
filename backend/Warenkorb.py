@@ -133,6 +133,9 @@ class WarenkorbWindow(QMainWindow):
             top_layer.addWidget(label3)
             bottom_layer.addWidget(label2)
 
+            label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             layout.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
@@ -168,7 +171,9 @@ class WarenkorbWindow(QMainWindow):
             else:
                 label2 = QLabel()
 
+            label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             label3 = QLabel("Beschreibung")
+            label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
 
             info_layout.addWidget(label2)
             info_layout.addWidget(label3)
@@ -177,12 +182,37 @@ class WarenkorbWindow(QMainWindow):
             inner_layout.addLayout(value_layout, 3)
 
             label4 = QSpinBox()
+            label4.setStyleSheet("""
+                color: white;
+                font-size: 16px;
+                font-weight: 500;
+                background-color: grey;
+                min-height: 25px;
+            """)
             label4.setMinimum(1)
             label4.setValue(shopping_liste[x][1])
             self.spinBoxes[x] = label4
             label4.valueChanged.connect(lambda value, nr=x: self.set_anz(nr, value))
 
             label5 = QPushButton("Entfernen")
+            label5.setStyleSheet("""
+                QPushButton {
+                    background-color: rgb(192, 57, 43);
+                    min-height: 30px;
+                    border-radius: 10px;
+                    color:white;
+                    font-size:16px;
+                    font-weight: 500;
+                }
+                QPushButton:hover {
+                    background-color: rgb(211, 84, 0);
+                    cursor: pointer;
+                }
+                QPushButton:pressed {
+                    padding-left: 3px;
+                    padding-bottom: 3px;
+                }    
+            """)
             self.buttons[x] = label5
             label5.clicked.connect(lambda nr=x: self.make_button_click_handler(shopping_liste[nr][0]))
 
@@ -192,6 +222,7 @@ class WarenkorbWindow(QMainWindow):
                 label6 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
             else:
                 label6 = QLabel()
+            label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
 
             value_layout.addWidget(label4)
             value_layout.addWidget(label5)
