@@ -42,12 +42,6 @@ class Startseite(QMainWindow):
         self.model_Liste = Helper4.load.get_all_model()
 
 
-        # ERST NACH TRAKTOREN MACHEN
-        """self.zubehoer_Liste = Helper2.load.all_zubehoer_data(self)
-        self.zubehoer_infos = Helper2.load.product_info(self, self.zubehoer_Liste)
-        self.zubehoer_filter_Liste = Helper2.load.all_zubehoer_data(self)
-        self.zubehoer_filter_infos = Helper2.load.product_info(self, self.zubehoer_filter_Liste)"""
-
         # Signale Filter
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
         self.typ_comboBox.currentTextChanged.connect(lambda value: self.filter_changed_typ(value))
