@@ -201,6 +201,7 @@ class Startseite(QMainWindow):
                 label2 = QLabel(f"Zubehoer | {liste[x][0]}")
             else:
                 label2 = QLabel()
+            label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
 
             name_layout.addWidget(label2)
 
@@ -209,9 +210,11 @@ class Startseite(QMainWindow):
 
 
             ps = QLabel(f"PS: {info_liste[x][2]}")
+            ps.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             km = QLabel(f"Km/h: {info_liste[x][3]}")
+            km.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             baujahr = QLabel(f"Baujahr: {info_liste[x][5]}")
-
+            baujahr.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             desc_layout.addWidget(ps)
             desc_layout.addWidget(km)
             desc_layout.addWidget(baujahr)
@@ -220,7 +223,24 @@ class Startseite(QMainWindow):
             inner_layout.addLayout(value_layout, 3)
 
             kaufen = QPushButton("Kaufen")
-
+            kaufen.setStyleSheet("""
+                QPushButton{
+                    border-radius: 10px;
+                    background-color: rgb(100, 221, 23);
+                    color: white;
+                    font-weight: bold;
+                    min-height: 30px;
+                }
+                QPushButton:hover {
+                    background-color: rgb(178, 255, 89);
+                    opacity: 0.8;
+                }
+                QPushButton:pressed {
+                    padding-left: 3px;
+                    padding-bottom: 3px;
+                }
+                """
+            )
             self.buttons[x] = kaufen
             kaufen.clicked.connect(self.make_button_click_handler(str(liste[x][0])))
 
@@ -230,7 +250,7 @@ class Startseite(QMainWindow):
                 label6 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
             else:
                 label6 = QLabel()
-
+            label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
 
             value_layout.addWidget(kaufen)
             value_layout.addWidget(label6)

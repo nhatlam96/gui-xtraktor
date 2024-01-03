@@ -435,8 +435,14 @@ margin-bottom: 3px;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_10">
+                  <property name="styleSheet">
+                   <string notr="true">QFrame#frame_10 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+}</string>
+                  </property>
                   <property name="frameShape">
-                   <enum>QFrame::Box</enum>
+                   <enum>QFrame::NoFrame</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
@@ -444,6 +450,16 @@ margin-bottom: 3px;</string>
                   <layout class="QHBoxLayout" name="horizontalLayout_15">
                    <item>
                     <widget class="QLabel" name="preis_label">
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;
+background-color: rgb(52, 73, 94);</string>
+                     </property>
                      <property name="text">
                       <string>Stückpreis:</string>
                      </property>
@@ -451,6 +467,16 @@ margin-bottom: 3px;</string>
                    </item>
                    <item>
                     <widget class="QLabel" name="preis_status">
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;
+background-color: rgb(52, 73, 94);</string>
+                     </property>
                      <property name="text">
                       <string>%%%</string>
                      </property>
@@ -545,7 +571,7 @@ border-radius: 15px;</string>
                 <item>
                  <widget class="QFrame" name="frame_11">
                   <property name="frameShape">
-                   <enum>QFrame::Box</enum>
+                   <enum>QFrame::NoFrame</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
@@ -718,6 +744,12 @@ border-radius: 15px;</string>
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_17">
+                  <property name="styleSheet">
+                   <string notr="true">QFrame#frame_17 {
+	border-radius: 15px;
+	background-color: rgb(52, 73, 94);
+}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -727,6 +759,16 @@ border-radius: 15px;</string>
                   <layout class="QHBoxLayout" name="horizontalLayout_16">
                    <item>
                     <widget class="QLabel" name="rest_label">
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;
+background-color: rgb(52, 73, 94);</string>
+                     </property>
                      <property name="text">
                       <string>Restwert:</string>
                      </property>
@@ -734,6 +776,16 @@ border-radius: 15px;</string>
                    </item>
                    <item>
                     <widget class="QLabel" name="rest_status">
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;
+background-color: rgb(52, 73, 94);</string>
+                     </property>
                      <property name="text">
                       <string>0,00 €</string>
                      </property>

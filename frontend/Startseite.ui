@@ -29,8 +29,13 @@
    <layout class="QHBoxLayout" name="horizontalLayout_7">
     <item>
      <widget class="QFrame" name="main_frame">
+      <property name="styleSheet">
+       <string notr="true">QFrame#main_frame {
+	background-color: rgb(44, 62, 80);
+}</string>
+      </property>
       <property name="frameShape">
-       <enum>QFrame::Box</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
@@ -38,8 +43,13 @@
       <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0">
        <item alignment="Qt::AlignTop">
         <widget class="QFrame" name="header_frame">
+         <property name="styleSheet">
+          <string notr="true">QFrame#header_frame{
+	background-color: rgb(52, 73, 94);
+}</string>
+         </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
@@ -47,8 +57,13 @@
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,5">
           <item alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QFrame" name="frame">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame {
+	background-color: white;
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -63,6 +78,12 @@
              </item>
              <item>
               <widget class="QLabel" name="label34">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>WEBSHOP.DE</string>
                </property>
@@ -74,7 +95,7 @@
           <item alignment="Qt::AlignLeft">
            <widget class="QFrame" name="frame_16">
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -99,8 +120,8 @@
               <widget class="QPushButton" name="sell_Button">
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
-                 <height>30</height>
+                 <width>140</width>
+                 <height>35</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -115,9 +136,30 @@
                  <height>0</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton{
+                <string notr="true">QPushButton#sell_Button{
 	background-color: orange;
+	border-radius: 10px;
+	min-height: 35px;
+}
+
+QPushButton#sell_Button:hover {
+	background-color: rgb(241, 196, 15);
+	cursor: pointer;
+	opacity: 0.8;
+}
+QPushButton#sell_Button:pressed {
+	padding-left: 3px;
+	padding-bottom: 3px;
 }</string>
                </property>
                <property name="text">
@@ -130,8 +172,11 @@
           </item>
           <item alignment="Qt::AlignRight|Qt::AlignTop">
            <widget class="QFrame" name="frame_3">
+            <property name="styleSheet">
+             <string notr="true">background-color: white;</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -139,6 +184,12 @@
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <widget class="QLabel" name="label_2">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>Budget:</string>
                </property>
@@ -146,6 +197,12 @@
              </item>
              <item>
               <widget class="QLabel" name="budget_label">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>TextLabel</string>
                </property>
@@ -173,8 +230,13 @@
        </item>
        <item>
         <widget class="QFrame" name="content_frame">
+         <property name="styleSheet">
+          <string notr="true">QFrame#content_frame {
+	background-color:rgb(44, 62, 80);
+}</string>
+         </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
@@ -182,43 +244,31 @@
          <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="2,6">
           <item>
            <widget class="QFrame" name="frame_4">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_4{
+	background-color: rgb(44, 62, 80);
+	border-radius: 10px;
+	border: 4px solid rgb(127, 140, 141);
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
-              <widget class="QFrame" name="frame_14">
-               <property name="frameShape">
-                <enum>QFrame::Box</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
-                <item>
-                 <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>Gesucht:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="ges_comboBox">
-                  <property name="placeholderText">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
               <widget class="QFrame" name="frame_10">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_10 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -226,6 +276,15 @@
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
                  <widget class="QLabel" name="hersteller_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string>Hersteller</string>
                   </property>
@@ -243,8 +302,15 @@
              </item>
              <item>
               <widget class="QFrame" name="frame_9">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_9 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -252,6 +318,15 @@
                <layout class="QHBoxLayout" name="horizontalLayout_9">
                 <item>
                  <widget class="QLabel" name="typ_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string>Typ</string>
                   </property>
@@ -265,8 +340,15 @@
              </item>
              <item>
               <widget class="QFrame" name="frame_13">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_13 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -274,6 +356,15 @@
                <layout class="QHBoxLayout" name="horizontalLayout_10">
                 <item>
                  <widget class="QLabel" name="baujahr_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string>Baujahr</string>
                   </property>
@@ -297,8 +388,15 @@
              </item>
              <item>
               <widget class="QFrame" name="frame_12">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_12 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -306,6 +404,15 @@
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
                  <widget class="QLabel" name="leistung_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white;</string>
+                  </property>
                   <property name="text">
                    <string>Leistung - PS</string>
                   </property>
@@ -329,6 +436,15 @@
                 </item>
                 <item>
                  <widget class="QLabel" name="leistung_anzeigt">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -342,8 +458,15 @@
              </item>
              <item>
               <widget class="QFrame" name="frame_11">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_11 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -351,6 +474,15 @@
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <item>
                  <widget class="QLabel" name="km_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string>Km/h</string>
                   </property>
@@ -377,6 +509,15 @@
                 </item>
                 <item>
                  <widget class="QLabel" name="km_anzeigt">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -390,8 +531,15 @@
              </item>
              <item>
               <widget class="QFrame" name="frame_15">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_15 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -399,6 +547,15 @@
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
                  <widget class="QLabel" name="label_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white;</string>
+                  </property>
                   <property name="text">
                    <string>Preis</string>
                   </property>
@@ -415,6 +572,12 @@
                   <layout class="QHBoxLayout" name="horizontalLayout_11">
                    <item>
                     <widget class="QSpinBox" name="min_preis">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="suffix">
                       <string> €</string>
                      </property>
@@ -431,6 +594,12 @@
                    </item>
                    <item>
                     <widget class="QSpinBox" name="max_preis">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="suffix">
                       <string> €</string>
                      </property>
@@ -456,8 +625,15 @@
              </item>
              <item>
               <widget class="QFrame" name="frame_6">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_6 {
+	background-color: rgb(52, 73, 94);
+	border-radius: 15px;
+	margin-bottom: 5px;
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -465,6 +641,29 @@
                <layout class="QHBoxLayout" name="horizontalLayout_4">
                 <item>
                  <widget class="QPushButton" name="bufferleer_button">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton#bufferleer_button {
+	border-radius: 10px;
+	background-color: rgb(255, 61, 0);
+	color: white;
+	font-weight: bold;
+	min-height: 30px;
+}
+QPushButton#bufferleer_button:hover {
+	background-color: rgb(255, 110, 64);
+	opacity: 0.8;
+}
+QPushButton#bufferleer_button:pressed {
+	padding-left: 3px;
+	padding-bottom: 3px;
+}</string>
+                  </property>
                   <property name="text">
                    <string>zurücksetzen</string>
                   </property>
@@ -472,6 +671,29 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="such_infor_commit">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton#such_infor_commit {
+	border-radius: 10px;
+	background-color: rgb(0, 153, 255);
+	color: white;
+	font-weight: bold;
+	min-height: 30px;
+}
+QPushButton#such_infor_commit:hover {
+	background-color: rgb(26, 183, 234);
+	opacity: 0.8;
+}
+QPushButton#such_infor_commit:pressed {
+	padding-left: 3px;
+	padding-bottom: 3px;
+}</string>
+                  </property>
                   <property name="text">
                    <string>bestätigen</string>
                   </property>
@@ -485,8 +707,13 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_5">
+            <property name="styleSheet">
+             <string notr="true">QFrame#frame_5{
+	background-color: rgb(44, 62, 80);
+}</string>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -494,8 +721,16 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QFrame" name="frame_7">
+               <property name="styleSheet">
+                <string notr="true">QFrame#frame_7 {
+	background-color: rgb(52, 73, 94);
+	min-height: 60px;
+	border-radius: 15px;
+	border: 2px solid rgb(127, 140, 141);
+}</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -505,8 +740,17 @@
                  <widget class="QLineEdit" name="searchbar_Lineedit">
                   <property name="font">
                    <font>
+                    <pointsize>10</pointsize>
                     <italic>true</italic>
+                    <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLineEdit#searchbar_Lineedit{
+	border-bottom: 2px solid rgb(158, 158, 158);
+	min-height: 30px;
+	color: rgb(97, 97, 97);
+}</string>
                   </property>
                   <property name="frame">
                    <bool>false</bool>
@@ -518,6 +762,29 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="search_pushButton">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton#search_pushButton{
+	border-radius: 10px;
+	background-color: rgb(100, 221, 23);
+	color: white;
+	font-weight: bold;
+	min-height: 30px;
+}
+QPushButton#search_pushButton:hover {
+	background-color: rgb(178, 255, 89);
+	opacity: 0.8;
+}
+QPushButton#search_pushButton:pressed {
+	padding-left: 3px;
+	padding-bottom: 3px;
+}</string>
+                  </property>
                   <property name="text">
                    <string>suchen</string>
                   </property>
@@ -525,6 +792,12 @@
                 </item>
                 <item>
                  <widget class="QComboBox" name="sort_comboBox">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
                   <property name="editable">
                    <bool>false</bool>
                   </property>
@@ -541,8 +814,12 @@
              </item>
              <item>
               <widget class="QScrollArea" name="scrollArea">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(52, 73, 94);
+</string>
+               </property>
                <property name="frameShape">
-                <enum>QFrame::Box</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Plain</enum>
@@ -561,8 +838,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>963</width>
-                  <height>700</height>
+                  <width>970</width>
+                  <height>692</height>
                  </rect>
                 </property>
                </widget>

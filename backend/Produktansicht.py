@@ -176,11 +176,29 @@ class ProductWindow(QMainWindow):
             inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
 
             label1 = QLabel(zusatz[x][0])
+            label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             label2 = QLabel()
             label2.setPixmap(self.load_zpic(zusatz[x][0]))
             label3 = QLabel(locale.currency(int(zusatz[x][1]), grouping=True))
-
+            label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             button = QPushButton("Mehr info")
+            button.setStyleSheet("""
+                 QPushButton{
+                    border-radius: 10px;
+                    background-color: rgb(100, 221, 23);
+                    color: white;
+                    font-weight: bold;
+                    min-height: 30px;
+                }
+                QPushButton:hover {
+                    background-color: rgb(178, 255, 89);
+                    opacity: 0.8;
+                }
+                QPushButton:pressed {
+                    padding-left: 3px;
+                    padding-bottom: 3px;
+                }
+            """)
             self.buttons[x] = button
 
             button.clicked.connect(self.make_button_click_handler(label1))
