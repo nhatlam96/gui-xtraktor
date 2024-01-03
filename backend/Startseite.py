@@ -29,6 +29,9 @@ class Startseite(QMainWindow):
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
         print(self.traktor_infos)
 
+        self.search_Liste = self.traktor_Liste
+        self.search_infos = self.traktor_infos
+
         self.traktor_filter_Liste = self.get_filtered_list()
         self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
 
@@ -172,7 +175,6 @@ class Startseite(QMainWindow):
 
         print(liste)
         print(info_liste)
-
         print("ZONE VERLASSEN")
 
 
@@ -276,36 +278,40 @@ class Startseite(QMainWindow):
         min_pre = Filter['Preis'][0] if Filter['Preis'][0] != '' else None
         max_pre = Filter['Preis'][1] if Filter['Preis'][1] != '' else None
 
-        for x in range(len(self.traktor_infos)):
+
+        print("FILTER IN SUCHLISTE")
+        print(self.search_infos)
+
+        for x in range(len(self.search_infos)):
             if her is not None:
-                if self.traktor_infos[x][0] != her:
+                if self.search_infos[x][0] != her:
                     continue
 
             if typ is not None:
-                if self.traktor_infos[x][1] != typ:
+                if self.search_infos[x][1] != typ:
                     continue
 
             if max_pre is not None:
-                if int(self.traktor_infos[x][4]) > int(max_pre):
+                if int(self.search_infos[x][4]) > int(max_pre):
                     continue
 
             if min_pre is not None:
-                if int(self.traktor_infos[x][4]) < int(min_pre):
+                if int(self.search_infos[x][4]) < int(min_pre):
                     continue
 
             if ges is not None:
-                if int(self.traktor_infos[x][3]) < int(ges):
+                if int(self.search_infos[x][3]) < int(ges):
                     continue
 
             if lei is not None:
-                if int(self.traktor_infos[x][2]) < int(lei):
+                if int(self.search_infos[x][2]) < int(lei):
                     continue
 
             if bau is not None:
-                if int(self.traktor_infos[x][5]) < int(bau):
+                if int(self.search_infos[x][5]) < int(bau):
                     continue
 
-            filtered_list.append(self.traktor_Liste[x])
+            filtered_list.append(self.search_Liste[x])
 
 
         print(filtered_list)
@@ -313,17 +319,14 @@ class Startseite(QMainWindow):
         return filtered_list
 
 
-    def get_sorted_list(self, value):
+    def get_sorted_list(self, value=''):
 
         sorted_list = []
 
         sort = value if value is not None else ''
-
-        print("NEUER SORT")
-        print(sort)
-
         liste = self.get_filtered_list()
         liste_infos = Helper2.load.product_info(self, liste)
+
 
         # zip kombiniert beide listen damit die beiden zusammen bleiben
         neue_liste = list(zip(liste, liste_infos))
@@ -332,11 +335,8 @@ class Startseite(QMainWindow):
             # sortiert nach preis
             sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][4]), reverse=True)
 
-            # nur die liste mit primärschlüssel ist nötig
+            # nur die liste mit Primärschlüssel ist nötig
             sorted_list = [item[0] for item in sorted_combined]
-
-            print("SORT!!!")
-            print(sorted_list)
 
             self.traktor_sorted_Liste = sorted_list
             self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
@@ -355,10 +355,13 @@ class Startseite(QMainWindow):
             self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
 
         if not sort:
-            self.traktor_sorted_Liste = self.traktor_filter_Liste
-            self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
+            self.comboBox_hersteller.setCurrentText("")
+            self.traktor_sorted_Liste = liste
+            self.traktor_sorted_infos = liste_infos
 
-
+        print("FINALE LISTE")
+        print(self.traktor_sorted_Liste)
+        print(self.traktor_sorted_infos)
 
         self.setup_waren_ui()
 
@@ -400,13 +403,13 @@ class Startseite(QMainWindow):
         sorted_list = []
 
         if search_text == "":
-            self.traktor_filter_Liste = self.traktor_Liste
-            self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
+            self.search_Liste = self.traktor_Liste
+            self.search_infos = self.traktor_infos
         else:
             print("SEARCHBAR SUCHT")
 
-            liste = self.get_filtered_list()
-            liste_infos = Helper2.load.product_info(self, liste)
+            liste = self.traktor_Liste
+            liste_infos = self.traktor_infos
 
             filtered_list = []
 
@@ -420,7 +423,13 @@ class Startseite(QMainWindow):
                     # Überprüfe, ob der Suchtext in den ersten beiden Elementen von info enthalten ist
                     filtered_list.append(key)
 
+            print("GESUCHTE LISTE")
             print(filtered_list)
+
+            self.search_Liste = filtered_list
+            self.search_infos = Helper2.load.product_info(self, filtered_list)
+
+            self.get_sorted_list()
 
             self.setup_waren_ui()
 
