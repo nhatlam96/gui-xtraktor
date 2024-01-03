@@ -62,6 +62,8 @@ class Startseite(QMainWindow):
         # Signale UI
         self.sort_comboBox.currentTextChanged.connect(lambda value: self.get_sorted_list(value))
         self.search_pushButton.clicked.connect(lambda: self.search_handler())
+        self.searchbar_Lineedit.editingFinished.connect(lambda: self.search_handler())  # press "enter" to finish
+
 
         # lokale Umgebung laden
         Helper2.conf.locale_setup(self)
@@ -97,9 +99,7 @@ class Startseite(QMainWindow):
     def load_filter_ui(self):
 
 
-        # Suchfeld -> bitte button zum Sortieren hinzufügen
-        #self.Lineedit_suchfeld.editingFinished.connect(self.confirm_suchfeld_info_with_enter)  # press "enter" to finish
-        # self.lineEdit.returnPressed()           # return content if you press "enter"
+
 
         # Hersteller
         self.comboBox_hersteller.blockSignals(True)
