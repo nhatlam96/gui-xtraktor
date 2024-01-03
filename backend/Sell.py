@@ -32,9 +32,7 @@ class SellWindow(QMainWindow):
 
         # Buttons von dyn. Layout
         self.buttons_tab1 = {}
-        self.buttons_tab2 = {}
 
-        self.create_tab1_content()
 
         # UI laden
         self.load_ui()
@@ -112,6 +110,7 @@ class SellWindow(QMainWindow):
             spinbox = QSpinBox()
             spinbox.setSuffix(" Stück")
             spinbox.setMaximum(int(self.inventar_liste[x][1]))
+
             spinbox.setStyleSheet("""
                 background-color: rgb(52, 73, 94);
                 color: white;
@@ -120,6 +119,7 @@ class SellWindow(QMainWindow):
                 font-weight: 500;
             """)
             label5 = QPushButton("Verkaufen")
+
             label5.setStyleSheet("""
                 QPushButton {
                     background-color: rgb(230, 126, 34);
@@ -153,6 +153,8 @@ class SellWindow(QMainWindow):
                 label6 = QLabel(locale.currency(int(self.info_liste[x][1]), grouping=True))
             else:
                 label6 = QLabel()
+
+
             label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
 
             label7 = QLabel(f"Alter: ")
