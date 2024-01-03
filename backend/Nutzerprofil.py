@@ -50,7 +50,7 @@ class UserprofileWindow(QMainWindow):
 
     def logout(self):
         Helper.BuyHandler.clear_current_shoppinglist()
-        switches.switch_to.login(self)
+        switches.switch_to.login()
 
     def handle_save_changes(self):
         confirmation = show_toast_confirmation(self, "Are you sure you want to save changes?")

@@ -217,8 +217,7 @@ class ProductWindow(QMainWindow):
         def button_click_handler():
             if label is not None:
                 Helper.AccessoriesHandler.set_current_acc(label.text())
-                switches.switch_to.accessories(self)
-                #switches.switch_to.accessories_Anbieter(self)
+                switches.switch_to.accessories()
             else:
                 print("Label ist None")
 
