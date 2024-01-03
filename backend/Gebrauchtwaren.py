@@ -23,12 +23,18 @@ class GebrauchtwarenWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
 
-        print("AUFRUF GEBRAUCHT ACCESSORIES")
+
+        print("AUFRUF GEBRAUCHT")
 
 
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
+        print(self.product)
+        print(Helper.get_time_difference_since_program_time(self.product[4]))
+        print(Helper.get_program_time())
+        print("PRODUCT:")
+        print(self.product[4])
 
         # simulierte bidders
         # self.bidders = self.readInBidders()

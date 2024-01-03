@@ -112,7 +112,8 @@ class SellWindow(QMainWindow):
 
             self.buttons_tab1[x] = label5
             label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2],
-                                          spin=spinbox: self.make_button_click_handler(label, spin.value(), typ))
+                                          zeit=self.inventar_liste[x][4], user = self.inventar_liste[x][3],
+                                          spin=spinbox: self.make_button_click_handler(label, spin.value(), typ,user, zeit))
 
 
             value_innerlayout = QHBoxLayout()
@@ -163,10 +164,11 @@ class SellWindow(QMainWindow):
 
 
 
-    def make_button_click_handler(self, label, anz, typ):
+    def make_button_click_handler(self, label, anz, typ,user, zeit):
 
         if anz > 0:
-            Helper.current_Sell_Handler.add_sell_item(label, anz, typ)
+            print(self.inventar_liste[0])
+            Helper.current_Sell_Handler.add_sell_item(label, anz, typ, user, zeit)
             if typ == "t":
                 switches.switch_to.Sell_item()
             else:
