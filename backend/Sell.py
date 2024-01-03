@@ -58,6 +58,12 @@ class SellWindow(QMainWindow):
 
             new_widget = QWidget()
             new_widget.setMaximumHeight(200)
+            new_widget.setStyleSheet("""
+                QWidget {
+                    border-radius: 10px; 
+                    border: 2px solid rgb(46, 204, 113);
+                }
+            """)
 
             inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
 
@@ -79,7 +85,7 @@ class SellWindow(QMainWindow):
                 label2 = QLabel(f"Zubehoer | {self.inventar_liste[x][0]}")
             else:
                 label2 = QLabel()
-
+            label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             info_layout.addWidget(label2, 1)
 
 
@@ -93,6 +99,10 @@ class SellWindow(QMainWindow):
                 km = QLabel(f"Km/h: {self.info_liste[x][3]}")
                 baujahr = QLabel(f"Baujahr: {self.info_liste[x][5]}")
 
+                ps.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
+                km.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
+                baujahr.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border:none;")
+
                 desc_layout.addWidget(ps)
                 desc_layout.addWidget(km)
                 desc_layout.addWidget(baujahr)
@@ -105,7 +115,7 @@ class SellWindow(QMainWindow):
             value_layout.addLayout(anz_layout)
 
             label4 = QLabel(f"Im Besitz: {self.inventar_liste[x][1]} Stück")
-            label4.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            label4.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
 
             spinbox = QSpinBox()
             spinbox.setSuffix(" Stück")
@@ -117,6 +127,7 @@ class SellWindow(QMainWindow):
                 min-height: 30px;
                 font-size: 16px;
                 font-weight: 500;
+                border: none;
             """)
             label5 = QPushButton("Verkaufen")
 
@@ -128,6 +139,7 @@ class SellWindow(QMainWindow):
                     color: white;
                     font-size: 16px;
                     font-weight: 500;
+                    border:none;
                 }
                 QPushButton:hover {
                     cursor: pointer;
@@ -154,10 +166,10 @@ class SellWindow(QMainWindow):
             else:
                 label6 = QLabel()
 
-
-            label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            label6.setStyleSheet("color: red; font-size: 16px; font-weight: 500; border:none;")
 
             label7 = QLabel(f"Alter: ")
+            label7.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
 
             value_innerlayout.addWidget(label7)
             value_innerlayout.addWidget(label6)
@@ -175,7 +187,15 @@ class SellWindow(QMainWindow):
     def add_bidders_tab(self):
 
         scroll_area = self.findChild(QScrollArea, "bidders_scrollArea")
+        scroll_area.setStyleSheet("""
+            QScrollArea {
+                background-color: rgb(52, 73, 94);
+                border: 4px solid rgb(46, 204, 113);
+                border-radius: 10px;
+            }
+        """)
         content_widget = QWidget()
+        content_widget.setStyleSheet("background-color: rgb(52, 73, 94);")
         layout = QVBoxLayout(content_widget)
 
         for item in self.bidders_liste:
@@ -185,8 +205,9 @@ class SellWindow(QMainWindow):
             inner_layout = QHBoxLayout(new_widget)
 
             label1 = QLabel(item[0])
+            label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             label2 = QLabel(locale.currency(int(item[3]), grouping=True))
-
+            label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             inner_layout.addWidget(label1)
             inner_layout.addWidget(label2)
 

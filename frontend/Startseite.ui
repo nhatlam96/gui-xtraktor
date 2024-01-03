@@ -71,8 +71,17 @@
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
               <widget class="QPushButton" name="home_Button">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>45</width>
+                 <height>45</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -145,6 +154,9 @@
                <property name="cursor">
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
+               <property name="mouseTracking">
+                <bool>true</bool>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton#sell_Button{
 	background-color: orange;
@@ -210,15 +222,33 @@ QPushButton#sell_Button:pressed {
              </item>
              <item>
               <widget class="QPushButton" name="acc_Button">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>45</width>
+                 <height>45</height>
+                </size>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="shopping_Button">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>45</width>
+                 <height>45</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -647,6 +677,9 @@ QPushButton#sell_Button:pressed {
                     <bold>true</bold>
                    </font>
                   </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QPushButton#bufferleer_button {
 	border-radius: 10px;
@@ -676,6 +709,9 @@ QPushButton#bufferleer_button:pressed {
                     <pointsize>10</pointsize>
                     <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QPushButton#such_infor_commit {
@@ -726,7 +762,7 @@ QPushButton#such_infor_commit:pressed {
 	background-color: rgb(52, 73, 94);
 	min-height: 60px;
 	border-radius: 15px;
-	border: 2px solid rgb(127, 140, 141);
+	border: 4px solid rgb(127, 140, 141);
 }</string>
                </property>
                <property name="frameShape">
@@ -767,6 +803,9 @@ QPushButton#such_infor_commit:pressed {
                     <pointsize>10</pointsize>
                     <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QPushButton#search_pushButton{
@@ -839,7 +878,7 @@ QPushButton#search_pushButton:pressed {
                   <x>0</x>
                   <y>0</y>
                   <width>970</width>
-                  <height>692</height>
+                  <height>678</height>
                  </rect>
                 </property>
                </widget>

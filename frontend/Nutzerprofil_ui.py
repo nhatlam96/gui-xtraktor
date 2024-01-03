@@ -14,7 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(500, 680)
+        MainWindow.resize(800, 1000)
+        MainWindow.setMinimumSize(QtCore.QSize(800, 1000))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(278, 415))
         self.centralwidget.setObjectName("centralwidget")
@@ -44,7 +45,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_5)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.home_Button = QtWidgets.QPushButton(self.frame_5)
+        self.home_Button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.home_Button.setText("")
+        self.home_Button.setIconSize(QtCore.QSize(45, 45))
         self.home_Button.setObjectName("home_Button")
         self.horizontalLayout_9.addWidget(self.home_Button)
         self.label_2 = QtWidgets.QLabel(self.frame_5)
@@ -62,6 +65,9 @@ class Ui_MainWindow(object):
         self.frame_6.setObjectName("frame_6")
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_6)
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.label_3 = QtWidgets.QLabel(self.frame_6)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout_10.addWidget(self.label_3)
         self.budget_label = QtWidgets.QLabel(self.frame_6)
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -69,14 +75,6 @@ class Ui_MainWindow(object):
         self.budget_label.setFont(font)
         self.budget_label.setObjectName("budget_label")
         self.horizontalLayout_10.addWidget(self.budget_label)
-        self.acc_Button = QtWidgets.QPushButton(self.frame_6)
-        self.acc_Button.setText("")
-        self.acc_Button.setObjectName("acc_Button")
-        self.horizontalLayout_10.addWidget(self.acc_Button)
-        self.shopping_Button = QtWidgets.QPushButton(self.frame_6)
-        self.shopping_Button.setText("")
-        self.shopping_Button.setObjectName("shopping_Button")
-        self.horizontalLayout_10.addWidget(self.shopping_Button)
         self.horizontalLayout_8.addWidget(self.frame_6, 0, QtCore.Qt.AlignRight|QtCore.Qt.AlignTop)
         self.verticalLayout_3.addWidget(self.frame_4)
         self.frame_3 = QtWidgets.QFrame(self.frame_2)
@@ -89,50 +87,29 @@ class Ui_MainWindow(object):
         self.frame_3.setObjectName("frame_3")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_3)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.pushButton = QtWidgets.QPushButton(self.frame_3)
+        self.logout_button = QtWidgets.QPushButton(self.frame_3)
+        self.logout_button.setMaximumSize(QtCore.QSize(16777215, 50))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("QPushButton#pushButton {\n"
-"    background-color: rgb(0, 195, 0);\n"
-"    padding: 5px;\n"
-"    color: white;\n"
-"    border-radius: 20px;\n"
-"    max-width: 200px;\n"
-"    max-height: 40px;\n"
-"}\n"
-"QPushButton#pushButton:hover {\n"
-"    cursor: pointer;\n"
-"    background-color: rgb(37, 211, 102);\n"
-"}\n"
-"QPushButton#pushButton:pressed {\n"
-"    padding-left: 3px;\n"
-"    padding-bottom: 3px;\n"
-"}")
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_6.addWidget(self.pushButton)
-        self.Logout = QtWidgets.QPushButton(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.Logout.setFont(font)
-        self.Logout.setStyleSheet("QPushButton#Logout {\n"
+        self.logout_button.setFont(font)
+        self.logout_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.logout_button.setStyleSheet("QPushButton#logout_button {\n"
 "    background-color:rgb(231, 76, 60);\n"
 "    padding: 5px;\n"
 "    color: white;\n"
 "    border-radius: 20px;\n"
-"    max-width: 200px;\n"
 "    max-height: 40px;\n"
 "}\n"
-"QPushButton#Logout:hover {\n"
+"QPushButton#logout_button:hover {\n"
 "    cursor: pointer;\n"
 "    background-color: rgb(230, 126, 34);\n"
 "}\n"
-"QPushButton#Logout:pressed {\n"
+"QPushButton#logout_button:pressed {\n"
 "    padding-left: 3px;\n"
 "    padding-bottom: 3px;\n"
 "}")
-        self.Logout.setObjectName("Logout")
-        self.horizontalLayout_6.addWidget(self.Logout)
+        self.logout_button.setObjectName("logout_button")
+        self.horizontalLayout_6.addWidget(self.logout_button)
         self.verticalLayout_3.addWidget(self.frame_3)
         self.frame = QtWidgets.QFrame(self.frame_2)
         self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -288,11 +265,20 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.aenderungenVerwerfenButton.setFont(font)
+        self.aenderungenVerwerfenButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.aenderungenVerwerfenButton.setStyleSheet("QPushButton#aenderungenVerwerfenButton {\n"
 "    color: white;\n"
 "    padding: 5px 0px;\n"
 "    background-color: rgb(255, 51, 0);\n"
 "    max-height: 30px;\n"
+"}\n"
+"QPushButton#aenderungenVerwerfenButton:hover {\n"
+"    background-color: rgb(255, 110, 64);\n"
+"    opacity: 0.8;\n"
+"}\n"
+"QPushButton#aenderungenVerwerfenButton:pressed {\n"
+"    padding-left: 3px;\n"
+"    padding-bottom: 3px;\n"
 "}")
         self.aenderungenVerwerfenButton.setObjectName("aenderungenVerwerfenButton")
         self.verticalLayout.addWidget(self.aenderungenVerwerfenButton)
@@ -300,11 +286,20 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.aenderungenSpeichernButton.setFont(font)
+        self.aenderungenSpeichernButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.aenderungenSpeichernButton.setStyleSheet("QPushButton#aenderungenSpeichernButton {\n"
 "    color: white;\n"
 "    padding: 5px 0px;\n"
 "    background-color: rgb(0, 153, 255);\n"
 "    max-height: 30px;\n"
+"}\n"
+"QPushButton#aenderungenSpeichernButton:hover {\n"
+"    background-color: rgb(129, 212, 250);\n"
+"    opacity: 0.8;\n"
+"}\n"
+"QPushButton#aenderungenSpeichernButton:pressed {\n"
+"    padding-left: 3px;\n"
+"    padding-bottom: 3px;\n"
 "}")
         self.aenderungenSpeichernButton.setObjectName("aenderungenSpeichernButton")
         self.verticalLayout.addWidget(self.aenderungenSpeichernButton)
@@ -323,9 +318,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Nutzerprofil"))
         self.label_2.setText(_translate("MainWindow", "WEBSHOP.DE"))
+        self.label_3.setText(_translate("MainWindow", "Budget:"))
         self.budget_label.setText(_translate("MainWindow", "Budget"))
-        self.pushButton.setText(_translate("MainWindow", "Icon"))
-        self.Logout.setText(_translate("MainWindow", "Logout / Change User"))
+        self.logout_button.setText(_translate("MainWindow", "Logout "))
         self.loginLabel.setText(_translate("MainWindow", "Eingeloggt als:"))
         self.loginStatusLabel.setText(_translate("MainWindow", "loginStatus"))
         self.benutzernameLabel.setText(_translate("MainWindow", "Benutzername:"))
