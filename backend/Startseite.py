@@ -2,16 +2,13 @@ import csv
 import locale
 import os
 import os.path
-import sys
-
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
 import switches
 import Helper
 import Helper2
 import Helper4
+import Helper_Accounts
 
 
 # Ressourcenpfade
@@ -41,6 +38,8 @@ class Startseite(QMainWindow):
         self.hersteller_Liste = Helper4.load.hersteller_dict().keys()
         self.model_Liste = Helper4.load.get_all_model()
 
+        # Übergabeparameter
+        self.acc = Helper_Accounts.UserHandler.get_current_user()
 
         # Signale Filter
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
@@ -78,6 +77,9 @@ class Startseite(QMainWindow):
 
     def load_ui(self):
         Helper2.load.complete_header(self)
+        if self.acc[3] == "Admin":
+            self.sell_Button.setEnabled(False)
+            self.sell_Button.hide()
         self.sell_Button.clicked.connect(lambda: switches.switch_to.Inventar(self))
         self.sort_comboBox.blockSignals(True)
         self.sort_comboBox.clear()
@@ -243,18 +245,24 @@ class Startseite(QMainWindow):
             )
             self.buttons[x] = kaufen
             kaufen.clicked.connect(self.make_button_click_handler(str(liste[x][0])))
+            value_layout.addWidget(kaufen)
 
             if liste[x][2] == "t":
-                label6 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
-            elif liste[x][2] == "z":
-                label6 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
-            else:
-                label6 = QLabel()
-            label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+                label6 = QLabel(f"Preis: {locale.currency(int(info_liste[x][4]), grouping=True)}")
+                value_layout.addWidget(label6)
+                label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+                value_layout.setAlignment(label6, QtCore.Qt.AlignHCenter)
 
-            value_layout.addWidget(kaufen)
-            value_layout.addWidget(label6)
-            value_layout.setAlignment(label6, QtCore.Qt.AlignHCenter)
+                if self.acc[3] == "Admin":
+                    label6.setText(f"VK-Preis: {locale.currency(int(info_liste[x][4]), grouping=True)}")
+                    label7 = QLabel(f"EK-Preis: {locale.currency(int(float(info_liste[x][4])*0.65), grouping=True)}")
+                    value_layout.addWidget(label7)
+                    value_layout.setAlignment(label7, QtCore.Qt.AlignHCenter)
+
+                    label8 = QLabel(f"Lagerstand: {info_liste[x][-1]}")
+                    value_layout.addWidget(label8)
+                    value_layout.setAlignment(label8, QtCore.Qt.AlignHCenter)
+
 
 
             layout.addWidget(new_widget)  # widget dem container hinzufügen

@@ -29,6 +29,7 @@ class ProductWindow(QMainWindow):
         self.z_list = self.load_zub()  # kompatibles Zubehoer []
         self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
         self.anz = 0
+        self.acc = Helper_Accounts.UserHandler.get_current_user()
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -66,8 +67,12 @@ class ProductWindow(QMainWindow):
         Helper2.conf.locale_setup(self)
         Helper2.replace.text(f"{self.product[0]} - {self.product[1]}",
                              self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(locale.currency(int(self.product[4]), grouping=True),
-                             self.findChild(QLabel, "preis_status"))
+        if self.acc[3] == "Admin":
+            Helper2.replace.text(locale.currency(int(float(self.product[4])*0.65), grouping=True),
+                                self.findChild(QLabel, "preis_status"))
+        else:
+            Helper2.replace.text(locale.currency(int(self.product[4]), grouping=True),
+                                 self.findChild(QLabel, "preis_status"))
         Helper2.replace.text(self.product[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self.product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self.product[5], self.findChild(QLabel, "baujahr_status"))
@@ -76,6 +81,7 @@ class ProductWindow(QMainWindow):
         if Helper_Accounts.UserHandler.get_current_user()[3] == "Admin":
             Helper2.replace.text("nachbestellen", self.findChild(QPushButton, "buy_Button"))
             Helper2.replace.text(self.product[6], self.findChild(QLabel, "bestand_icon"))
+            self.preis_label.setText("EK-Stückpreis:")
         else:
             self.load_lager()
 
@@ -86,12 +92,12 @@ class ProductWindow(QMainWindow):
         self.calc_preis(value)
 
     def calc_preis(self, value):
-        preis = int(self.product[4])
+        preis = int(float(self.product[4])*0.65) if self.acc[3] == "Admin" else int(self.product[4])
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
 
     def calc_wert(self, jahre):
-        normalPreis = int(self.product[4])
+        normalPreis = int(float(self.product[4])*0.65) if self.acc[3] == "Admin" else int(self.product[4])
         verlustRate = (100 - self.loss) / 100
         new_value = int(normalPreis * (verlustRate ** jahre)) # ** -> Potenz
         Helper2.replace.text(locale.currency(new_value - normalPreis , grouping=True), self.findChild(QLabel, "wert_status"))
@@ -179,7 +185,10 @@ class ProductWindow(QMainWindow):
             label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             label2 = QLabel()
             label2.setPixmap(self.load_zpic(zusatz[x][0]))
-            label3 = QLabel(locale.currency(int(zusatz[x][1]), grouping=True))
+            if self.acc[3] == "Admin":
+                label3 = QLabel(f"EK-P: {locale.currency(int(float(zusatz[x][1])*0.65), grouping=True)}")
+            else:
+                label3 = QLabel(f"{locale.currency(int(zusatz[x][1]), grouping=True)}")
             label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             button = QPushButton("Mehr info")
             button.setStyleSheet("""

@@ -58,7 +58,11 @@ class accessoriesWindow(QMainWindow):
 
     def load_ui(self):
         Helper2.replace.text(self.product[0], self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(locale.currency(int(self.product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
+        if self.acc[3] == "Admin":
+            Helper2.replace.text(locale.currency(int(float(self.product[1])*0.65), grouping=True), self.findChild(QLabel, "preis_status"))
+            self.preis_label.setText("EK-Stückpreis:")
+        else:
+            Helper2.replace.text(locale.currency(int(self.product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
         Helper2.replace.text(f"Budget:  {locale.currency(int(self.acc[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
         Helper2.replace.text(self.hers_list, self.findChild(QLabel, "comp_label"))
         Helper2.load.complete_header(self)
@@ -102,7 +106,7 @@ class accessoriesWindow(QMainWindow):
                 return scaled_pixmap
 
     def calc_wert(self, jahre):
-        normalPreis = int(self.product[1])
+        normalPreis = int(float(self.product[1])*0.65) if self.acc[3] == "Admin" else int(self.product[1])
         verlustRate = (100 - self.loss) / 100
         new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz (Zinseszins)
         Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
@@ -111,7 +115,7 @@ class accessoriesWindow(QMainWindow):
 
 
     def calc_preis(self, value):
-        preis = int(self.product[1].replace(".", ""))
+        preis = int(float(self.product[1])*0.65) if self.acc[3] == "Admin" else int(self.product[1])
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
 

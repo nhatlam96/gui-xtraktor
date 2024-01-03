@@ -23,7 +23,7 @@ class WarenkorbWindow(QMainWindow):
         print("AUFRUF WARENKORB")
 
         # Übergabeparameter
-        user = UserHandler.get_current_user()
+        self.acc = UserHandler.get_current_user()
         self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
         self.info_list = Helper2.load.product_info(self, self.shopping_list) if self.shopping_list else []
 
@@ -38,7 +38,7 @@ class WarenkorbWindow(QMainWindow):
         self.load_ui()
 
         # Aktionen
-        self.buy_Button.clicked.connect(lambda: self.buy(self.info_list, user))
+        self.buy_Button.clicked.connect(lambda: self.buy(self.info_list, self.acc))
 
         self.show()
 
@@ -89,15 +89,20 @@ class WarenkorbWindow(QMainWindow):
                 else:
                     Helper.show_toast("Nicht genug Budget!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
-    @staticmethod
-    def calc_sum(info_liste, shopping_liste):
+    def calc_sum(self, info_liste, shopping_liste):
         summe = 0
 
         for x in range(len(shopping_liste)):
             if shopping_liste[x][2] == "t":
-                summe += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
+                if self.acc[3] == "Admin":
+                    summe += (int(float(info_liste[x][4])*0.65) * int(shopping_liste[x][1]))
+                else:
+                    summe += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
             if shopping_liste[x][2] == "z":
-                summe += (int(info_liste[x][1]) * int(shopping_liste[x][1]))
+                if self.acc[3] == "Admin":
+                    summe += (int(float(info_liste[x][1])*0.65) * int(shopping_liste[x][1]))
+                else:
+                    summe += (int(info_liste[x][1]) * int(shopping_liste[x][1]))
 
         return summe
 
@@ -121,12 +126,12 @@ class WarenkorbWindow(QMainWindow):
 
             if shopping_liste[x][2] == "t":
                 label1 = QLabel(f"{info_liste[x][0]} | {info_liste[x][1]}")
-                label2 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
+                label2 = QLabel(locale.currency(int(float(info_liste[x][4])*0.65), grouping=True))
                 label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
 
             if shopping_liste[x][2] == "z":
                 label1 = QLabel(f"Zubehoer | {info_liste[x][0]}")
-                label2 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
+                label2 = QLabel(locale.currency(int(float(info_liste[x][1])*0.65), grouping=True))
                 label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
 
             top_layer.addWidget(label1)
@@ -217,9 +222,9 @@ class WarenkorbWindow(QMainWindow):
             label5.clicked.connect(lambda nr=x: self.make_button_click_handler(shopping_liste[nr][0]))
 
             if shopping_liste[x][2] == "t":
-                label6 = QLabel(locale.currency(int(info_liste[x][4]), grouping=True))
+                label6 = QLabel(locale.currency(int(float(info_liste[x][4])*0.65), grouping=True))
             elif shopping_liste[x][2] == "z":
-                label6 = QLabel(locale.currency(int(info_liste[x][1]), grouping=True))
+                label6 = QLabel(locale.currency(int(float(info_liste[x][1])*0.65), grouping=True))
             else:
                 label6 = QLabel()
             label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
