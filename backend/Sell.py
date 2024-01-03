@@ -148,9 +148,9 @@ class SellWindow(QMainWindow):
             value_innerlayout = QHBoxLayout()
 
             if self.inventar_liste[x][2] == "t":
-                label6 = QLabel(locale.currency(int(self.info_liste[x][4]), grouping=True))
+                label6 = QLabel(f"Wert: {locale.currency(int(self.info_liste[x][4]), grouping=True)}")
             elif self.inventar_liste[x][2] == "z":
-                label6 = QLabel(locale.currency(int(self.info_liste[x][1]), grouping=True))
+                label6 = QLabel(f"Wert: {locale.currency(int(self.info_liste[x][1]), grouping=True)}")
             else:
                 label6 = QLabel()
 
