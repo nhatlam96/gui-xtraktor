@@ -27,7 +27,7 @@ class GebrauchtwarenWindow(QMainWindow):
 
         print("AUFRUF GEBRAUCHT")
 
-        self.beispielGebot = 420690
+        self.beispielGebot = 142069 # brauchen aber eigentliches Gebot
 
 
         # übergabeparameter
@@ -43,7 +43,7 @@ class GebrauchtwarenWindow(QMainWindow):
         # simulierte bidders
         self.bestOffer = 0
         self.sortedOffers = 0
-        self.readInBidders(self.bidders_liste)
+        self.readInBidders()
 
         print(self.bestOffer)
         print(self.sortedOffers)
@@ -89,8 +89,7 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
 
-    def readInBidders(self, bidders_liste):
-        print("biddersliste", bidders_liste)
+    def readInBidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
             data = list(csv.reader(file))
 
@@ -98,10 +97,14 @@ class GebrauchtwarenWindow(QMainWindow):
             if not Helper3.isInterested():
                 data.remove(bidder)
         for bidder in data:
-            bidder[1] = Helper3.genKaufangebot(bidder[1])
+            kaufangebot = Helper3.genKaufangebot(self.beispielGebot)#bidder[1]) # hier muss richtiges Gebot hin
+            if kaufangebot <= bidder[3]:    # kann nicht budget übersteigen
+                bidder[1] = kaufangebot
+            else:
+                bidder[1] = bidder[3]
 
         self.bestOffer = max(data, key=lambda data: data[1])
-        self.sortedOffers = sorted(data, key=lambda data: data[1])  # bid/offer
+        self.sortedOffers = sorted(data, key=lambda data: data[1], reverse=True)  # bid/offer
 
 
     def add_widget(self):
