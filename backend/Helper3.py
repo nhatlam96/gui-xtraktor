@@ -16,7 +16,7 @@ def isInterested():
 # Zufallszahl 2
 def genKaufangebot(curGebPreis):
     mod = random.uniform(0.70, 1.1)
-    Kaufangebot = int(float(curGebPreis) * mod)
+    Kaufangebot = str(int(float(curGebPreis) * mod))
     return Kaufangebot
 
 

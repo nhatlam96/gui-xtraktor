@@ -8,7 +8,7 @@ import Helper
 import Helper2
 import Helper_Accounts
 from Helper_Accounts import UserHandler, update_userBalance
-from backend.Helper import get_program_time
+from Helper import get_program_time
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")

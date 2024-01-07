@@ -27,6 +27,8 @@ class GebrauchtwarenWindow(QMainWindow):
 
         print("AUFRUF GEBRAUCHT")
 
+        self.beispielGebot = 420690
+
 
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
@@ -47,6 +49,8 @@ class GebrauchtwarenWindow(QMainWindow):
 
         print(self.bestOffer)
         print(self.sortedOffers)
+        print("bestOffer:", self.bestOffer)
+        print("sortedOffers:", self.sortedOffers)
 
         # Währungsumgebung laden
         #Helper2.conf.locale_setup(self)
