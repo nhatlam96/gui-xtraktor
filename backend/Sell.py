@@ -26,6 +26,7 @@ class SellWindow(QMainWindow):
         self.inventar_liste = Helper.InvHandler.get_inv()
         print(self.inventar_liste)
         self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
+        print(self.info_liste)
         self.bidders_liste = Helper_Accounts.get_bidders()
 
         # Lokale Umbegbung laden
@@ -160,16 +161,12 @@ class SellWindow(QMainWindow):
 
             value_innerlayout = QHBoxLayout()
 
-            if self.inventar_liste[x][2] == "t":
-                label6 = QLabel(f"Wert: {locale.currency(int(self.info_liste[x][4]), grouping=True)}")
-            elif self.inventar_liste[x][2] == "z":
-                label6 = QLabel(f"Wert: {locale.currency(int(self.info_liste[x][1]), grouping=True)}")
-            else:
-                label6 = QLabel()
+            label6 = QLabel(f"Wert: {locale.currency(int(self.convert_preis(x)), grouping=True)}")
+
 
             label6.setStyleSheet("color: red; font-size: 16px; font-weight: 500; border:none;")
 
-            label7 = QLabel(f"Alter: ")
+            label7 = QLabel(f"Alter: {int(Helper.get_time_difference_since_program_time(self.inventar_liste[x][4]))} Jahre")
             label7.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
 
             value_innerlayout.addWidget(label7)
@@ -227,3 +224,15 @@ class SellWindow(QMainWindow):
                 switches.switch_to.Sell_item()
             else:
                 switches.switch_to.Sell_item_Access()
+
+
+    def convert_preis(self, row):
+
+        preis = int(self.info_liste[row][4]) if self.inventar_liste[row][2] == "t" else int(self.info_liste[row][1])
+        loss = int(Helper2.load.loss(self.info_liste[row][0])) if self.inventar_liste[row][2] == "t" else int(Helper2.load.loss("Zusatz"))
+        jahre = int(Helper.get_time_difference_since_program_time(self.inventar_liste[row][4]))
+        verlustRate = (100 - loss) / 100
+        conv_preis = int(float(preis) * float(verlustRate ** jahre))
+        neu_preis = int(conv_preis)
+
+        return neu_preis

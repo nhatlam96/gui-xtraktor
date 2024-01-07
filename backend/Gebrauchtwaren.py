@@ -26,37 +26,27 @@ class GebrauchtwarenWindow(QMainWindow):
 
         print("AUFRUF GEBRAUCHT")
 
-        self.beispielGebot = 142069 # brauchen aber eigentliches Gebot
-
-
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
-        print(self.product)
-        print(Helper.get_time_difference_since_program_time(self.product[4]))
-        print(Helper.get_program_time())
-        print("PRODUCT:")
-        print(self.product[4])
-
-        self.bidders_liste = Helper_Accounts.get_bidders()
-        # simulierte bidders
-        self.bestOffer = 0
-        self.sortedOffers = 0
-        self.readInBidders()
-
-        print(self.bestOffer)
-        print(self.sortedOffers)
-        print("bestOffer:", self.bestOffer)
-        print("sortedOffers:", self.sortedOffers)
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
-        # dynamisches Widget laden
-        self.add_widget()
 
         # Produktseite laden
         self.load_ui()
+
+        # simulierte bidders
+        self.beispielGebot = self.conv_preis
+        self.bidders_liste = Helper_Accounts.get_bidders()
+        self.bestOffer = []
+        self.sortedOffers = []
+        self.readInBidders()
+
+
+        # dynamisches Widget laden
+        self.add_widget()
 
         # Mausevent mit Bild verknüpfen
         picture_label = self.findChild(QLabel, "picture")
@@ -88,6 +78,8 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
 
+        self.convert_preis()
+
     def readInBidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
             data = list(csv.reader(file))
@@ -112,36 +104,48 @@ class GebrauchtwarenWindow(QMainWindow):
         content_widget = QWidget()
         content_layout = QVBoxLayout(content_widget)
 
-        new_widget = QWidget()
-        inner_layout = QVBoxLayout(new_widget)
+        for index in range(len(self.sortedOffers)):
+            offer = self.sortedOffers[index]
+            print(offer)
 
-        button = QPushButton("Verkauf bestätigen")
-        button.clicked.connect(self.button_handler)
-        button.setStyleSheet(
-            """
-            QPushButton{
-                border-radius: 10px;
-                background-color: rgb(230,126,34);
-                color: white;
-                font-weight: bold;
-                min-height: 30px;
-            }
-            QPushButton:hover {
-                background-color: rgb(253,139,37);
-                opacity: 0.8;
-            }
-            QPushButton:pressed {
-                padding-left: 3px;
-                padding-bottom: 3px;
-            }
-            """
-        )
-        
-        inner_layout.addWidget(button)
-        content_layout.addWidget(new_widget)
+            new_widget = QWidget()
+            inner_layout = QHBoxLayout(new_widget)
 
-        new_widget.setLayout(inner_layout)
-        content_widget.setLayout(content_layout)
+            if index == 0:
+                name = QLabel(f"Meistbietende/r: {offer[0]}")
+            else:
+                name = QLabel(f"Bieter: {offer[0]}")
+            inner_layout.addWidget(name, 1)
+
+            gebot = QLabel(f"Gebot: {offer[1]}")
+            inner_layout.addWidget(gebot, 1)
+
+            if index == 0:
+                button = QPushButton("Verkauf bestätigen")
+                button.clicked.connect(self.button_handler)
+                button.setStyleSheet(
+                    """
+                    QPushButton{
+                        border-radius: 10px;
+                        background-color: rgb(230,126,34);
+                        color: white;
+                        font-weight: bold;
+                        min-height: 30px;
+                    }
+                    QPushButton:hover {
+                        background-color: rgb(253,139,37);
+                        opacity: 0.8;
+                    }
+                    QPushButton:pressed {
+                        padding-left: 3px;
+                        padding-bottom: 3px;
+                    }
+                    """
+                )
+                inner_layout.addWidget(button, 3)
+
+            content_layout.addWidget(new_widget)
+
 
         scroll_area.setWidget(content_widget)
 
@@ -160,12 +164,19 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
-        
-        
-    def calc_wert(self, product, loss, jahre):
-        normalPreis = float(product)
+
+
+    def convert_preis(self):
+
+        preis = int(self.product_info[4])
+        loss = int(Helper2.load.loss(self.product_info[0]))
+        jahre = int(Helper.get_time_difference_since_program_time(self.product[4]))
         verlustRate = (100 - loss) / 100
-        new_value = normalPreis * (verlustRate) ** jahre
-        # Zinseszinzprinzip:
-        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
-        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+        conv_preis = int(float(preis) * float(verlustRate ** jahre))
+        neu_preis = int(conv_preis)
+
+        self.conv_preis = neu_preis
+
+        Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
+        Helper2.replace.text(locale.currency((conv_preis-preis), grouping=True), self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency(neu_preis, grouping=True), self.findChild(QLabel, "neu_preis_status"))
