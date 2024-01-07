@@ -79,8 +79,6 @@ class InvHandler:
         return InvHandler.current_inventar
 
 
-
-
 class current_Sell_Handler:
     current_sell_item = []
 
@@ -91,8 +89,6 @@ class current_Sell_Handler:
     @staticmethod
     def add_sell_item(product, anz, typ, user, zeit):
         current_Sell_Handler.current_sell_item = [product, anz, typ, user, zeit]
-
-
 
 
 def show_toast(message, icon, button, time_in_ms):

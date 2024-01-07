@@ -51,7 +51,7 @@ def main():
     print("Starting Login window...")
     global time_master_process
 
-    # TimeMaster.py als seperaten Prozess öffnen
+    # TimeMaster.py as separate process
     time_master_process = subprocess.Popen(["python", "-m", "TimeMaster"])
 
     app = QApplication(sys.argv)

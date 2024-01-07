@@ -8,6 +8,8 @@ CSV_PATH = os.path.join("..", "resources", "csv")
 ACCOUNTS_FILE_PATH = os.path.join("..", "resources", "csv", "Accounts.csv")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 INVENTAR_FILE_PATH = os.path.join("..", "resources", "csv", "Inventar.csv")
+T_INVENTORY_PATH = os.path.join(CSV_PATH, "mobile Arbeitsmaschinen Landwirtschaft.csv")
+Z_INVENTORY_PATH = os.path.join(CSV_PATH, "Zubehör.csv")
 
 
 class UserHandler:
@@ -206,6 +208,35 @@ def writeInventar(modell_name, anzahl, t_z, timestamp):
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(sorted_inv_by_user)
         return True
+
+
+# shopping list structure: [['Vario_1050', 2, 't'], ['9R_RT', 3, 't']]
+def update_seller_inventories(items_bought):
+    # Update inventory for type 't'
+    with open(T_INVENTORY_PATH, 'r', newline='') as file:
+        t_inventory = list(csv.reader(file))
+
+    for item in items_bought:
+        if item[2] == 't':
+            for row in t_inventory[1:]:
+                if row[1] == item[0]:  # Check if the product name matches
+                    row[-1] = str(int(row[-1]) - int(item[1]))  # Update the Lager quantity
+
+    with open(T_INVENTORY_PATH, 'w', newline='') as file:
+        csv.writer(file).writerows(t_inventory)
+
+    # Update inventory for type 'z'
+    with open(Z_INVENTORY_PATH, 'r', newline='') as file:
+        z_inventory = list(csv.reader(file))
+
+    for item in items_bought:
+        if item[2] == 'z':
+            for row in z_inventory[1:]:
+                if row[0] == item[0]:  # Check if the product name matches
+                    row[2] = str(int(row[2]) - int(item[1]))  # Update the Bestand quantity
+
+    with open(Z_INVENTORY_PATH, 'w', newline='') as file:
+        csv.writer(file).writerows(z_inventory)
 
 
 def get_bidders():
