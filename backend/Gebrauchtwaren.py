@@ -51,10 +51,10 @@ class GebrauchtwarenWindow(QMainWindow):
         print("sortedOffers:", self.sortedOffers)
 
         # Währungsumgebung laden
-        #Helper2.conf.locale_setup(self)
+        Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
-        # self.add_widget()
+        self.add_widget()
 
         # Produktseite laden
         self.load_ui()
@@ -108,66 +108,33 @@ class GebrauchtwarenWindow(QMainWindow):
 
 
     def add_widget(self):
-
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
+
         content_widget = QWidget()
-        layout = QHBoxLayout(content_widget)
+        content_layout = QVBoxLayout(content_widget)
 
         new_widget = QWidget()
-        inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
-
-        head_layout = QVBoxLayout()
-        inner_layout.addLayout(head_layout, 8)
-
-        for x in range(len(self.bidders)):
-            other_buyer = QLabel(f"{self.bidders[x][0]}")
-            other_buyer.setAlignment(Qt.AlignCenter)
-            other_buyer_price = QLabel(f"{locale.currency(int(self.bidders[x][1]), grouping=True)}")
-            other_buyer_price.setAlignment(Qt.AlignCenter)
-            buyer_info_layout = QHBoxLayout()
-            buyer_info_layout.addWidget(other_buyer)
-            buyer_info_layout.addWidget(other_buyer_price)
-            head_layout.addLayout(buyer_info_layout)
-
-        content_layout = QVBoxLayout()
-        inner_layout.addLayout(content_layout, 4)
-
-        title_layout = QVBoxLayout()
-        title_layout.setContentsMargins(0, 40, 0, 40)
-        content_layout.addLayout(title_layout, 2)
-        title = QLabel("Höchstes Gebot")
-        title.setAlignment(Qt.AlignCenter)
-
-        title_layout.addWidget(title)
-
-        buyer_layout = QHBoxLayout()
-        content_layout.addLayout(buyer_layout, 2)
-        buyer = QLabel(f"{self.bidders[1][0]}")
-        price = QLabel(f"{locale.currency(int(self.bidders[1][1]), grouping=True)}")
+        inner_layout = QVBoxLayout(new_widget)
 
         button = QPushButton("Verkauf bestätigen")
-        button.clicked.connect(lambda: self.confirm_sell(self, price, buyer))
-        button.clicked.connect(lambda: self.bidderSell(self, price, buyer))
+        button.clicked.connect(self.button_handler)
 
-        buyer_layout.addWidget(buyer)
-        buyer_layout.addWidget(price)
-        buyer_layout.addWidget(button)
+        inner_layout.addWidget(button)
+        content_layout.addWidget(new_widget)
 
-        layout.addWidget(new_widget)  # widget dem container hinzufuegen
+        new_widget.setLayout(inner_layout)
+        content_widget.setLayout(content_layout)
 
-        # erstellten Container einfuegen in QScrollArea
         scroll_area.setWidget(content_widget)
 
-    def make_button_click_handler(self, label):
-        def button_click_handler():
-            if label is not None:
-                text = label.text()
-                Helper.AccessoriesHandler.set_current_acc(text)
-                switches.switch_to.accessories(self)
-            else:
-                print("Label ist None")
 
-        return button_click_handler
+
+
+    def button_handler(self):
+        pass
+
+
+
 
     def confirm_sell(self, gebot, bidder):
         Helper.show_toast(f"{bidder} hat den Verkauf über {gebot}€ abgeschlossen.",
