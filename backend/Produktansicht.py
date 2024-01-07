@@ -44,7 +44,7 @@ class ProductWindow(QMainWindow):
         # Aktionen
         self.buy_Button.clicked.connect(lambda: self.buy(self.product[1], self.anz))
         self.wert_spinBox.valueChanged.connect(lambda value: self.calc_wert(value))
-        self.anz_spinBox.valueChanged.connect(lambda value: self.set_anz(value))
+        self.anz_spinBox.valueChanged.connect(lambda value: self.check_quantity(value))
 
         # Mausevent mit Bild verknüpfen
         picture_label = self.findChild(QLabel, "picture")
@@ -52,7 +52,6 @@ class ProductWindow(QMainWindow):
 
         self.showFullScreen()
         self.show()
-
 
     def closeEvent(self, event):
         print("Window is closing")
@@ -63,13 +62,12 @@ class ProductWindow(QMainWindow):
     def show_fullscreen(event, pixmap):
         FullScreenImage.show_fullscreen(event, pixmap)
 
-
     def load_ui(self):
         Helper2.conf.locale_setup(self)
         Helper2.replace.text(f"{self.product[0]} - {self.product[1]}",
                              self.findChild(QLabel, "name_label"))
         Helper2.replace.text(locale.currency(int(self.get_preis()), grouping=True),
-                                 self.findChild(QLabel, "preis_status"))
+                             self.findChild(QLabel, "preis_status"))
         Helper2.replace.text(self.product[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self.product[3], self.findChild(QLabel, "kmh_status"))
         Helper2.replace.text(self.product[5], self.findChild(QLabel, "baujahr_status"))
@@ -85,18 +83,11 @@ class ProductWindow(QMainWindow):
         else:
             self.load_lager()
 
-
-
-    def set_anz(self, value):
-        self.anz = value
-        self.calc_preis(value)
-
     def calc_preis(self, value):
 
         preis = self.get_preis()
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
-
 
     def get_preis(self):
         print("ZEIT DIF:")
@@ -108,16 +99,13 @@ class ProductWindow(QMainWindow):
 
         return neu_preis
 
-
     def calc_wert(self, jahre):
-        normalPreis = int(float(self.product[4])*0.65) if self.acc[3] == "Admin" else int(self.product[4])
+        normalPreis = int(float(self.product[4]) * 0.65) if self.acc[3] == "Admin" else int(self.product[4])
         verlustRate = (100 - self.loss) / 100
-        new_value = int(normalPreis * (verlustRate ** jahre)) # ** -> Potenz
-        Helper2.replace.text(locale.currency(new_value - normalPreis , grouping=True), self.findChild(QLabel, "wert_status"))
+        new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz
+        Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
+                             self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
-
-
-
 
     def load_zub(self):
         pfad = os.path.join(CSV_PATH, r"Zubehör.csv")
@@ -134,14 +122,13 @@ class ProductWindow(QMainWindow):
 
             return data_list
 
-
     def load_lager(self):
         if int(self.product[6]) > 0:
-            Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"),self.findChild(QLabel, "bestand_icon"))
+            Helper2.replace.img(os.path.join(ICON_PATH, r"check.svg"), self.findChild(QLabel, "bestand_icon"))
             self.bestand_icon.setMaximumSize(32, 32)
             return True
         else:
-            Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"),self.findChild(QLabel, "bestand_icon"))
+            Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
             self.bestand_icon.setMaximumSize(32, 32)
             self.buy_Button.setDisabled(True)
             Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
@@ -206,7 +193,7 @@ class ProductWindow(QMainWindow):
             label2.setStyleSheet("border: none;")
             label2.setPixmap(self.load_zpic(zusatz[x][0]))
             if self.acc[3] == "Admin":
-                label3 = QLabel(f"EK-P: {locale.currency(int(float(zusatz[x][1])*0.65), grouping=True)}")
+                label3 = QLabel(f"EK-P: {locale.currency(int(float(zusatz[x][1]) * 0.65), grouping=True)}")
             else:
                 label3 = QLabel(f"{locale.currency(int(zusatz[x][1]), grouping=True)}")
             label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
@@ -253,14 +240,43 @@ class ProductWindow(QMainWindow):
 
         return button_click_handler
 
+    def check_quantity(self, value):
+        print(f"Produktansicht: {self.product}")
+        available_quantity = int(self.product[6])
+        current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
+        total_quantity = sum(item[1] for item in current_shopping_list if item[0] == self.product[1])
+
+        if total_quantity + value > available_quantity:
+            adjusted_quantity = min(value, available_quantity - total_quantity)
+            self.anz_spinBox.setValue(adjusted_quantity)
+            self.anz = adjusted_quantity
+            message = f"Not enough quantity in the Lager for {self.product[1]}."
+            Helper.show_toast(message, QMessageBox.Warning, QMessageBox.Ok, 2300)
+        else:
+            self.anz_spinBox.setValue(value)
+            self.anz = value
 
     def buy(self, model, anz):
+        print(f"Produktansicht: buy(): model: {model}, anz: {anz}")
         if anz > 0:
+            current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+
+            # Check if product already in shopping list
+            for item in current_shopping_list:
+                if item[0] == model:
+                    item[1] += anz
+                    Helper.show_toast(f"Quantität von {model} im Warenkorb wurde aktualisiert.",
+                                      QMessageBox.Information, QMessageBox.Ok, 1750)
+                    self.anz_spinBox.setValue(0)
+                    print(Helper.BuyHandler.get_current_shoppinglist())
+                    return
+
+            # If product not in shopping list, then add
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.",
-                              QMessageBox.Information,
-                              QMessageBox.Ok, 2500)
-            print("aufruf buy()")
+                              QMessageBox.Information, QMessageBox.Ok, 2500)
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")
             self.anz_spinBox.setValue(0)
             print(Helper.BuyHandler.get_current_shoppinglist())
+        else:
+            Helper.show_toast("Bitte Quantität erhöhen", QMessageBox.Warning, QMessageBox.Ok, 1750)
