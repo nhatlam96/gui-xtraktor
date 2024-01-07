@@ -637,13 +637,13 @@ QPushButton#sell_Button:pressed {
                       <string>max. </string>
                      </property>
                      <property name="maximum">
-                      <number>300000</number>
+                      <number>500000</number>
                      </property>
                      <property name="singleStep">
                       <number>10000</number>
                      </property>
                      <property name="value">
-                      <number>300000</number>
+                      <number>500000</number>
                      </property>
                     </widget>
                    </item>
@@ -878,7 +878,7 @@ QPushButton#search_pushButton:pressed {
                   <x>0</x>
                   <y>0</y>
                   <width>970</width>
-                  <height>678</height>
+                  <height>688</height>
                  </rect>
                 </property>
                </widget>
