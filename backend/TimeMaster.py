@@ -88,3 +88,4 @@ launch_time = save_launch_time(get_program_time())
 while True:
     time.sleep(1000)
     update_program_time(1)
+    
