@@ -21,10 +21,14 @@ class Startseite(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Startseite.ui"), self)
 
+        # Übergabeparameter
+        self.acc = Helper_Accounts.UserHandler.get_current_user()
+
         # NEUES LISTENMODEL MUSS NOCH ANGEWENDET WERDEN
         self.traktor_Liste = Helper2.load.all_traktor_data(self)
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
-        print(self.traktor_infos)
+
+        self.convert_list()
 
         self.search_Liste = self.traktor_Liste
         self.search_infos = self.traktor_infos
@@ -37,9 +41,6 @@ class Startseite(QMainWindow):
 
         self.hersteller_Liste = Helper4.load.hersteller_dict().keys()
         self.model_Liste = Helper4.load.get_all_model()
-
-        # Übergabeparameter
-        self.acc = Helper_Accounts.UserHandler.get_current_user()
 
         # Signale Filter
         self.comboBox_hersteller.currentTextChanged.connect(lambda value: self.filter_changed_hersteller(value))
@@ -159,7 +160,20 @@ class Startseite(QMainWindow):
         Helper4.FilterHandler.set_Filter(pre_max=value)
         print("maxPreis")
 
+    def get_preis(self):
+        print("ZEIT DIF:")
+        print(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
+        jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
+        verlustRate = (100 - self.loss) / 100
+        preis = int(float(self.product[4]) * float(verlustRate ** jahre))  # ** -> Potenz
+        neu_preis = int(preis)
+
+        return neu_preis
+
+
     def setup_waren_ui(self):
+
+
 
         scroll_area = self.findChild(QScrollArea, "scrollArea")
         content_widget = QWidget()
@@ -176,6 +190,15 @@ class Startseite(QMainWindow):
 
 
         for x in range(len(liste)):
+
+            self.product = Helper2.load.traktor_data(self, liste[x][0])
+            self.loss = int(Helper2.load.loss(self.product[0]))
+            preis = self.get_preis()
+
+            print("PRODUCT VON LOSS")
+            print(self.product)
+            print(self.loss)
+            print(preis)
 
             new_widget = QWidget()
             new_widget.setMaximumHeight(200)
@@ -247,21 +270,21 @@ class Startseite(QMainWindow):
             kaufen.clicked.connect(self.make_button_click_handler(str(liste[x][0])))
             value_layout.addWidget(kaufen)
 
-            if liste[x][2] == "t":
-                label6 = QLabel(f"Preis: {locale.currency(int(info_liste[x][4]), grouping=True)}")
-                value_layout.addWidget(label6)
-                label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
-                value_layout.setAlignment(label6, QtCore.Qt.AlignHCenter)
 
-                if self.acc[3] == "Admin":
-                    label6.setText(f"VK-Preis: {locale.currency(int(info_liste[x][4]), grouping=True)}")
-                    label7 = QLabel(f"EK-Preis: {locale.currency(int(float(info_liste[x][4])*0.65), grouping=True)}")
-                    value_layout.addWidget(label7)
-                    value_layout.setAlignment(label7, QtCore.Qt.AlignHCenter)
+            label6 = QLabel(f"Preis: {locale.currency(int(preis), grouping=True)}")
+            value_layout.addWidget(label6)
+            label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            value_layout.setAlignment(label6, QtCore.Qt.AlignHCenter)
 
-                    label8 = QLabel(f"Lagerstand: {info_liste[x][-1]}")
-                    value_layout.addWidget(label8)
-                    value_layout.setAlignment(label8, QtCore.Qt.AlignHCenter)
+            if self.acc[3] == "Admin":
+                label6.setText(f"VK-Preis: {locale.currency(int(preis), grouping=True)}")
+                label7 = QLabel(f"EK-Preis: {locale.currency(int(float(preis)*0.65), grouping=True)}")
+                value_layout.addWidget(label7)
+                value_layout.setAlignment(label7, QtCore.Qt.AlignHCenter)
+
+                label8 = QLabel(f"Lagerstand: {info_liste[x][-1]}")
+                value_layout.addWidget(label8)
+                value_layout.setAlignment(label8, QtCore.Qt.AlignHCenter)
 
 
 
@@ -416,6 +439,20 @@ class Startseite(QMainWindow):
         self.get_sorted_list("")
         self.setup_waren_ui()
         self.load_ui()
+
+
+    def convert_list(self):
+        liste = self.traktor_infos
+
+        for item in liste:
+            preis = int(item[4])
+            loss = int(Helper2.load.loss(item[0]))
+            jahre = int(Helper.get_time_difference_since_program_time(f"{item[5]}-01-01 12:00:00"))
+            verlustRate = (100 - loss) / 100
+            conv_preis = int(float(preis) * float(verlustRate ** jahre))
+            neu_preis = int(float(conv_preis) * 0.65) if self.acc[3] == "Admin" else int(conv_preis)
+
+            item[4] = neu_preis
 
 
     def search_handler(self):
