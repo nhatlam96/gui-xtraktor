@@ -52,8 +52,26 @@ class WarenkorbWindow(QMainWindow):
         Helper2.replace.text(str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
 
-    def set_anz(self, number, value):
-        self.shopping_list[number][1] = value
+    def check_quantity(self, number, value):
+        print(f"Warenkorb.py - check params: {number}, {value}")  # Debug
+        print(f"Warenkorb.py - shopping list: {self.shopping_list}")  # Debug
+        print(f"Warenkorb.py - info list: {self.info_list}")  # Debug
+
+        product_name = self.shopping_list[number][0]
+        if self.shopping_list[number][2] == "t":
+            available_quantity = int(self.info_list[number][6])
+        else:
+            available_quantity = int(self.info_list[number][2])
+
+        if value > available_quantity:
+            adjusted_quantity = min(value, available_quantity)
+            self.spinBoxes[number].setValue(adjusted_quantity)
+            self.shopping_list[number][1] = adjusted_quantity
+            message = f"Not enough quantity in the Lager for {product_name}."
+            Helper.show_toast(message, QMessageBox.Warning, QMessageBox.Ok, 1750)
+        else:
+            self.shopping_list[number][1] = value
+
         self.add_sum_list(self.info_list, self.shopping_list)
         Helper2.replace.text(str(locale.currency(self.calc_sum(self.info_list, self.shopping_list), grouping=True)),
                              self.findChild(QLabel, "summe_status"))
@@ -99,9 +117,9 @@ class WarenkorbWindow(QMainWindow):
 
         for x in range(len(shopping_liste)):
             if shopping_liste[x][2] == "t":
-                    summe += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
+                summe += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
             if shopping_liste[x][2] == "z":
-                    summe += (int(info_liste[x][1]) * int(shopping_liste[x][1]))
+                summe += (int(info_liste[x][1]) * int(shopping_liste[x][1]))
 
         return summe
 
@@ -197,7 +215,7 @@ class WarenkorbWindow(QMainWindow):
             label4.setMinimum(1)
             label4.setValue(shopping_liste[x][1])
             self.spinBoxes[x] = label4
-            label4.valueChanged.connect(lambda value, nr=x: self.set_anz(nr, value))
+            label4.valueChanged.connect(lambda value, nr=x: self.check_quantity(nr, value))
 
             label5 = QPushButton("Entfernen")
             label5.setStyleSheet("""

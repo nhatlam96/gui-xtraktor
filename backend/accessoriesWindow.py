@@ -28,13 +28,12 @@ class accessoriesWindow(QMainWindow):
         # übergabeparameter
         platzhalter = Helper.AccessoriesHandler.get_current_acc()
         print(platzhalter)
-        self.product = Helper2.load.product_info(self,[[platzhalter, 1, "z"]])[0]
+        self.product = Helper2.load.product_info(self, [[platzhalter, 1, "z"]])[0]
         self.acc = Helper_Accounts.UserHandler.get_current_user()
         self.hers_list = self.load_hers()  # kompatible Traktoren
         self.anz = 0
         self.loss = int(Helper2.load.loss("Zusatz"))
         self.ges_preis = 0
-
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -46,7 +45,7 @@ class accessoriesWindow(QMainWindow):
 
         # Aktionen
         self.buy_Button.clicked.connect(lambda: self.buy(self.anz, "z"))
-        self.anz_spinBox.valueChanged.connect(lambda value: self.set_anz(value))
+        self.anz_spinBox.valueChanged.connect(lambda value: self.check_quantity(value))
         self.wert_spinBox.valueChanged.connect(lambda value: self.calc_wert(value))
 
         # Mausevent mit Bild verknüpfen
@@ -54,7 +53,6 @@ class accessoriesWindow(QMainWindow):
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
         self.show()
-
 
     def closeEvent(self, event):
         print("Window is closing")
@@ -68,17 +66,16 @@ class accessoriesWindow(QMainWindow):
     def load_ui(self):
         Helper2.replace.text(self.product[0], self.findChild(QLabel, "name_label"))
         if self.acc[3] == "Admin":
-            Helper2.replace.text(locale.currency(int(float(self.product[1])*0.65), grouping=True), self.findChild(QLabel, "preis_status"))
+            Helper2.replace.text(locale.currency(int(float(self.product[1]) * 0.65), grouping=True),
+                                 self.findChild(QLabel, "preis_status"))
             self.preis_label.setText("EK-Stückpreis:")
         else:
-            Helper2.replace.text(locale.currency(int(self.product[1]), grouping=True), self.findChild(QLabel, "preis_status"))
-        Helper2.replace.text(f"Budget:  {locale.currency(int(self.acc[2]), grouping=True)}", self.findChild(QLabel, "budget_label"))
+            Helper2.replace.text(locale.currency(int(self.product[1]), grouping=True),
+                                 self.findChild(QLabel, "preis_status"))
+        Helper2.replace.text(f"Budget:  {locale.currency(int(self.acc[2]), grouping=True)}",
+                             self.findChild(QLabel, "budget_label"))
         Helper2.replace.text(self.hers_list, self.findChild(QLabel, "comp_label"))
         Helper2.load.complete_header(self)
-
-    def set_anz(self, value):
-        self.anz = value
-        self.calc_preis(value)
 
     def load_hers(self):
         conv_text = ", ".join(self.product[3:])
@@ -115,25 +112,49 @@ class accessoriesWindow(QMainWindow):
                 return scaled_pixmap
 
     def calc_wert(self, jahre):
-        normalPreis = int(float(self.product[1])*0.65) if self.acc[3] == "Admin" else int(self.product[1])
+        normalPreis = int(float(self.product[1]) * 0.65) if self.acc[3] == "Admin" else int(self.product[1])
         verlustRate = (100 - self.loss) / 100
         new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz (Zinseszins)
         Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
                              self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
 
+    def check_quantity(self, value):
+        available_quantity = int(self.product[2])
+        current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
-    def calc_preis(self, value):
-        preis = int(float(self.product[1])*0.65) if self.acc[3] == "Admin" else int(self.product[1])
-        new_value = preis * value
-        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
+        total_quantity = sum(item[1] for item in current_shopping_list if item[0] == self.product[0])
 
+        if total_quantity + value > available_quantity:
+            adjusted_quantity = min(value, available_quantity - total_quantity)
+            self.anz_spinBox.setValue(adjusted_quantity)
+            self.anz = adjusted_quantity
+            message = f"Not enough quantity in the Lager for {self.product[0]}."
+            Helper.show_toast(message, QMessageBox.Warning, QMessageBox.Ok, 2300)
+        else:
+            self.anz_spinBox.setValue(value)
+            self.anz = value
 
     def buy(self, anz, typ):
         model = self.product[0]
         if anz > 0:
-            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.", QMessageBox.Information,
-                              QMessageBox.Ok, 2500)
+            current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
+
+            # Check if product already in shopping list
+            for item in current_shopping_list:
+                if item[0] == model:
+                    item[1] += anz
+                    Helper.show_toast(f"Quantität von {model} im Warenkorb wurde aktualisiert.",
+                                      QMessageBox.Information, QMessageBox.Ok, 1750)
+                    self.anz_spinBox.setValue(0)
+                    print(Helper.BuyHandler.get_current_shoppinglist())
+                    return
+
+            # If product not in shopping list, then add
+            Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.",
+                              QMessageBox.Information, QMessageBox.Ok, 2500)
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, typ)
             self.anz_spinBox.setValue(0)
             print(Helper.BuyHandler.get_current_shoppinglist())
+        else:
+            Helper.show_toast("Bitte Quantität erhöhen", QMessageBox.Warning, QMessageBox.Ok, 1750)

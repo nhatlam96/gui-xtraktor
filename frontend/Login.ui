@@ -178,7 +178,7 @@ QPushButton#goToRegisterButton:hover{
 }</string>
             </property>
             <property name="text">
-             <string>No Account? Register here!</string>
+             <string>Register here</string>
             </property>
             <property name="flat">
              <bool>true</bool>
