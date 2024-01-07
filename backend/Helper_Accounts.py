@@ -1,5 +1,6 @@
 import csv
 import os
+import Helper3
 
 from PyQt5.QtWidgets import QLineEdit
 
@@ -262,3 +263,28 @@ def get_bidders():
             liste.append(row)
 
         return liste
+
+def update_budgetsPerYear(years):
+    # update Users
+    with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
+        users_data = list(csv.reader(file))
+
+    for row in users_data:
+        newBudget = Helper3.increasedBudget(float(row[2]), years)
+        row[2] = str(int(float(newBudget)))
+        
+    with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
+        csv.writer(file).writerows(users_data)
+    print("increased users budgets") 
+    
+    # update Bidders
+    with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
+        bidders_data = list(csv.reader(file))
+
+    for row in bidders_data:
+        newBudget = Helper3.increasedBudget(float(row[1]), years)
+        row[1] = str(int(float(newBudget)))
+        
+    with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
+        csv.writer(file).writerows(bidders_data)
+    print("increased bidders budgets")

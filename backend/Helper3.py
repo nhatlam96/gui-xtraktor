@@ -21,12 +21,10 @@ def genKaufangebot(curGebPreis):
 
 
 # Zufallszahl 3
-def increasedBudget(curBudget, years=1):
-    newBudget = curBudget
-    for each in range(years):
-        increase = random.randint(0, 50_001)
-        newBudget += increase
-    return newBudget
+def increasedBudget(budget, years=1):
+    for eachYear in range(years):
+        budget += random.randint(0, 50001)
+    return budget
 
 
 def getSumme(geraeteArt, geraeteTyp, anzahl, account):

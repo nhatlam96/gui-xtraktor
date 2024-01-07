@@ -6,10 +6,11 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-import Helper
+import Helper, Helper3, Helper_Accounts
 import switches
 from Helper import show_toast
 from Helper_Accounts import UserHandler, check_credentials
+
 
 # Reference to the TimeMaster subprocess
 time_master_process = None
@@ -25,6 +26,11 @@ class Login(QMainWindow):
         # Signale
         self.goToRegisterButton.clicked.connect(lambda: switches.switch_to.register(self))
         self.loginButton.clicked.connect(lambda: self.login_check())
+
+        # Budgets erhöhen pro Jahr
+        timeDiff = Helper.get_time_difference_since_program_time("2022-01-01 12:00:00")
+        print("timeDiff", timeDiff)
+        Helper_Accounts.update_budgetsPerYear(int(timeDiff))
 
         # ui laden
         self.load_ui()

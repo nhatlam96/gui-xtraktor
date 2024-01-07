@@ -125,14 +125,13 @@ def get_program_time():
 
 # für die Berechnung der Wertminderungen
 def get_time_difference_since_program_time(buy_timestamp_str):
-    # Parse the buy_timestamp string to an Arrow object
+    # wandle zeitstempel um in "datum uhrzeit" format 
     buy_timestamp = arrow.get(buy_timestamp_str, "YYYY-MM-DD HH:mm:ss")
     current_time = get_program_time()
     difference = current_time - buy_timestamp
 
-    # Calculate the difference in years
-    years = difference.days / 365.25
+    years = difference.days / 365.25 # zeitunterschied in jahren
 
-    # Convert the result to a float with one decimal place and take its absolute value
+    # jahre mit nachkommastellen
     formatted_years = abs(float("{:.2f}".format(years)))
     return formatted_years

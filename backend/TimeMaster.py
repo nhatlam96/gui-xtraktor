@@ -3,7 +3,7 @@ import time
 
 import arrow
 
-from backend.Helper import get_program_time
+import Helper
 
 PROGRAM_TIME_FILE_PATH = os.path.join("..", "resources", "csv", "ProgramTime.csv")
 
@@ -70,12 +70,12 @@ def save_launch_time(program_time):
 
 
 def update_launch_time():
-    saved_time = save_launch_time(get_program_time())
+    saved_time = save_launch_time(Helper.get_program_time())
     return saved_time
 
 
 def update_program_time(months):
-    updated_time = get_program_time().shift(months=months)
+    updated_time = Helper.get_program_time().shift(months=months)
     saved_time = save_program_time(updated_time)
     return saved_time
 
@@ -84,8 +84,8 @@ def update_program_time(months):
 
 
 # initialises the LaunchTime at every program launch
-launch_time = save_launch_time(get_program_time())
+launch_time = save_launch_time(Helper.get_program_time())
 while True:
-    time.sleep(1000)
+    time.sleep(100)
     update_program_time(1)
     
