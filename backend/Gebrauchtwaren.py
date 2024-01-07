@@ -42,6 +42,9 @@ class GebrauchtwarenWindow(QMainWindow):
         self.sortedOffers = 0
         self.readInBidders()
 
+        self.bidders_liste = Helper_Accounts.get_bidders()
+
+
         print(self.bestOffer)
         print(self.sortedOffers)
 
