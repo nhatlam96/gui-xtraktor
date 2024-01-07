@@ -67,11 +67,7 @@ class ProductWindow(QMainWindow):
         Helper2.conf.locale_setup(self)
         Helper2.replace.text(f"{self.product[0]} - {self.product[1]}",
                              self.findChild(QLabel, "name_label"))
-        if self.acc[3] == "Admin":
-            Helper2.replace.text(locale.currency(int(float(self.product[4])*0.65), grouping=True),
-                                self.findChild(QLabel, "preis_status"))
-        else:
-            Helper2.replace.text(locale.currency(int(self.product[4]), grouping=True),
+        Helper2.replace.text(locale.currency(int(self.get_preis()), grouping=True),
                                  self.findChild(QLabel, "preis_status"))
         Helper2.replace.text(self.product[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self.product[3], self.findChild(QLabel, "kmh_status"))
@@ -93,16 +89,21 @@ class ProductWindow(QMainWindow):
 
     def calc_preis(self, value):
 
-        print("ZEIT DIF:")
-        print(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
-
-        #normalPreis = int(float(self.product[4]) * 0.65) if self.acc[3] == "Admin" else int(self.product[4])
-        #verlustRate = (100 - self.loss) / 100
-        #new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz
-
-        preis = int(float(self.product[4])*0.65) if self.acc[3] == "Admin" else int(self.product[4])
+        preis = self.get_preis()
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
+
+
+    def get_preis(self):
+        print("ZEIT DIF:")
+        print(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
+        jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
+        verlustRate = (100 - self.loss) / 100
+        preis = int(float(self.product[4]) * float(verlustRate ** jahre))  # ** -> Potenz
+        neu_preis = int(float(preis) * 0.65) if self.acc[3] == "Admin" else int(preis)
+
+        return neu_preis
+
 
     def calc_wert(self, jahre):
         normalPreis = int(float(self.product[4])*0.65) if self.acc[3] == "Admin" else int(self.product[4])
