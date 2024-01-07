@@ -1,6 +1,7 @@
-Klaus,1234,2667197,Admin
-Oskar,1234,421753,User
-Benni,1234,339534,User
-Daniela,1234,285831,User
-Horst,1234,600034,User
-Sieglinde,1234,239532,User
+username,password,budget,role
+Klaus,1234,2536622,Admin
+Oskar,1234,370311,User
+Benni,1234,591728,User
+Daniela,1234,829499,User
+Horst,1234,1184625,User
+Sieglinde,1234,710975,User

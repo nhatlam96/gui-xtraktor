@@ -1,4 +1,3 @@
-import csv
 import locale
 import os
 import os.path

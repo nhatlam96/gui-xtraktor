@@ -3,7 +3,6 @@ import locale
 import os.path
 
 from PyQt5 import uic
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from Vollbild_Klasse import FullScreenImage
 
@@ -97,7 +96,7 @@ class GebrauchtwarenWindow(QMainWindow):
             if not Helper3.isInterested():
                 data.remove(bidder)
         for bidder in data:
-            kaufangebot = Helper3.genKaufangebot(self.beispielGebot)#bidder[1]) # hier muss richtiges Gebot hin
+            kaufangebot = Helper3.genKaufangebot(self.beispielGebot)  # bidder[1] # hier muss richtiges Gebot hin
             if kaufangebot <= bidder[3]:    # kann nicht budget übersteigen
                 bidder[1] = kaufangebot
             else:

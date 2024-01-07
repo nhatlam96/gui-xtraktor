@@ -128,7 +128,7 @@ class WarenkorbWindow(QMainWindow):
                 label2 = QLabel(locale.currency(int(float(info_liste[x][4])), grouping=True))
                 label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
 
-            if shopping_liste[x][2] == "z":
+            else:
                 label1 = QLabel(f"Zubehoer | {info_liste[x][0]}")
                 label2 = QLabel(locale.currency(int(float(info_liste[x][1])), grouping=True))
                 label3 = QLabel(f"   {shopping_liste[x][1]} Stück")

@@ -269,7 +269,7 @@ def update_budgetsPerYear(years):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         users_data = list(csv.reader(file))
 
-    for row in users_data:
+    for row in users_data[3:]:
         newBudget = Helper3.increasedBudget(float(row[2]), years)
         row[2] = str(int(float(newBudget)))
         
