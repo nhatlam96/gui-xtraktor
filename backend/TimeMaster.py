@@ -87,4 +87,4 @@ def update_program_time(months):
 launch_time = save_launch_time(get_program_time())
 while True:
     time.sleep(10)
-    update_program_time(2)
+    update_program_time(1)
