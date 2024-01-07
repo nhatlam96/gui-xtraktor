@@ -50,6 +50,7 @@ class ProductWindow(QMainWindow):
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
+        self.showFullScreen()
         self.show()
 
 
@@ -77,6 +78,9 @@ class ProductWindow(QMainWindow):
         if Helper_Accounts.UserHandler.get_current_user()[3] == "Admin":
             Helper2.replace.text("nachbestellen", self.findChild(QPushButton, "buy_Button"))
             Helper2.replace.text(self.product[6], self.findChild(QLabel, "bestand_icon"))
+            self.findChild(QLabel,"bestand_icon").setStyleSheet("""
+                color: white; font-size: 20px; font-weight: 700;
+            """)
             self.preis_label.setText("EK-Stückpreis:")
         else:
             self.load_lager()
@@ -189,16 +193,23 @@ class ProductWindow(QMainWindow):
         for x in range(len(zusatz)):
             new_widget = QWidget()
             inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
+            new_widget.setStyleSheet("""
+                QWidget {
+                       border: 2px solid rgb(127, 140, 141);
+                       border-radius: 5px;
+                }
+            """)
 
             label1 = QLabel(zusatz[x][0])
-            label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             label2 = QLabel()
+            label2.setStyleSheet("border: none;")
             label2.setPixmap(self.load_zpic(zusatz[x][0]))
             if self.acc[3] == "Admin":
                 label3 = QLabel(f"EK-P: {locale.currency(int(float(zusatz[x][1])*0.65), grouping=True)}")
             else:
                 label3 = QLabel(f"{locale.currency(int(zusatz[x][1]), grouping=True)}")
-            label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
+            label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             button = QPushButton("Mehr info")
             button.setStyleSheet("""
                  QPushButton{
@@ -207,6 +218,7 @@ class ProductWindow(QMainWindow):
                     color: white;
                     font-weight: bold;
                     min-height: 30px;
+                    border: none;
                 }
                 QPushButton:hover {
                     background-color: rgb(178, 255, 89);

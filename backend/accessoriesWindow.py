@@ -53,6 +53,7 @@ class accessoriesWindow(QMainWindow):
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
+        self.showFullScreen()
         self.show()
 
 

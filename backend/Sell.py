@@ -39,6 +39,7 @@ class SellWindow(QMainWindow):
         self.load_ui()
 
         print("WORKS")
+        self.showFullScreen()
         self.show()
 
     def load_ui(self):

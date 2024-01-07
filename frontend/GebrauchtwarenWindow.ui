@@ -33,9 +33,7 @@
        <item>
         <widget class="QFrame" name="header_frame">
          <property name="styleSheet">
-          <string notr="true">QFrame#header_frame{
-	background-color: rgb(52, 73, 94);
-}</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -47,7 +45,9 @@
           <item alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QFrame" name="frame">
             <property name="styleSheet">
-             <string notr="true">background-color: white;</string>
+             <string notr="true">background-color: rgb(0, 191, 165);
+border-radius: 5px;
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -107,7 +107,9 @@
              </sizepolicy>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: white;</string>
+             <string notr="true">background-color: rgb(0, 191, 165);
+border-radius: 5px;
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>

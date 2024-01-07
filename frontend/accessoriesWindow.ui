@@ -59,9 +59,7 @@
        <item>
         <widget class="QFrame" name="header_frame">
          <property name="styleSheet">
-          <string notr="true">QFrame#header_frame {
-	background-color: rgb(52, 73, 94);
-}</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -73,7 +71,9 @@
           <item alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QFrame" name="l_header_frame">
             <property name="styleSheet">
-             <string notr="true">background-color: white;</string>
+             <string notr="true">background-color: rgb(0, 191, 165);
+border-radius: 5px;
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -139,7 +139,9 @@
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: white;</string>
+             <string notr="true">background-color: rgb(0, 191, 165);
+border-radius: 5px;
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -502,7 +504,7 @@ color: white;</string>
                       <string> Stück</string>
                      </property>
                      <property name="prefix">
-                      <string>    </string>
+                      <string/>
                      </property>
                     </widget>
                    </item>
@@ -666,7 +668,7 @@ color: white;</string>
                       <string> Jahr/e</string>
                      </property>
                      <property name="prefix">
-                      <string>    </string>
+                      <string/>
                      </property>
                     </widget>
                    </item>

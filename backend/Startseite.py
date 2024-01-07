@@ -3,6 +3,7 @@ import os
 import os.path
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
 import switches
 import Helper
 import Helper2
@@ -57,7 +58,6 @@ class Startseite(QMainWindow):
         self.search_pushButton.clicked.connect(lambda: self.search_handler())
         self.searchbar_Lineedit.editingFinished.connect(lambda: self.search_handler())  # press "enter" to finish
 
-
         # lokale Umgebung laden
         Helper2.conf.locale_setup(self)
 
@@ -67,7 +67,7 @@ class Startseite(QMainWindow):
         # Seite laden
         self.setup_waren_ui()
         self.load_ui()
-
+        self.showFullScreen()
         self.show()
 
     def closeEvent(self, event):
@@ -277,11 +277,14 @@ class Startseite(QMainWindow):
 
             if self.acc[3] == "Admin":
                 label6.setText(f"VK-Preis: {locale.currency(int(preis), grouping=True)}")
+                label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
                 label7 = QLabel(f"EK-Preis: {locale.currency(int(float(preis)*0.65), grouping=True)}")
+                label7.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
                 value_layout.addWidget(label7)
                 value_layout.setAlignment(label7, QtCore.Qt.AlignHCenter)
 
                 label8 = QLabel(f"Lagerstand: {info_liste[x][-1]}")
+                label8.setStyleSheet("color: white; font-size: 16px; font-weight: 500;");
                 value_layout.addWidget(label8)
                 value_layout.setAlignment(label8, QtCore.Qt.AlignHCenter)
 

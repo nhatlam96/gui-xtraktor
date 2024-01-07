@@ -42,7 +42,7 @@ class WarenkorbWindow(QMainWindow):
 
         # Aktionen
         self.buy_Button.clicked.connect(lambda: self.buy(self.acc))
-
+        self.showFullScreen()
         self.show()
 
     def load_ui(self):
