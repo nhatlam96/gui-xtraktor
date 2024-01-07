@@ -38,8 +38,12 @@ class GebrauchtwarenWindow(QMainWindow):
         print(self.product[4])
 
         # simulierte bidders
-        # self.bidders = self.readInBidders()
-        # print(self.bidders)
+        self.bestOffer = 0
+        self.sortedOffers = 0
+        self.readInBidders()
+
+        print(self.bestOffer)
+        print(self.sortedOffers)
 
         # Währungsumgebung laden
         #Helper2.conf.locale_setup(self)
@@ -90,9 +94,9 @@ class GebrauchtwarenWindow(QMainWindow):
         for bidder in data:
             bidder[1] = Helper3.genKaufangebot(bidder[1])
 
-        # bestOffer = max(data, key=lambda data: data[1])
-        sortedOffers = sorted(data, key=lambda data: data[1])  # bid/offer
-        return sortedOffers
+        self.bestOffer = max(data, key=lambda data: data[1])
+        self.sortedOffers = sorted(data, key=lambda data: data[1])  # bid/offer
+
 
     def add_widget(self):
 
