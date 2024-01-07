@@ -128,8 +128,6 @@ class GebrauchtwarenWindow(QMainWindow):
         scroll_area.setWidget(content_widget)
 
 
-
-
     def button_handler(self):
         modell = self.product[0]
         anzahl = self.product[1]

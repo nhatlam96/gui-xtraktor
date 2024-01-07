@@ -212,7 +212,7 @@ def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
         data = list(csv.reader(file))
     # Vario_1050,1,t,Klaus,4481-04-28 12:00:00
     for row in data:
-        if modell in row and account in row: 
+        if modell in row and account in row and timestamp in row: 
             if row[1] - anzahl <= 0: # falls nach verkauf leer wäre
                 data.remove(row) # eintrag löschen 
             else:
