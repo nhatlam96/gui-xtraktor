@@ -135,7 +135,7 @@ def update_userBalance(user, amount):
 
     for row in data:
         if user in row:
-            row[2] = float(row[2]) + amount
+            row[2] = str(int(float(row[2]) + amount))
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -148,23 +148,10 @@ def update_accountsBalance(account, amount):
 
     for row in data:
         if account in row:
-            row[2] = float(row[2]) + amount
+            row[2] = str(int(float(row[2]) + amount))
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
-
-
-def update_biddersBalance(bidder, amount):
-    with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
-        data = list(csv.reader(file))
-
-    for row in data:
-        if bidder in row:
-            row[1] = float(row[1]) + amount
-            with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
-                csv.writer(file).writerows(data)
-                return True
-
 
 def update_klausBalance(amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
@@ -172,11 +159,21 @@ def update_klausBalance(amount):
 
     for row in data:
         if "Klaus" in row:
-            row[2] = float(row[2]) + amount
+            row[2] = str(int(float(row[2]) + amount))
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
 
+def update_biddersBalance(bidder, amount):
+    with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+
+    for row in data:
+        if bidder in row:
+            row[3] = str(int(float(row[3]) - amount)) # müsste eigentlich row[1] sein wenn gebut gefixt wird
+            with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
+                csv.writer(file).writerows(data)
+                return True
 
 def readInventar():  # Get
     user = UserHandler.get_current_user()
@@ -210,14 +207,15 @@ def writeInventar(modell_name, anzahl, t_z, timestamp):
 def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
-    # Vario_1050,1,t,Klaus,4481-04-28 12:00:00
+
     for row in data:
         if modell in row and account in row and timestamp in row: 
-            if row[1] - anzahl <= 0: # falls nach verkauf leer wäre
+            print("found", row)
+            row[1] = int(row[1]) - anzahl # bestand abziehen weil verkauft
+            if row[1] <= 0: # falls nach verkauf leer wäre
                 data.remove(row) # eintrag löschen 
-            else:
-                row[1] -= anzahl # ansonsten bestand abziehen weil verkauft
-        break
+            break
+        
     # sort by user (index 3 in each row)
     sorted_inv_by_user = sorted(data, key=lambda data: data[3])
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
