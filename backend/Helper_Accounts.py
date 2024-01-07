@@ -135,7 +135,7 @@ def update_userBalance(user, amount):
 
     for row in data:
         if user in row:
-            row[2] = int(row[2]) + amount
+            row[2] = float(row[2]) + amount
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -148,7 +148,7 @@ def update_accountsBalance(account, amount):
 
     for row in data:
         if account in row:
-            row[2] = int(row[2]) + amount
+            row[2] = float(row[2]) + amount
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -160,7 +160,7 @@ def update_biddersBalance(bidder, amount):
 
     for row in data:
         if bidder in row:
-            row[1] = int(row[1]) + amount
+            row[1] = float(row[1]) + amount
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -172,7 +172,7 @@ def update_klausBalance(amount):
 
     for row in data:
         if "Klaus" in row:
-            row[2] = int(row[2]) + amount
+            row[2] = float(row[2]) + amount
             with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -195,19 +195,35 @@ def writeInventar(modell_name, anzahl, t_z, timestamp):
     user = UserHandler.get_current_user()
 
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
-        inventar_list = list(csv.reader(file))
+        data = list(csv.reader(file))
 
     # at least one item must be ordered
     if anzahl > 0:
-        inventar_list.append([modell_name, anzahl, t_z, user[0], timestamp])
+        data.append([modell_name, anzahl, t_z, user[0], timestamp])
 
     # sort by user (index 3 in each row)
-    sorted_inv_by_user = sorted(inventar_list, key=lambda data: data[3])
+    sorted_inv_by_user = sorted(data, key=lambda data: data[3])
     with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(sorted_inv_by_user)
         return True
 
-
+def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
+    with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
+        data = list(csv.reader(file))
+    # Vario_1050,1,t,Klaus,4481-04-28 12:00:00
+    for row in data:
+        if modell in row and account in row: 
+            if row[1] - anzahl <= 0: # falls nach verkauf leer wäre
+                data.remove(row) # eintrag löschen 
+            else:
+                row[1] -= anzahl # ansonsten bestand abziehen weil verkauft
+        break
+    # sort by user (index 3 in each row)
+    sorted_inv_by_user = sorted(data, key=lambda data: data[3])
+    with open(INVENTAR_FILE_PATH, 'w', newline='') as file:
+        csv.writer(file).writerows(sorted_inv_by_user)
+        return True
+    
 def get_bidders():
     with open(BIDDERS_FILE_PATH, mode='r') as csvfile:
         liste = []

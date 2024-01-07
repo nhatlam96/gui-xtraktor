@@ -81,7 +81,7 @@ class GebrauchtwarenWindow(QMainWindow):
 
         Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
                                  self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(locale.currency(int(self.product_info[4]), grouping=True),
+        Helper2.replace.text(locale.currency(float(self.product_info[4]), grouping=True),
                                  self.findChild(QLabel, "alt_preis_status"))
         Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
         Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
@@ -131,10 +131,17 @@ class GebrauchtwarenWindow(QMainWindow):
 
 
     def button_handler(self):
-        pass
-
-
-
+        modell = self.product[0]
+        anzahl = self.product[1]
+        t_z = self.product[2]
+        account = self.product[3]
+        timestamp = self.product[4]
+        preis = float(self.product_info[4])
+        Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
+        Helper_Accounts.update_biddersBalance(account, preis*0.99) # 99% von Wert für Bidder
+        Helper_Accounts.update_klausBalance(preis*0.01) # 1% Provision für Klaus
+        print("verkauf bestätigt")
+        # make a toast
 
     def confirm_sell(self, gebot, bidder):
         Helper.show_toast(f"{bidder} hat den Verkauf über {gebot}€ abgeschlossen.",
@@ -142,15 +149,9 @@ class GebrauchtwarenWindow(QMainWindow):
                           QMessageBox.Ok, 2000)
 
     def calc_wert(self, product, loss, jahre):
-        normalPreis = int(product)
+        normalPreis = float(product)
         verlustRate = (100 - loss) / 100
         new_value = normalPreis * (verlustRate) ** jahre
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
-
-    def bidderSell(self, gebot, bidder):  # sell and handle money transfers
-        verkaufsPreis = int(gebot * 0.99)
-        Helper_Accounts.update_biddersBalance(bidder, verkaufsPreis)
-        provision = int(gebot * 0.01)
-        Helper_Accounts.update_klausBalance(provision)

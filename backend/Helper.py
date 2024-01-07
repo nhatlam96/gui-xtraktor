@@ -99,7 +99,7 @@ class InvHandler:
 
 class current_Sell_Handler:
     current_sell_item = []
-
+    
     @staticmethod
     def get_current_sell_item():
         return current_Sell_Handler.current_sell_item
@@ -112,31 +112,31 @@ class current_Sell_Handler:
     def clear_sell_item(product, anz):
         current_Sell_Handler.current_sell_item = []
 
+# brauchen wir nicht lol
+# class SellHandler:
+#     sell_list = []
 
-class SellHandler:
-    sell_list = []
+#     @staticmethod
+#     def get_current_sell_list():
+#         return SellHandler.sell_list
 
-    @staticmethod
-    def get_current_sell_list():
-        return SellHandler.sell_list
+#     @staticmethod
+#     def add_to_sell_list(product, anz, typ):
+#         for item in SellHandler.sell_list:
+#             if product == item[0]:
+#                 item[1] += anz
+#                 break
+#         else:
+#             SellHandler.sell_list.append([product, anz, typ])
 
-    @staticmethod
-    def add_to_sell_list(product, anz, typ):
-        for item in SellHandler.sell_list:
-            if product == item[0]:
-                item[1] += anz
-                break
-        else:
-            SellHandler.sell_list.append([product, anz, typ])
-
-    @staticmethod
-    def remove_from_sell_list(product, anz):
-        for item in SellHandler.sell_list:
-            if item[0] == product:
-                item[1] = int(item[1]) - anz
-                if item[1] <= 0:
-                    SellHandler.sell_list.remove(item)
-                break
+#     @staticmethod
+#     def remove_from_sell_list(product, anz):
+#         for item in SellHandler.sell_list:
+#             if item[0] == product:
+#                 item[1] = int(item[1]) - anz
+#                 if item[1] <= 0:
+#                     SellHandler.sell_list.remove(item)
+#                 break
 
 
 def show_toast(message, icon, button, time_in_ms):
