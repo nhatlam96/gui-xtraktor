@@ -5,6 +5,7 @@ import os.path
 from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from Vollbild_Klasse import FullScreenImage
 
 import switches
 import Helper
@@ -48,6 +49,10 @@ class accessoriesWindow(QMainWindow):
         self.anz_spinBox.valueChanged.connect(lambda value: self.set_anz(value))
         self.wert_spinBox.valueChanged.connect(lambda value: self.calc_wert(value))
 
+        # Mausevent mit Bild verknüpfen
+        picture_label = self.findChild(QLabel, "picture")
+        picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
+
         self.show()
 
 
@@ -55,6 +60,10 @@ class accessoriesWindow(QMainWindow):
         print("Window is closing")
         switches.WindowHandler.release_window(accessoriesWindow)
         super().closeEvent(event)  # Fenster wird wirklich geschlossen
+
+    @staticmethod
+    def show_fullscreen(event, pixmap):
+        FullScreenImage.show_fullscreen(event, pixmap)
 
     def load_ui(self):
         Helper2.replace.text(self.product[0], self.findChild(QLabel, "name_label"))

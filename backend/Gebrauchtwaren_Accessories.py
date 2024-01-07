@@ -5,6 +5,7 @@ import os.path
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
+from Vollbild_Klasse import FullScreenImage
 
 import Helper
 import Helper2
@@ -42,12 +43,20 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         # Produktseite laden
         self.load_ui()
 
+        # Mausevent mit Bild verknüpfen
+        picture_label = self.findChild(QLabel, "picture")
+        picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
+
         self.show()
 
     def closeEvent(self, event):
         print("Window is closing")
         switches.WindowHandler.release_window(GebrauchtwarenWindowAccessories)
         super().closeEvent(event)  # Fenster wird wirklich geschlossen
+
+    @staticmethod
+    def show_fullscreen(event, pixmap):
+        FullScreenImage.show_fullscreen(event, pixmap)
 
     def load_ui(self):
         pixmap = Helper2.load.product_pic(self, self.product)
