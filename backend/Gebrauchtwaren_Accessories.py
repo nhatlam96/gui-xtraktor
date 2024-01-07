@@ -25,32 +25,31 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindowAccessories.ui"), self)
 
         print("AUFRUF GEBRAUCHT ACCESSORIES")
-        self.beispielGebot = 142069 # brauchen aber eigentliches Gebot
-
 
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
-        print(self.product)
-        print(Helper.get_time_difference_since_program_time(self.product[4]))
-        print(Helper.get_program_time())
-        print("PRODUCT:")
-        print(self.product[4])
-        
-        self.bidders_liste = Helper_Accounts.get_bidders()
-        # simulierte bidders
-        self.bestOffer = 0
-        self.sortedOffers = 0
-        self.readInBidders()
-        
+
+
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
+
+
+        # Produktseite laden
+        self.load_ui()
+
+        # simulierte bidders
+        self.beispielGebot = self.conv_preis
+        self.bidders_liste = Helper_Accounts.get_bidders()
+        self.bestOffer = []
+        self.sortedOffers = []
+        self.readInBidders()
+        
+
 
         # dynamisches Widget laden
         self.add_widget()
 
-        # Produktseite laden
-        self.load_ui()
 
         # Mausevent mit Bild verknüpfen
         picture_label = self.findChild(QLabel, "picture")
@@ -81,15 +80,8 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         Helper2.load.complete_header(self)
         Helper2.replace.text(f"{str(self.load_hers())}", self.findChild(QLabel, "comp_label"))
 
-        # Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
-        #                          self.findChild(QLabel, "name_label"))
-        # Helper2.replace.text(locale.currency(float(self.product_info[4]), grouping=True),
-        #                          self.findChild(QLabel, "alt_preis_status"))
-        # Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
-        # Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
-        # Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
-        # Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
-        # Helper2.load.complete_header(self)
+        self.convert_preis()
+
 
     def load_hers(self):
         conv_text = ", ".join(self.product_info[3:])
@@ -112,89 +104,55 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         self.bestOffer = max(data, key=lambda data: data[1])
         self.sortedOffers = sorted(data, key=lambda data: data[1], reverse=True)  # bid/offer
 
-
     def add_widget(self):
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
-        
+
         content_widget = QWidget()
         content_layout = QVBoxLayout(content_widget)
-        
-        # layout = QHBoxLayout(content_widget)
-        
-        new_widget = QWidget()
-        inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
 
-        # head_layout = QVBoxLayout()
-        # inner_layout.addLayout(head_layout, 8)
+        for index in range(len(self.sortedOffers)):
+            offer = self.sortedOffers[index]
+            print(offer)
 
-        button = QPushButton("Verkauf bestätigen")
-        button.clicked.connect(self.button_handler)
-        button.setStyleSheet(
-            """
-            QPushButton{
-                border-radius: 10px;
-                background-color: rgb(230,126,34);
-                color: white;
-                font-weight: bold;
-                min-height: 30px;
-            }
-            QPushButton:hover {
-                background-color: rgb(253,139,37);
-                opacity: 0.8;
-            }
-            QPushButton:pressed {
-                padding-left: 3px;
-                padding-bottom: 3px;
-            }
-            """
-        )
+            new_widget = QWidget()
+            inner_layout = QHBoxLayout(new_widget)
 
-        inner_layout.addWidget(button)
-        content_layout.addWidget(new_widget)
+            if index == 0:
+                name = QLabel(f"Meistbietende/r: {offer[0]}")
+            else:
+                name = QLabel(f"Bieter: {offer[0]}")
+            inner_layout.addWidget(name, 1)
 
-        new_widget.setLayout(inner_layout)
-        content_widget.setLayout(content_layout)
+            gebot = QLabel(f"Gebot: {offer[1]}")
+            inner_layout.addWidget(gebot, 1)
+
+            if index == 0:
+                button = QPushButton("Verkauf bestätigen")
+                button.clicked.connect(self.button_handler)
+                button.setStyleSheet(
+                    """
+                    QPushButton{
+                        border-radius: 10px;
+                        background-color: rgb(230,126,34);
+                        color: white;
+                        font-weight: bold;
+                        min-height: 30px;
+                    }
+                    QPushButton:hover {
+                        background-color: rgb(253,139,37);
+                        opacity: 0.8;
+                    }
+                    QPushButton:pressed {
+                        padding-left: 3px;
+                        padding-bottom: 3px;
+                    }
+                    """
+                )
+                inner_layout.addWidget(button, 3)
+
+            content_layout.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
-        
-        # for x in range(len(self.bidders)):
-        #     other_buyer = QLabel(f"{self.bidders[x][0]}")
-        #     other_buyer.setAlignment(Qt.AlignCenter)
-        #     other_buyer_price = QLabel(f"{locale.currency(int(self.bidders[x][1]), grouping=True)}")
-        #     other_buyer_price.setAlignment(Qt.AlignCenter)
-        #     buyer_info_layout = QHBoxLayout()
-        #     buyer_info_layout.addWidget(other_buyer)
-        #     buyer_info_layout.addWidget(other_buyer_price)
-        #     head_layout.addLayout(buyer_info_layout)
-
-        # content_layout = QVBoxLayout()
-        # inner_layout.addLayout(content_layout, 4)
-
-        # title_layout = QVBoxLayout()
-        # title_layout.setContentsMargins(0, 40, 0, 40)
-        # content_layout.addLayout(title_layout, 2)
-        # title = QLabel("Höchstes Gebot")
-        # title.setAlignment(Qt.AlignCenter)
-
-        # title_layout.addWidget(title)
-
-        # buyer_layout = QHBoxLayout()
-        # content_layout.addLayout(buyer_layout, 2)
-        # buyer = QLabel(f"{self.bidders[1][0]}")
-        # price = QLabel(f"{locale.currency(int(self.bidders[1][1]), grouping=True)}")
-
-        # button = QPushButton("Verkauf bestätigen")
-        # button.clicked.connect(lambda: self.confirm_sell(self, price, buyer))
-        # button.clicked.connect(lambda: self.bidderSell(self, price, buyer))
-
-        # buyer_layout.addWidget(buyer)
-        # buyer_layout.addWidget(price)
-        # buyer_layout.addWidget(button)
-
-        # layout.addWidget(new_widget)  # widget dem container hinzufuegen
-
-        # erstellten Container einfuegen in QScrollArea
-        # scroll_area.setWidget(content_widget)
 
     def make_button_click_handler(self, label):
         def button_click_handler():
@@ -223,10 +181,19 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
 
-    def calc_wert(self, product, loss, jahre):
-        normalPreis = int(product)
+    def convert_preis(self):
+
+        preis = int(self.product_info[1])
+        print(preis)
+        loss = int(Helper2.load.loss("Zusatz"))
+        jahre = int(Helper.get_time_difference_since_program_time(self.product[4]))
         verlustRate = (100 - loss) / 100
-        new_value = normalPreis * (verlustRate) ** jahre
-        # Zinseszinzprinzip:
-        # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
-        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
+        conv_preis = int(float(preis) * float(verlustRate ** jahre))
+        neu_preis = int(conv_preis)
+
+        self.conv_preis = neu_preis
+
+        Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
+        Helper2.replace.text(locale.currency((conv_preis - preis), grouping=True),
+                             self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency(neu_preis, grouping=True), self.findChild(QLabel, "neu_preis_status"))
