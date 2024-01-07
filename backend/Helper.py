@@ -78,23 +78,7 @@ class InvHandler:
     def get_inv():
         return InvHandler.current_inventar
 
-    @staticmethod
-    def add_to_inv(product, anz, typ):
-        for item in InvHandler.current_inventar:
-            if product == item[0]:
-                item[1] += anz
-                break
-        else:
-            InvHandler.current_inventar.append([product, anz, typ])
 
-    @staticmethod
-    def remove_from_inv(product, anz):
-        for item in InvHandler.current_inventar:
-            if item[0] == product:
-                item[1] = int(item[1]) - anz
-                if item[1] <= 0:
-                    InvHandler.current_inventar.remove(item)
-                break
 
 
 class current_Sell_Handler:

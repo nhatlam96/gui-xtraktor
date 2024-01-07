@@ -64,14 +64,12 @@ class WarenkorbWindow(QMainWindow):
             confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
             if confirmation == QMessageBox.Yes:
 
-                summe = self.calc_sum(self.info_list, self.shopping_list)  # self, info_liste, shopping_liste
+                summe = self.calc_sum(self.info_list, self.shopping_list)
                 # check if enough budget is available and then subtract the sum from the budget
                 if summe <= int(user[2]):
                     update_userBalance(user[0], -summe)
                     Helper_Accounts.UserHandler.set_current_user(self, user[0])
                     Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
-
-                    # genau hier drinnen > . <
 
                     for item in self.shopping_list:
                         Helper_Accounts.writeInventar(item[0], item[1], item[2], get_program_time().format("YYYY-MM"

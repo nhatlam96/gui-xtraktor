@@ -92,6 +92,14 @@ class ProductWindow(QMainWindow):
         self.calc_preis(value)
 
     def calc_preis(self, value):
+
+        print("ZEIT DIF:")
+        print(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
+
+        #normalPreis = int(float(self.product[4]) * 0.65) if self.acc[3] == "Admin" else int(self.product[4])
+        #verlustRate = (100 - self.loss) / 100
+        #new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz
+
         preis = int(float(self.product[4])*0.65) if self.acc[3] == "Admin" else int(self.product[4])
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))

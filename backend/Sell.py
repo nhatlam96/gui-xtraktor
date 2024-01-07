@@ -22,6 +22,7 @@ class SellWindow(QMainWindow):
         print("AUFRUF SELL")
 
         # Übergabeparameter
+        Helper.InvHandler.def_inv()
         self.inventar_liste = Helper.InvHandler.get_inv()
         print(self.inventar_liste)
         self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
