@@ -25,20 +25,29 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindowAccessories.ui"), self)
 
         print("AUFRUF GEBRAUCHT ACCESSORIES")
+        self.beispielGebot = 142069 # brauchen aber eigentliches Gebot
+
 
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
-
+        print(self.product)
+        print(Helper.get_time_difference_since_program_time(self.product[4]))
+        print(Helper.get_program_time())
+        print("PRODUCT:")
+        print(self.product[4])
+        
+        self.bidders_liste = Helper_Accounts.get_bidders()
         # simulierte bidders
-        # self.bidders = self.readInBidders()
-        # print(self.bidders)
-
+        self.bestOffer = 0
+        self.sortedOffers = 0
+        self.readInBidders()
+        
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
         # dynamisches Widget laden
-        # self.add_widget()
+        self.add_widget()
 
         # Produktseite laden
         self.load_ui()
@@ -71,7 +80,15 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         Helper2.load.complete_header(self)
         Helper2.replace.text(f"{str(self.load_hers())}", self.findChild(QLabel, "comp_label"))
 
-
+        # Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
+        #                          self.findChild(QLabel, "name_label"))
+        # Helper2.replace.text(locale.currency(float(self.product_info[4]), grouping=True),
+        #                          self.findChild(QLabel, "alt_preis_status"))
+        # Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
+        # Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
+        # Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
+        # Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
+        # Helper2.load.complete_header(self)
 
     def load_hers(self):
         conv_text = ", ".join(self.product_info[3:])
@@ -85,62 +102,98 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
             if not Helper3.isInterested():
                 data.remove(bidder)
         for bidder in data:
-            bidder[1] = Helper3.genKaufangebot(bidder[1])
+            kaufangebot = Helper3.genKaufangebot(self.beispielGebot)#bidder[1]) # hier muss richtiges Gebot hin
+            if kaufangebot <= bidder[3]:    # kann nicht budget übersteigen
+                bidder[1] = kaufangebot
+            else:
+                bidder[1] = bidder[3]
 
-        # bestOffer = max(data, key=lambda data: data[1])
-        sortedOffers = sorted(data, key=lambda data: data[1])  # bid/offer
-        return sortedOffers
+        self.bestOffer = max(data, key=lambda data: data[1])
+        self.sortedOffers = sorted(data, key=lambda data: data[1], reverse=True)  # bid/offer
+
 
     def add_widget(self):
-
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
+        
         content_widget = QWidget()
-        layout = QHBoxLayout(content_widget)
-
+        content_layout = QVBoxLayout(content_widget)
+        
+        # layout = QHBoxLayout(content_widget)
+        
         new_widget = QWidget()
         inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
 
-        head_layout = QVBoxLayout()
-        inner_layout.addLayout(head_layout, 8)
-
-        for x in range(len(self.bidders)):
-            other_buyer = QLabel(f"{self.bidders[x][0]}")
-            other_buyer.setAlignment(Qt.AlignCenter)
-            other_buyer_price = QLabel(f"{locale.currency(int(self.bidders[x][1]), grouping=True)}")
-            other_buyer_price.setAlignment(Qt.AlignCenter)
-            buyer_info_layout = QHBoxLayout()
-            buyer_info_layout.addWidget(other_buyer)
-            buyer_info_layout.addWidget(other_buyer_price)
-            head_layout.addLayout(buyer_info_layout)
-
-        content_layout = QVBoxLayout()
-        inner_layout.addLayout(content_layout, 4)
-
-        title_layout = QVBoxLayout()
-        title_layout.setContentsMargins(0, 40, 0, 40)
-        content_layout.addLayout(title_layout, 2)
-        title = QLabel("Höchstes Gebot")
-        title.setAlignment(Qt.AlignCenter)
-
-        title_layout.addWidget(title)
-
-        buyer_layout = QHBoxLayout()
-        content_layout.addLayout(buyer_layout, 2)
-        buyer = QLabel(f"{self.bidders[1][0]}")
-        price = QLabel(f"{locale.currency(int(self.bidders[1][1]), grouping=True)}")
+        # head_layout = QVBoxLayout()
+        # inner_layout.addLayout(head_layout, 8)
 
         button = QPushButton("Verkauf bestätigen")
-        button.clicked.connect(lambda: self.confirm_sell(self, price, buyer))
-        button.clicked.connect(lambda: self.bidderSell(self, price, buyer))
+        button.clicked.connect(self.button_handler)
+        button.setStyleSheet(
+            """
+            QPushButton{
+                border-radius: 10px;
+                background-color: rgb(230,126,34);
+                color: white;
+                font-weight: bold;
+                min-height: 30px;
+            }
+            QPushButton:hover {
+                background-color: rgb(253,139,37);
+                opacity: 0.8;
+            }
+            QPushButton:pressed {
+                padding-left: 3px;
+                padding-bottom: 3px;
+            }
+            """
+        )
 
-        buyer_layout.addWidget(buyer)
-        buyer_layout.addWidget(price)
-        buyer_layout.addWidget(button)
+        inner_layout.addWidget(button)
+        content_layout.addWidget(new_widget)
 
-        layout.addWidget(new_widget)  # widget dem container hinzufuegen
+        new_widget.setLayout(inner_layout)
+        content_widget.setLayout(content_layout)
+
+        scroll_area.setWidget(content_widget)
+        
+        # for x in range(len(self.bidders)):
+        #     other_buyer = QLabel(f"{self.bidders[x][0]}")
+        #     other_buyer.setAlignment(Qt.AlignCenter)
+        #     other_buyer_price = QLabel(f"{locale.currency(int(self.bidders[x][1]), grouping=True)}")
+        #     other_buyer_price.setAlignment(Qt.AlignCenter)
+        #     buyer_info_layout = QHBoxLayout()
+        #     buyer_info_layout.addWidget(other_buyer)
+        #     buyer_info_layout.addWidget(other_buyer_price)
+        #     head_layout.addLayout(buyer_info_layout)
+
+        # content_layout = QVBoxLayout()
+        # inner_layout.addLayout(content_layout, 4)
+
+        # title_layout = QVBoxLayout()
+        # title_layout.setContentsMargins(0, 40, 0, 40)
+        # content_layout.addLayout(title_layout, 2)
+        # title = QLabel("Höchstes Gebot")
+        # title.setAlignment(Qt.AlignCenter)
+
+        # title_layout.addWidget(title)
+
+        # buyer_layout = QHBoxLayout()
+        # content_layout.addLayout(buyer_layout, 2)
+        # buyer = QLabel(f"{self.bidders[1][0]}")
+        # price = QLabel(f"{locale.currency(int(self.bidders[1][1]), grouping=True)}")
+
+        # button = QPushButton("Verkauf bestätigen")
+        # button.clicked.connect(lambda: self.confirm_sell(self, price, buyer))
+        # button.clicked.connect(lambda: self.bidderSell(self, price, buyer))
+
+        # buyer_layout.addWidget(buyer)
+        # buyer_layout.addWidget(price)
+        # buyer_layout.addWidget(button)
+
+        # layout.addWidget(new_widget)  # widget dem container hinzufuegen
 
         # erstellten Container einfuegen in QScrollArea
-        scroll_area.setWidget(content_widget)
+        # scroll_area.setWidget(content_widget)
 
     def make_button_click_handler(self, label):
         def button_click_handler():
@@ -153,8 +206,19 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
 
         return button_click_handler
 
-    def confirm_sell(self, gebot, bidder):
-        Helper.show_toast(f"{bidder} hat den Verkauf über {gebot}€ abgeschlossen.",
+    def button_handler(self):
+        modell = self.product[0]
+        anzahl = self.product[1]
+        t_z = self.product[2]
+        account = self.product[3]
+        timestamp = self.product[4]
+        preis = float(self.product_info[1])
+        Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
+        Helper_Accounts.update_biddersBalance(account, preis) # voller preis abzug
+        Helper_Accounts.update_accountsBalance(account, preis*0.99) # 99% von Wert für Bidder
+        Helper_Accounts.update_klausBalance(preis*0.01) # 1% Provision für Klaus
+        print("verkauf bestätigt")
+        Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
 
@@ -165,9 +229,3 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         # Zinseszinzprinzip:
         # Endbetrag = Kapital×(Zinsesrate) hoch Jahresanzahl
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "wert_status"))
-
-    def bidderSell(self, gebot, bidder):  # sell and handle money transfers
-        verkaufsPreis = int(gebot * 0.99)
-        Helper_Accounts.update_biddersBalance(bidder, verkaufsPreis)
-        provision = int(gebot * 0.01)
-        Helper_Accounts.update_klausBalance(provision)

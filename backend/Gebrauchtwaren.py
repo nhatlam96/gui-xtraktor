@@ -118,7 +118,26 @@ class GebrauchtwarenWindow(QMainWindow):
 
         button = QPushButton("Verkauf bestätigen")
         button.clicked.connect(self.button_handler)
-
+        button.setStyleSheet(
+            """
+            QPushButton{
+                border-radius: 10px;
+                background-color: rgb(230,126,34);
+                color: white;
+                font-weight: bold;
+                min-height: 30px;
+            }
+            QPushButton:hover {
+                background-color: rgb(253,139,37);
+                opacity: 0.8;
+            }
+            QPushButton:pressed {
+                padding-left: 3px;
+                padding-bottom: 3px;
+            }
+            """
+        )
+        
         inner_layout.addWidget(button)
         content_layout.addWidget(new_widget)
 
@@ -126,7 +145,6 @@ class GebrauchtwarenWindow(QMainWindow):
         content_widget.setLayout(content_layout)
 
         scroll_area.setWidget(content_widget)
-
 
     def button_handler(self):
         modell = self.product[0]
@@ -140,13 +158,11 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper_Accounts.update_accountsBalance(account, preis*0.99) # 99% von Wert für Bidder
         Helper_Accounts.update_klausBalance(preis*0.01) # 1% Provision für Klaus
         print("verkauf bestätigt")
-        # make a toast
-
-    def confirm_sell(self, gebot, bidder):
-        Helper.show_toast(f"{bidder} hat den Verkauf über {gebot}€ abgeschlossen.",
+        Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
-
+        
+        
     def calc_wert(self, product, loss, jahre):
         normalPreis = float(product)
         verlustRate = (100 - loss) / 100
