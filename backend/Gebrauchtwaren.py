@@ -39,13 +39,11 @@ class GebrauchtwarenWindow(QMainWindow):
         print("PRODUCT:")
         print(self.product[4])
 
+        self.bidders_liste = Helper_Accounts.get_bidders()
         # simulierte bidders
         self.bestOffer = 0
         self.sortedOffers = 0
-        self.readInBidders()
-
-        self.bidders_liste = Helper_Accounts.get_bidders()
-
+        self.readInBidders(self.bidders_liste)
 
         print(self.bestOffer)
         print(self.sortedOffers)
@@ -91,7 +89,8 @@ class GebrauchtwarenWindow(QMainWindow):
         Helper2.replace.text(self.product_info[5], self.findChild(QLabel, "baujahr_status"))
         Helper2.load.complete_header(self)
 
-    def readInBidders(self):
+    def readInBidders(self, bidders_liste):
+        print("biddersliste", bidders_liste)
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
             data = list(csv.reader(file))
 
