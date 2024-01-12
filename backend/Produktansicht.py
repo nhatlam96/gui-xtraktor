@@ -1,6 +1,8 @@
 import locale
 import os.path
 import csv
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
@@ -20,16 +22,20 @@ class ProductWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "ProductWindow.ui"), self)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
         print("AUFRUF PRODUKT")
 
         # übergabeparameter
         self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)
         self.loss = int(Helper2.load.loss(self.product[0]))
-        self.z_list = self.load_zub()  # kompatibles Zubehoer []
-        self.buttons = {}  # speichert array von buttonaktionen für dyn. layout
-        self.anz = 0
+        self.z_list = self.load_zub()    # kompatibles. Zubehör
         self.acc = Helper_Accounts.UserHandler.get_current_user()
+
+        # dyn. Layout
+        self.buttons = {}   # speichert dict von Button-aktionen für dyn. layout
+        self.anz = 0
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -50,7 +56,6 @@ class ProductWindow(QMainWindow):
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
-        self.showFullScreen()
         self.show()
 
     def closeEvent(self, event):
@@ -76,7 +81,7 @@ class ProductWindow(QMainWindow):
         if Helper_Accounts.UserHandler.get_current_user()[3] == "Admin":
             Helper2.replace.text("nachbestellen", self.findChild(QPushButton, "buy_Button"))
             Helper2.replace.text(self.product[6], self.findChild(QLabel, "bestand_icon"))
-            self.findChild(QLabel,"bestand_icon").setStyleSheet("""
+            self.findChild(QLabel, "bestand_icon").setStyleSheet("""
                 color: white; font-size: 20px; font-weight: 700;
             """)
             self.preis_label.setText("EK-Stückpreis:")
@@ -90,20 +95,18 @@ class ProductWindow(QMainWindow):
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
 
     def get_preis(self):
-        print("ZEIT DIF:")
-        print(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
         jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
-        verlustRate = (100 - self.loss) / 100
-        preis = int(float(self.product[4]) * float(verlustRate ** jahre))  # ** -> Potenz
+        verlustrate = (100 - self.loss) / 100
+        preis = int(float(self.product[4]) * float(verlustrate ** jahre))  # ** -> Potenz
         neu_preis = int(float(preis) * 0.65) if self.acc[3] == "Admin" else int(preis)
 
         return neu_preis
 
     def calc_wert(self, jahre):
-        normalPreis = int(float(self.product[4]) * 0.65) if self.acc[3] == "Admin" else int(self.product[4])
-        verlustRate = (100 - self.loss) / 100
-        new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz
-        Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
+        normalpreis = int(float(self.product[4]) * 0.65) if self.acc[3] == "Admin" else int(self.product[4])
+        verlustrate = (100 - self.loss) / 100
+        new_value = int(normalpreis * (verlustrate ** jahre))  # ** -> Potenz
+        Helper2.replace.text(locale.currency(new_value - normalpreis, grouping=True),
                              self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
 
@@ -113,7 +116,6 @@ class ProductWindow(QMainWindow):
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
             data_list = []
-
             for row in csv_reader:
                 for column in row:
                     if self.product[0] == column:
@@ -136,14 +138,15 @@ class ProductWindow(QMainWindow):
 
     def load_pic(self, row):
         gesucht = str(row[1])
-        pfad = os.path.join(PIC_PATH, r"Traktoren")
 
+        pfad = os.path.join(PIC_PATH, r"Traktoren")
         for dateiname in os.listdir(pfad):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
                 Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
 
-    def load_zpic(self, name):
+    @staticmethod
+    def load_zpic(name):
         gesucht = name
         pfad = os.path.join(PIC_PATH, r"Zubehör")
 
@@ -154,30 +157,27 @@ class ProductWindow(QMainWindow):
                 scaled_pixmap = pixmap.scaled(64, 64)
                 return scaled_pixmap
 
-    def load_acc(self, user):
+    @staticmethod
+    def load_acc(user):
         pfad = os.path.join(CSV_PATH, r"Accounts.csv")
 
         with open(pfad, mode="r") as file:
             csv_reader = csv.reader(file)
-
             for row in csv_reader:
                 if row[0] == user:
                     return row
 
     def add_widget(self):
 
-        zusatz = self.z_list
-
-        # dynamisches Layout laden
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
 
         # neues Widget als Container für einzelne Widgets
         content_widget = QWidget()
-
-        # QHBoxLayout erstellen für Container
         layout = QHBoxLayout(content_widget)
 
-        for x in range(len(zusatz)):
+        for x in range(len(self.zusatz)):
+
+            # neues Widget für jedes Item
             new_widget = QWidget()
             inner_layout = QVBoxLayout(new_widget)  # v-layout für widget
             new_widget.setStyleSheet("""
@@ -187,15 +187,15 @@ class ProductWindow(QMainWindow):
                 }
             """)
 
-            label1 = QLabel(zusatz[x][0])
+            label1 = QLabel(self.zusatz[x][0])
             label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             label2 = QLabel()
             label2.setStyleSheet("border: none;")
-            label2.setPixmap(self.load_zpic(zusatz[x][0]))
+            label2.setPixmap(self.load_zpic(self.zusatz[x][0]))
             if self.acc[3] == "Admin":
-                label3 = QLabel(f"EK-P: {locale.currency(int(float(zusatz[x][1]) * 0.65), grouping=True)}")
+                label3 = QLabel(f"EK-P: {locale.currency(int(float(self.zusatz[x][1]) * 0.65), grouping=True)}")
             else:
-                label3 = QLabel(f"{locale.currency(int(zusatz[x][1]), grouping=True)}")
+                label3 = QLabel(f"{locale.currency(int(self.zusatz[x][1]), grouping=True)}")
             label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             button = QPushButton("Mehr info")
             button.setStyleSheet("""
@@ -218,19 +218,20 @@ class ProductWindow(QMainWindow):
             """)
             self.buttons[x] = button
 
-            button.clicked.connect(self.make_button_click_handler(label1))
+            button.clicked.connect(self.button_handler(label1))
 
             inner_layout.addWidget(label1)
             inner_layout.addWidget(label2)
             inner_layout.addWidget(label3)
             inner_layout.addWidget(button)
 
-            layout.addWidget(new_widget)  # widget dem container hinzufuegen
+            layout.addWidget(new_widget)  # widget dem container hinzufügen
 
-            # erstellten Container einfuegen in QScrollArea
+            # erstellten Container einfügen in QScrollArea
             scroll_area.setWidget(content_widget)
 
-    def make_button_click_handler(self, label):
+    @staticmethod
+    def button_handler(label):
         def button_click_handler():
             if label is not None:
                 Helper.AccessoriesHandler.set_current_acc(label.text())
@@ -258,11 +259,10 @@ class ProductWindow(QMainWindow):
             self.anz = value
 
     def buy(self, model, anz):
-        print(f"Produktansicht: buy(): model: {model}, anz: {anz}")
         if anz > 0:
             current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
-            # Check if product already in shopping list
+            # falls vorhanden, Anzahl in shopping liste erhöhen
             for item in current_shopping_list:
                 if item[0] == model:
                     item[1] += anz
@@ -272,7 +272,7 @@ class ProductWindow(QMainWindow):
                     print(Helper.BuyHandler.get_current_shoppinglist())
                     return
 
-            # If product not in shopping list, then add
+            # neues Produkt dem Warenkorb hinzufügen
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.",
                               QMessageBox.Information, QMessageBox.Ok, 2500)
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, "t")

@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 
 import switches
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
 import Helper
 from Helper import show_toast, show_toast_confirmation
@@ -19,6 +19,7 @@ class UserprofileWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Nutzerprofil.ui"), self)
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
         print("AUFRUF NUTZER")
 
@@ -37,18 +38,13 @@ class UserprofileWindow(QMainWindow):
 
         self.show()
 
-
-
     def closeEvent(self, event):
         print("Window is closing")
         switches.WindowHandler.release_window(UserprofileWindow)
         super().closeEvent(event)  # Fenster wird wirklich geschlossen
 
-
-    def close_window(self):
-        self.close()
-
-    def logout(self):
+    @staticmethod
+    def logout():
         Helper.BuyHandler.clear_current_shoppinglist()
         switches.switch_to.login()
 

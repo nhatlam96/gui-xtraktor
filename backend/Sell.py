@@ -29,12 +29,11 @@ class SellWindow(QMainWindow):
         print(self.info_liste)
         self.bidders_liste = Helper_Accounts.get_bidders()
 
-        # Lokale Umbegbung laden
+        # Lokale Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
         # Buttons von dyn. Layout
         self.buttons_tab1 = {}
-
 
         # UI laden
         self.load_ui()
@@ -47,7 +46,6 @@ class SellWindow(QMainWindow):
         Helper2.load.complete_header(self)
         self.create_content()
         self.add_bidders_tab()
-
 
     def create_content(self):
 
@@ -85,12 +83,11 @@ class SellWindow(QMainWindow):
             if self.inventar_liste[x][2] == "t":
                 label2 = QLabel(f"{self.info_liste[x][0]} | {self.inventar_liste[x][0]}")
             elif self.inventar_liste[x][2] == "z":
-                label2 = QLabel(f"Zubehoer | {self.inventar_liste[x][0]}")
+                label2 = QLabel(f"Zubehör | {self.inventar_liste[x][0]}")
             else:
                 label2 = QLabel()
             label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             info_layout.addWidget(label2, 1)
-
 
             desc_layout = QVBoxLayout()
             info_layout.addLayout(desc_layout, 3)
@@ -109,7 +106,6 @@ class SellWindow(QMainWindow):
                 desc_layout.addWidget(ps)
                 desc_layout.addWidget(km)
                 desc_layout.addWidget(baujahr)
-
 
             value_layout = QVBoxLayout()
             inner_layout.addLayout(value_layout, 3)
@@ -156,14 +152,12 @@ class SellWindow(QMainWindow):
             """)
             self.buttons_tab1[x] = label5
             label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2],
-                                          zeit=self.inventar_liste[x][4], user = self.inventar_liste[x][3],
-                                          spin=spinbox: self.make_button_click_handler(label, spin.value(), typ,user, zeit))
-
+                                    zeit=self.inventar_liste[x][4], user=self.inventar_liste[x][3],
+                                    spin=spinbox: self.make_button_click_handler(label, spin.value(), typ, user, zeit))
 
             value_innerlayout = QHBoxLayout()
 
             label6 = QLabel(f"Wert: {locale.currency(int(self.convert_preis(x)), grouping=True)}")
-
 
             label6.setStyleSheet("color: red; font-size: 16px; font-weight: 500; border:none;")
 
@@ -214,9 +208,7 @@ class SellWindow(QMainWindow):
 
         scroll_area.setWidget(content_widget)
 
-
-
-    def make_button_click_handler(self, label, anz, typ,user, zeit):
+    def make_button_click_handler(self, label, anz, typ, user, zeit):
 
         if anz > 0:
             print(self.inventar_liste[0])
@@ -226,14 +218,13 @@ class SellWindow(QMainWindow):
             else:
                 switches.switch_to.Sell_item_Access()
 
-
     def convert_preis(self, row):
 
         preis = int(self.info_liste[row][4]) if self.inventar_liste[row][2] == "t" else int(self.info_liste[row][1])
         loss = int(Helper2.load.loss(self.info_liste[row][0])) if self.inventar_liste[row][2] == "t" else int(Helper2.load.loss("Zusatz"))
         jahre = int(Helper.get_time_difference_since_program_time(self.inventar_liste[row][4]))
-        verlustRate = (100 - loss) / 100
-        conv_preis = int(float(preis) * float(verlustRate ** jahre))
+        verlustrate = (100 - loss) / 100
+        conv_preis = int(float(preis) * float(verlustrate ** jahre))
         neu_preis = int(conv_preis)
 
         return neu_preis

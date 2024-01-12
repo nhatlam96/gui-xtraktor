@@ -2,7 +2,6 @@ import random
 import csv
 import os.path
 
-# import dis # show byte code with dis.dis(<function>)
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 

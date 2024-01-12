@@ -1,8 +1,8 @@
-import csv
 import locale
 import os.path
 
 from PyQt5 import uic
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from Vollbild_Klasse import FullScreenImage
@@ -22,17 +22,20 @@ class accessoriesWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "accessoriesWindow.ui"), self)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
         print("AUFRUF ACCESSORIES")
 
         # übergabeparameter
-        platzhalter = Helper.AccessoriesHandler.get_current_acc()
-        print(platzhalter)
-        self.product = Helper2.load.product_info(self, [[platzhalter, 1, "z"]])[0]
+        model = Helper.AccessoriesHandler.get_current_acc()
+        self.product = Helper2.load.product_info(self, [[model, 1, "z"]])[0]
         self.acc = Helper_Accounts.UserHandler.get_current_user()
         self.hers_list = self.load_hers()  # kompatible Traktoren
-        self.anz = 0
         self.loss = int(Helper2.load.loss("Zusatz"))
+
+        # dyn. Layout Help
+        self.anz = 0
         self.ges_preis = 0
 
         # Währungsumgebung laden
@@ -52,7 +55,6 @@ class accessoriesWindow(QMainWindow):
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
-        self.showFullScreen()
         self.show()
 
     def closeEvent(self, event):
@@ -101,7 +103,8 @@ class accessoriesWindow(QMainWindow):
                 voll_pfad = os.path.join(pfad, dateiname)
                 Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
 
-    def load_zpic(self, name):
+    @staticmethod
+    def load_zpic(name):
         gesucht = name
         pfad = os.path.join(PIC_PATH, r"Zubehör")
 
@@ -113,10 +116,10 @@ class accessoriesWindow(QMainWindow):
                 return scaled_pixmap
 
     def calc_wert(self, jahre):
-        normalPreis = int(float(self.product[1]) * 0.65) if self.acc[3] == "Admin" else int(self.product[1])
-        verlustRate = (100 - self.loss) / 100
-        new_value = int(normalPreis * (verlustRate ** jahre))  # ** -> Potenz (Zinseszins)
-        Helper2.replace.text(locale.currency(new_value - normalPreis, grouping=True),
+        normalpreis = int(float(self.product[1]) * 0.65) if self.acc[3] == "Admin" else int(self.product[1])
+        verlustrate = (100 - self.loss) / 100
+        new_value = int(normalpreis * (verlustrate ** jahre))  # ** -> Potenz (Zinseszins)
+        Helper2.replace.text(locale.currency(new_value - normalpreis, grouping=True),
                              self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
 

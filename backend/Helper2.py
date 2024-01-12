@@ -64,7 +64,6 @@ class load:
 
         set_budget_label()
 
-
     def traktor_data(self, model):
         csv_path = os.path.join(CSV_PATH, r"mobile Arbeitsmaschinen Landwirtschaft.csv")
         with open(csv_path, mode="r") as file:
@@ -114,7 +113,6 @@ class load:
                 liste.append([row[0], "1", "z"])
 
         return liste
-
 
     def product_pic(self, row):
 

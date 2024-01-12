@@ -21,7 +21,7 @@ class UserHandler:
         return UserHandler.current_user
 
     @staticmethod
-    def set_current_user(self, user):
+    def set_current_user(user):
         pfad = os.path.join(CSV_PATH, r"Accounts.csv")
 
         with open(pfad, mode="r") as file:
@@ -173,7 +173,7 @@ def update_biddersBalance(bidder, amount):
 
     for row in data:
         if bidder in row:
-            row[3] = str(int(float(row[3]) - amount)) # müsste eigentlich row[1] sein wenn gebut gefixt wird
+            row[3] = str(int(float(row[3]) - amount))       # müsste eigentlich row[1] sein, wenn gebugt gefixt wird
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -184,11 +184,11 @@ def readInventar():  # Get
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
 
-    userData = []
+    user_data = []
     for row in data:
         if user[0] in row:
-            userData.append(row)
-    return userData
+            user_data.append(row)
+    return user_data
 
 
 def writeInventar(modell_name, anzahl, t_z, timestamp):
@@ -207,6 +207,7 @@ def writeInventar(modell_name, anzahl, t_z, timestamp):
         csv.writer(file).writerows(sorted_inv_by_user)
         return True
 
+
 def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -214,9 +215,9 @@ def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
     for row in data:
         if modell in row and account in row and timestamp in row:
             print("found", row)
-            row[1] = int(row[1]) - anzahl # bestand abziehen weil verkauft
-            if row[1] <= 0: # falls nach verkauf leer wäre
-                data.remove(row) # eintrag löschen
+            row[1] = int(row[1]) - anzahl       # Bestand abziehen, weil verkauft
+            if row[1] <= 0:         # falls nach Verkauf, leer wäre
+                data.remove(row)        # eintrag löschen
             break
 
     # sort by user (index 3 in each row)
@@ -264,14 +265,15 @@ def get_bidders():
 
         return liste
 
+
 def update_budgetsPerYear(years):
     # update Users
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         users_data = list(csv.reader(file))
 
     for row in users_data[3:]:
-        newBudget = Helper3.increasedBudget(float(row[2]), years)
-        row[2] = str(int(float(newBudget)))
+        new_budget = Helper3.increasedBudget(float(row[2]), years)
+        row[2] = str(int(float(new_budget)))
         
     with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(users_data)
@@ -282,8 +284,8 @@ def update_budgetsPerYear(years):
         bidders_data = list(csv.reader(file))
 
     for row in bidders_data:
-        newBudget = Helper3.increasedBudget(float(row[1]), years)
-        row[1] = str(int(float(newBudget)))
+        new_budget = Helper3.increasedBudget(float(row[1]), years)
+        row[1] = str(int(float(new_budget)))
         
     with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(bidders_data)
