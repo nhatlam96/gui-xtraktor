@@ -175,7 +175,7 @@ class ProductWindow(QMainWindow):
         content_widget = QWidget()
         layout = QHBoxLayout(content_widget)
 
-        for x in range(len(self.zusatz)):
+        for x in range(len(self.z_list)):
 
             # neues Widget für jedes Item
             new_widget = QWidget()
@@ -187,15 +187,15 @@ class ProductWindow(QMainWindow):
                 }
             """)
 
-            label1 = QLabel(self.zusatz[x][0])
+            label1 = QLabel(self.z_list[x][0])
             label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             label2 = QLabel()
             label2.setStyleSheet("border: none;")
-            label2.setPixmap(self.load_zpic(self.zusatz[x][0]))
+            label2.setPixmap(self.load_zpic(self.z_list[x][0]))
             if self.acc[3] == "Admin":
                 label3 = QLabel(f"EK-P: {locale.currency(int(float(self.zusatz[x][1]) * 0.65), grouping=True)}")
             else:
-                label3 = QLabel(f"{locale.currency(int(self.zusatz[x][1]), grouping=True)}")
+                label3 = QLabel(f"{locale.currency(int(self.z_list[x][1]), grouping=True)}")
             label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             button = QPushButton("Mehr info")
             button.setStyleSheet("""

@@ -24,18 +24,21 @@ class Startseite(QMainWindow):
         # Übergabeparameter
         self.acc = Helper_Accounts.UserHandler.get_current_user()
 
-        # NEUES LISTENMODEL MUSS NOCH ANGEWENDET WERDEN
+        # Original Liste
         self.traktor_Liste = Helper2.load.all_traktor_data(self)
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
 
         self.convert_list()
 
+        # Suchfeld Liste
         self.search_Liste = self.traktor_Liste
         self.search_infos = self.traktor_infos
 
+        # Filter Liste
         self.traktor_filter_Liste = self.get_filtered_list()
         self.traktor_filter_infos = Helper2.load.product_info(self, self.traktor_filter_Liste)
 
+        # Sortierte Liste
         self.traktor_sorted_Liste = self.traktor_filter_Liste
         self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
 
@@ -189,7 +192,6 @@ class Startseite(QMainWindow):
 
             new_widget = QWidget()
             new_widget.setMaximumHeight(200)
-
             inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
 
             picture_layout = QVBoxLayout()
@@ -356,17 +358,17 @@ class Startseite(QMainWindow):
 
         # zip kombiniert beide listen damit die beiden zusammen bleiben
         neue_liste = list(zip(liste, liste_infos))
+        print(neue_liste)
 
         if sort == "Höchster Preis zuerst":
 
             # sortiert nach preis
             sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][4]), reverse=True)
 
-            # nur die Liste mit Primärschlüssel ist nötig
-            sorted_list = [item[0] for item in sorted_combined]
+            # Listen spalten
+            self.traktor_sorted_Liste = [item[0] for item in sorted_combined]
+            self.traktor_sorted_infos = [item[1] for item in sorted_combined]
 
-            self.traktor_sorted_Liste = sorted_list
-            self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
 
         if sort == "Niedrigster Preis zuerst":
             # sortiert nach preis
