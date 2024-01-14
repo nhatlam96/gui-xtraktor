@@ -13,20 +13,20 @@ import Helper3
 import Helper_Accounts
 import switches
 
+import Sell
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 
-class GlobalSignals(QObject):
-    buy_success = pyqtSignal()
 
 class GebrauchtwarenWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
+
 
         print("AUFRUF GEBRAUCHT")
 
@@ -179,7 +179,7 @@ class GebrauchtwarenWindow(QMainWindow):
                           f"wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
-        self.close()
+        switches.switch_to.Inventar(self)
 
 
     def convert_preis(self):

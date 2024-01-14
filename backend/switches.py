@@ -46,13 +46,22 @@ class WindowHandler:
 
     @staticmethod
     def release_all_except(alias):
-        print("RELEASE ALL")
+        print("RELEASE ALL EXCEPT")
         print(WindowHandler.windows_dict)
         for key in WindowHandler.windows_dict.keys():
             if key != alias:
                 WindowHandler.windows_dict[key].close()
         WindowHandler.windows_dict = {alias: WindowHandler.windows_dict.get(alias)}
         WindowHandler.open_windows_dict = {}
+
+    @staticmethod
+    def release_all():
+        print("RELEASE ALL")
+        for key in WindowHandler.windows_dict.keys():
+            WindowHandler.windows_dict[key].close()
+        WindowHandler.open_windows_dict = {}
+
+
 
 
 class switch_to:
@@ -123,9 +132,11 @@ class switch_to:
     def Inventar(old_window):
         if old_window is not None:
             old_window.close()
+        WindowHandler.release_all()
         window = SellWindow()
         window.show()
         WindowHandler.register_window(SellWindow, window)
+
 
     @staticmethod
     def Sell_item():

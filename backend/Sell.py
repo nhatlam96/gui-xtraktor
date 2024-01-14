@@ -3,13 +3,15 @@ import os.path
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt, pyqtSignal, QObject
+
 
 import Helper_Accounts
 import Helper
 import Helper2
 import switches
 
-from Gebrauchtwaren import GebrauchtwarenWindow
+
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -21,6 +23,13 @@ class SellWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Sell.ui"), self)
 
+        # Übergabeparameter
+        Helper.InvHandler.def_inv()
+        self.inventar_liste = Helper.InvHandler.get_inv()
+        print(self.inventar_liste)
+        self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
+        print(self.info_liste)
+        self.bidders_liste = Helper_Accounts.get_bidders()
         print("AUFRUF SELL")
 
         # Lokale Währungsumgebung laden
@@ -42,15 +51,6 @@ class SellWindow(QMainWindow):
         self.show()
 
     def load_ui(self):
-
-        # Übergabeparameter
-        Helper.InvHandler.def_inv()
-        self.inventar_liste = Helper.InvHandler.get_inv()
-        print(self.inventar_liste)
-        self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
-        print(self.info_liste)
-        self.bidders_liste = Helper_Accounts.get_bidders()
-
 
         Helper2.load.complete_header(self)
         self.create_content()
