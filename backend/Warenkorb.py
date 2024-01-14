@@ -89,8 +89,12 @@ class WarenkorbWindow(QMainWindow):
                 summe = self.calc_sum(self.info_list, self.shopping_list)
                 # check if enough budget is available and then subtract the sum from the budget
                 if summe <= int(user[2]):
-                    update_userBalance(user[0], -summe)
                     Helper_Accounts.UserHandler.set_current_user(user[0])
+                    if user[3] == "User":
+                        update_userBalance(user[0], -summe)  # user geld wird abgezogen
+                        update_userBalance("Klaus", summe)  # klaus bekommt money
+                    else:
+                        update_userBalance(user[0], -summe)
                     Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
                     # update the user inventory csv file
@@ -98,6 +102,7 @@ class WarenkorbWindow(QMainWindow):
                         Helper_Accounts.writeInventar(item[0], item[1], item[2], get_program_time().format("YYYY-MM"
                                                                                                            "-DD "
                                                                                                            "HH:mm:ss"))
+
                     # update the seller inventories csv file
                     Helper_Accounts.update_seller_inventories(self.shopping_list)
 
