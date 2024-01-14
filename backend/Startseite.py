@@ -160,7 +160,7 @@ class Startseite(QMainWindow):
         print("maxPreis")
 
     def get_preis(self):
-        print("ZEIT DIF:")
+        print("ZEIT DIFF:")
         print(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
         jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
         verlustRate = (100 - self.loss) / 100

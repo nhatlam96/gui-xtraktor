@@ -7,12 +7,12 @@ Bodenfraese_1,2075,74,Claas,Steyr,John Deere,Deutz,Fendt,Valtra,Kubota,New Holla
 Bodenfraese_2,2475,38,John Deere,Lindner,Valtra,Claas,Steyr, Deutz,JCB
 Maehwerk_1,2125,32,Fendt,Claas,John Deere,Steyr,Deutz,Kubota,New Holland,JCB
 Maehwerk_2,3790,22,Fendt,Claas,John Deere,Steyr,Deutz,Kubota,New Holland,Massey Ferguson,Valtra
-Heuwender_1,2370,12,Deutz,Claas,Fendt
-Heuwender_2,2950,4,Claas,Johne Deere,Kubota,JCB,Steyr,New Holland
-Heuwender_3,2265,2,Massey Ferguson,John Deere,Fendt,Deutz,Claas,New Holland,JCB
+Heuwender_1,2370,22,Deutz,Claas,Fendt
+Heuwender_2,2950,40,Claas,Johne Deere,Kubota,JCB,Steyr,New Holland
+Heuwender_3,2265,20,Massey Ferguson,John Deere,Fendt,Deutz,Claas,New Holland,JCB
 Kartoffelhaeufler_1,665,28,Deutz,John Deere,New Holland,Claas,Massey,Ferguson
-Kartoffelhaeufler_2,1035,14,Massey Ferguson,John Deere,Fendt,Deutz,Claas,New Holland,JCB
+Kartoffelhaeufler_2,1035,140,Massey Ferguson,John Deere,Fendt,Deutz,Claas,New Holland,JCB
 Ballenpresse_1,2740,12,Claas,John Deere,Kubota,Lindner
-Ballenpresse_2,3249,9,New Holland,Valtra,Deutz,JCB
-Ballenpresse_3,3789,8,John Deere,Deutz,Steyr
-Ballenpresse_4,2357,7,New Holland,JCB,Deutz,Claas,Steyr
+Ballenpresse_2,3249,90,New Holland,Valtra,Deutz,JCB
+Ballenpresse_3,3789,80,John Deere,Deutz,Steyr
+Ballenpresse_4,2357,70,New Holland,JCB,Deutz,Claas,Steyr

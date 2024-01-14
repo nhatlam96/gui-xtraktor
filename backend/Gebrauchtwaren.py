@@ -86,8 +86,11 @@ class GebrauchtwarenWindow(QMainWindow):
             data = list(csv.reader(file))
 
         for bidder in data:
-            if not Helper3.isInterested():
-                data.remove(bidder)
+            if Helper3.isInterested():
+                bidder.append("yes")
+            else:
+                bidder.append("no")
+            print("bidder", bidder)
         for bidder in data:
             kaufangebot = Helper3.genKaufangebot(self.beispielGebot)  # bidder[1] # hier muss richtiges Gebot hin
             if kaufangebot <= bidder[3]:    # kann nicht budget übersteigen

@@ -173,7 +173,7 @@ def update_biddersBalance(bidder, amount):
 
     for row in data:
         if bidder in row:
-            row[3] = str(int(float(row[3]) - amount)) # müsste eigentlich row[1] sein wenn gebut gefixt wird
+            row[1] = str(int(float(row[1]) - amount)) # war row[3] für test
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
@@ -272,7 +272,6 @@ def update_budgetsPerYear(years):
     for row in users_data[3:]:
         newBudget = Helper3.increasedBudget(float(row[2]), years)
         row[2] = str(int(float(newBudget)))
-        
     with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(users_data)
     print("increased users budgets") 
@@ -284,7 +283,6 @@ def update_budgetsPerYear(years):
     for row in bidders_data:
         newBudget = Helper3.increasedBudget(float(row[1]), years)
         row[1] = str(int(float(newBudget)))
-        
     with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(bidders_data)
     print("increased bidders budgets")
