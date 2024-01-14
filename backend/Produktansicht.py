@@ -193,7 +193,7 @@ class ProductWindow(QMainWindow):
             label2.setStyleSheet("border: none;")
             label2.setPixmap(self.load_zpic(self.z_list[x][0]))
             if self.acc[3] == "Admin":
-                label3 = QLabel(f"EK-P: {locale.currency(int(float(self.zusatz[x][1]) * 0.65), grouping=True)}")
+                label3 = QLabel(f"EK-P: {locale.currency(int(float(self.z_list[x][1]) * 0.65), grouping=True)}")
             else:
                 label3 = QLabel(f"{locale.currency(int(self.z_list[x][1]), grouping=True)}")
             label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")

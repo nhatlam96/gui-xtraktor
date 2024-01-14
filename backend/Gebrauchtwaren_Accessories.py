@@ -177,6 +177,7 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
 
         self.conv_preis = neu_preis
 
+        Helper2.replace.text(self.product[4][:4], self.findChild(QLabel, "kauf_status"))
         Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
         Helper2.replace.text(locale.currency((neu_preis - preis), grouping=True),
                              self.findChild(QLabel, "wert_status"))

@@ -169,12 +169,13 @@ class GebrauchtwarenWindow(QMainWindow):
 
         preis = int(self.product_info[4])
         loss = int(Helper2.load.loss(self.product_info[0]))
-        jahre = int(Helper.get_time_difference_since_program_time(self.product[4]))
+        jahre = int(Helper.get_time_difference_since_program_time(f"{self.product_info[-2]}-01-01 12:00:00"))
         verlustrate = (100 - loss) / 100
         neu_preis = int(float(preis) * float(verlustrate ** jahre))
 
         self.conv_preis = neu_preis
 
+        Helper2.replace.text(self.product[4][:4], self.findChild(QLabel, "kauf_status"))
         Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
         Helper2.replace.text(locale.currency((neu_preis-preis), grouping=True), self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(neu_preis, grouping=True), self.findChild(QLabel, "neu_preis_status"))
