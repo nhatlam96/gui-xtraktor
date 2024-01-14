@@ -28,7 +28,7 @@ class Startseite(QMainWindow):
         self.traktor_Liste = Helper2.load.all_traktor_data(self)
         self.traktor_infos = Helper2.load.product_info(self, self.traktor_Liste)
 
-        self.convert_list()
+        self.convert_list(self.traktor_infos)
 
         # Suchfeld Liste
         self.search_Liste = self.traktor_Liste
@@ -357,8 +357,11 @@ class Startseite(QMainWindow):
         liste = self.get_filtered_list()
         liste_infos = Helper2.load.product_info(self, liste)
 
+        self.convert_list(liste_infos)
+
         # zip kombiniert beide listen damit die beiden zusammen bleiben
         neue_liste = list(zip(liste, liste_infos))
+        print("NEUE SORTED LISTE")
         print(neue_liste)
 
         if sort == "Höchster Preis zuerst":
@@ -419,8 +422,7 @@ class Startseite(QMainWindow):
         self.setup_waren_ui()
         self.load_ui()
 
-    def convert_list(self):
-        liste = self.traktor_infos
+    def convert_list(self, liste):
 
         for item in liste:
             preis = int(item[4])
@@ -463,6 +465,6 @@ class Startseite(QMainWindow):
             self.search_Liste = filtered_list
             self.search_infos = Helper2.load.product_info(self, filtered_list)
 
-            self.get_sorted_list()
+        self.get_sorted_list()
 
-            self.setup_waren_ui()
+        self.setup_waren_ui()

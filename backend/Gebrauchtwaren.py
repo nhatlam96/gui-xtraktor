@@ -3,7 +3,7 @@ import locale
 import os.path
 
 from PyQt5 import uic
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal, QObject
 from PyQt5.QtWidgets import *
 from Vollbild_Klasse import FullScreenImage
 
@@ -13,17 +13,19 @@ import Helper3
 import Helper_Accounts
 import switches
 
+
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
 BIDDERS_FILE_PATH = os.path.join("..", "resources", "csv", "Bidders.csv")
 
+class GlobalSignals(QObject):
+    buy_success = pyqtSignal()
 
 class GebrauchtwarenWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
-        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
         print("AUFRUF GEBRAUCHT")
@@ -31,6 +33,7 @@ class GebrauchtwarenWindow(QMainWindow):
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
+
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -85,19 +88,14 @@ class GebrauchtwarenWindow(QMainWindow):
 
         for bidder in data:
             if Helper3.isInterested():
-                bidder.append("yes")
                 kaufangebot = Helper3.genKaufangebot(self.beispielGebot)  # bidder[1] # hier muss richtiges Gebot hin
                 if int(kaufangebot) <= int(bidder[3]):  # kann nicht budget übersteigen
                     bidder[1] = kaufangebot
                 else:
                     bidder[1] = bidder[3]
             else:
-                bidder.append("no")
                 bidder[1] = "0"
             print("bidder", bidder)
-
-
-
 
         self.bestOffer = max(data, key=lambda data: int(data[1]))
         self.sortedOffers = sorted(data, key=lambda data: int(data[1]), reverse=True)  # bid/offer
@@ -129,7 +127,7 @@ class GebrauchtwarenWindow(QMainWindow):
             inner_layout.addWidget(name, 1)
 
             if offer[1] != "0":
-                gebot = QLabel(f"Gebot: {offer[1]}")
+                gebot = QLabel(f"Gebot: {locale.currency(int(offer[1]), grouping=True)}")
             else:
                 gebot = QLabel(f"Kein Gebot")
             inner_layout.addWidget(gebot, 1)
@@ -169,15 +167,20 @@ class GebrauchtwarenWindow(QMainWindow):
         t_z = self.product[2]
         account = self.product[3]
         timestamp = self.product[4]
-        preis = float(self.product_info[4])
+
+        preis = float(self.bestOffer[1])
+
         Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
-        Helper_Accounts.update_biddersBalance(account, preis)   # voller preis abzug von bidder
-        Helper_Accounts.update_accountsBalance(account, preis*0.99)     # 99 % von Wert für Verkäufer
-        Helper_Accounts.update_klausBalance(preis*0.01)     # 1 % Provision für Klaus
+        Helper_Accounts.update_biddersBalance(account, int(preis))   # voller preis abzug von bidder
+        Helper_Accounts.update_accountsBalance(account, int(preis*0.99))     # 99 % von Wert für Verkäufer
+        Helper_Accounts.update_klausBalance(int(preis*0.01))     # 1 % Provision für Klaus
         print("verkauf bestätigt")
-        Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
+        Helper.show_toast(f"Der Verkauf über {locale.currency(int(preis), grouping=True)}€ "
+                          f"wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
+        self.close()
+
 
     def convert_preis(self):
 

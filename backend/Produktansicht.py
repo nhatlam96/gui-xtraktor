@@ -89,10 +89,10 @@ class ProductWindow(QMainWindow):
             self.load_lager()
 
     def calc_preis(self, value):
-
         preis = self.get_preis()
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
+
 
     def get_preis(self):
         jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
@@ -247,6 +247,7 @@ class ProductWindow(QMainWindow):
         return button_click_handler
 
     def check_quantity(self, value):
+        self.calc_preis(value)
         print(f"Produktansicht: {self.product}")
         available_quantity = int(self.product[6])
         current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()

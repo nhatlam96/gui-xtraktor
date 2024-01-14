@@ -7,6 +7,7 @@ class FullScreenImage(QMainWindow):
     def __init__(self, image_path):
         super().__init__()
         self.setWindowTitle("Full Screen Image")
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.resize(1000, 700)
         self.zoom_wert = 1.0
 
