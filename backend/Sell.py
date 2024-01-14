@@ -32,6 +32,10 @@ class SellWindow(QMainWindow):
         # Lokale Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
+        #Signale
+        self.t_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+        self.z_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+
         # Buttons von dyn. Layout
         self.buttons_tab1 = {}
 
@@ -47,16 +51,23 @@ class SellWindow(QMainWindow):
         self.create_content()
         self.add_bidders_tab()
 
+
+
+
+
     def create_content(self):
 
         scroll_area = self.findChild(QScrollArea, "scrollArea")
+        scroll_area2 = self.findChild(QScrollArea, "scrollArea_2")
 
         content_widget = QWidget()
-
         layout = QVBoxLayout(content_widget)
 
-        for x in range(len(self.inventar_liste)):
+        content_widget2 = QWidget()
+        layout2 = QVBoxLayout(content_widget2)
 
+
+        for x in range(len(self.inventar_liste)):
             new_widget = QWidget()
             new_widget.setMaximumHeight(200)
             new_widget.setStyleSheet("""
@@ -65,7 +76,6 @@ class SellWindow(QMainWindow):
                     border: 2px solid rgb(46, 204, 113);
                 }
             """)
-
             inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
 
             picture_layout = QVBoxLayout()
@@ -173,9 +183,14 @@ class SellWindow(QMainWindow):
             value_layout.addWidget(label5)
             value_layout.addLayout(value_innerlayout)
 
-            layout.addWidget(new_widget)
+            if self.inventar_liste[x][2] == "t":
+                layout.addWidget(new_widget)
+            else:
+                layout2.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
+        scroll_area2.setWidget(content_widget2)
+
 
     def add_bidders_tab(self):
 
