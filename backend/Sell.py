@@ -9,6 +9,8 @@ import Helper
 import Helper2
 import switches
 
+from Gebrauchtwaren import GebrauchtwarenWindow
+
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
 ICON_PATH = os.path.join("..", "resources", "icons")
@@ -21,20 +23,13 @@ class SellWindow(QMainWindow):
 
         print("AUFRUF SELL")
 
-        # Übergabeparameter
-        Helper.InvHandler.def_inv()
-        self.inventar_liste = Helper.InvHandler.get_inv()
-        print(self.inventar_liste)
-        self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
-        print(self.info_liste)
-        self.bidders_liste = Helper_Accounts.get_bidders()
-
         # Lokale Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
         # Signale
         self.t_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.z_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+
 
         # Buttons von dyn. Layout
         self.buttons_tab1 = {}
@@ -47,9 +42,23 @@ class SellWindow(QMainWindow):
         self.show()
 
     def load_ui(self):
+
+        # Übergabeparameter
+        Helper.InvHandler.def_inv()
+        self.inventar_liste = Helper.InvHandler.get_inv()
+        print(self.inventar_liste)
+        self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
+        print(self.info_liste)
+        self.bidders_liste = Helper_Accounts.get_bidders()
+
+
         Helper2.load.complete_header(self)
         self.create_content()
         self.add_bidders_tab()
+
+
+
+
 
     def create_content(self):
 

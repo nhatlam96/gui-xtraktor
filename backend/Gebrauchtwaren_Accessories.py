@@ -86,16 +86,14 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
 
         for bidder in data:
             if Helper3.isInterested():
-                bidder.append("yes")
+                kaufangebot = Helper3.genKaufangebot(self.beispielGebot)  # bidder[1] # hier muss richtiges Gebot hin
+                if int(kaufangebot) <= int(bidder[3]):  # kann nicht budget übersteigen
+                    bidder[1] = kaufangebot
+                else:
+                    bidder[1] = bidder[3]
             else:
-                bidder.append("no")
+                bidder[1] = "0"
             print("bidder", bidder)
-        for bidder in data:
-            kaufangebot = Helper3.genKaufangebot(bidder[1])    # bidder[1] hier muss richtiges Gebot hin self.beispielGebot
-            if kaufangebot <= bidder[3]:                        # kann nicht budget übersteigen
-                bidder[1] = kaufangebot
-            else:
-                bidder[1] = bidder[3]
 
         self.bestOffer = max(data, key=lambda data: data[1])
         self.sortedOffers = sorted(data, key=lambda data: data[1], reverse=True)  # bid/offer
@@ -121,7 +119,10 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
                 name = QLabel(f"Bieter: {offer[0]}")
             inner_layout.addWidget(name, 1)
 
-            gebot = QLabel(f"Gebot: {offer[1]}")
+            if offer[1] != "0":
+                gebot = QLabel(f"Gebot: {locale.currency(int(offer[1]), grouping=True)}")
+            else:
+                gebot = QLabel(f"Kein Gebot")
             inner_layout.addWidget(gebot, 1)
 
             if index == 0:
@@ -159,15 +160,19 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         t_z = self.product[2]
         account = self.product[3]
         timestamp = self.product[4]
-        preis = float(self.product_info[1])
+
+        preis = float(self.bestOffer[1])
+
         Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
-        Helper_Accounts.update_biddersBalance(account, preis)   # voller preis abzug
-        Helper_Accounts.update_accountsBalance(account, preis*0.99)     # 99 % von Wert für Bidder
-        Helper_Accounts.update_klausBalance(preis*0.01)     # 1 % Provision für Klaus
+        Helper_Accounts.update_biddersBalance(account, int(preis))   # voller preis abzug
+        Helper_Accounts.update_accountsBalance(account, int(preis*0.99))     # 99 % von Wert für Bidder
+        Helper_Accounts.update_klausBalance(int(preis*0.01))     # 1 % Provision für Klaus
         print("verkauf bestätigt")
-        Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
+        Helper.show_toast(f"Der Verkauf über {locale.currency(int(preis), grouping=True)}€ "
+                          f"wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
+        self.close()
 
     def convert_preis(self):
 

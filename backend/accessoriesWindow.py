@@ -124,6 +124,7 @@ class accessoriesWindow(QMainWindow):
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
 
     def check_quantity(self, value):
+        self.calc_wert(value)
         available_quantity = int(self.product[2])
         current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 

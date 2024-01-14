@@ -18,6 +18,7 @@ class UserHandler:
 
     @staticmethod
     def get_current_user():
+        UserHandler.set_current_user(UserHandler.current_user[0])
         return UserHandler.current_user
 
     @staticmethod
@@ -181,7 +182,7 @@ def update_biddersBalance(bidder, amount):
 
     for row in data:
         if bidder in row:
-            row[1] = str(int(float(row[1]) - amount)) # war row[3] für test
+            row[3] = str(int(float(row[3]) - amount)) # war row[3] für test
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
