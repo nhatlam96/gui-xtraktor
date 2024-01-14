@@ -284,8 +284,8 @@ def update_budgetsPerYear(years):
         bidders_data = list(csv.reader(file))
 
     for row in bidders_data:
-        new_budget = Helper3.increasedBudget(float(row[1]), years)
-        row[1] = str(int(float(new_budget)))
+        new_budget = Helper3.increasedBudget(float(row[3]), years)
+        row[3] = str(int(float(new_budget)))
     with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(bidders_data)
     print("increased bidders budgets")

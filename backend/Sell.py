@@ -206,6 +206,10 @@ class SellWindow(QMainWindow):
         content_widget.setStyleSheet("background-color: rgb(52, 73, 94);")
         layout = QVBoxLayout(content_widget)
 
+        print("BIDDER LISTE")
+        print(self.bidders_liste)
+
+
         for item in self.bidders_liste:
             new_widget = QWidget()
             new_widget.setMaximumHeight(100)
