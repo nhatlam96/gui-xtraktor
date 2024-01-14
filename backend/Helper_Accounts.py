@@ -229,7 +229,7 @@ def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
 
 
 # shopping list structure: [['Vario_1050', 2, 't'], ['9R_RT', 3, 't']]
-def update_seller_inventories(items_bought):
+def update_seller_inventories(items_bought, user_role):
     # Update inventory for type 't'
     with open(T_INVENTORY_PATH, 'r', newline='') as file:
         t_inventory = list(csv.reader(file))
@@ -238,7 +238,10 @@ def update_seller_inventories(items_bought):
         if item[2] == 't':
             for row in t_inventory[1:]:
                 if row[1] == item[0]:  # Check if the product name matches
-                    row[-1] = str(int(row[-1]) - int(item[1]))  # Update the Lager quantity
+                    if user_role == "Admin":
+                        row[-1] = str(int(row[-1]) + int(item[1]))  # Add to the Lager quantity
+                    else:
+                        row[-1] = str(int(row[-1]) - int(item[1]))  # Subtract from the Lager quantity
 
     with open(T_INVENTORY_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(t_inventory)
@@ -251,7 +254,10 @@ def update_seller_inventories(items_bought):
         if item[2] == 'z':
             for row in z_inventory[1:]:
                 if row[0] == item[0]:  # Check if the product name matches
-                    row[2] = str(int(row[2]) - int(item[1]))  # Update the Bestand quantity
+                    if user_role == "Admin":
+                        row[2] = str(int(row[2]) + int(item[1]))  # Add to the Bestand quantity
+                    else:
+                        row[2] = str(int(row[2]) - int(item[1]))  # Subtract from the Bestand quantity
 
     with open(Z_INVENTORY_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(z_inventory)

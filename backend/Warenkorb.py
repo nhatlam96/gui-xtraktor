@@ -104,7 +104,7 @@ class WarenkorbWindow(QMainWindow):
                                                           get_program_time().format("YYYY-MM-DD HH:mm:ss"))
 
                     # update the seller inventories csv file
-                    Helper_Accounts.update_seller_inventories(self.shopping_list)
+                    Helper_Accounts.update_seller_inventories(self.shopping_list, user[3])
 
                     Helper.BuyHandler.clear_current_shoppinglist()
                     self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
