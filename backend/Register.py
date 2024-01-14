@@ -28,7 +28,7 @@ class Register(QMainWindow):
         self.registerButton = self.findChild(QPushButton, "registerButton")
         self.registerButton.clicked.connect(lambda: self.register_user())
 
-        self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
+        self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self, "Register"))
 
         self.show()
 
@@ -44,10 +44,11 @@ class Register(QMainWindow):
     def register_user(self):
         username = self.usernameLineEdit.text()
         password = self.passwordLineEdit.text()
+        password_repeat = self.repeatPasswordLineEdit.text()
         budget = self.budgetLineEdit.text()
         role = self.registerAsComboBox.currentText()
 
-        validation_result = validate_inputs(username, password, budget, role)
+        validation_result = validate_inputs(username, password, password_repeat, budget, role)
 
         if validation_result == "success":
             if not username_exists(username):

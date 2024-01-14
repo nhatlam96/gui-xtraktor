@@ -98,9 +98,12 @@ def add_user_to_csv(username, password, budget, role):
             writer.writerow({'username': username, 'password': password, 'budget': budget, 'role': role})
 
 
-def validate_inputs(username, password, budget, role):
+def validate_inputs(username, password, password_repeat, budget, role):
     if not (2 <= len(username) <= 16 and 2 <= len(password) <= 16):
         return "Username and password must be between 2 and 16 characters."
+
+    if password != password_repeat:
+        return "Passwords do not match."
 
     try:
         float(budget)  # Check if budget is a valid integer
@@ -113,12 +116,16 @@ def validate_inputs(username, password, budget, role):
     return "success"
 
 
-def toggle_password_visibility(self):
+def toggle_password_visibility(self, window_name):
     checkbox_value = self.showPasswordCheckBox.isChecked()
     if checkbox_value:
         self.passwordLineEdit.setEchoMode(QLineEdit.Normal)
+        if window_name == "Register":
+            self.repeatPasswordLineEdit.setEchoMode(QLineEdit.Normal)
     else:
         self.passwordLineEdit.setEchoMode(QLineEdit.Password)
+        if window_name == "Register":
+            self.repeatPasswordLineEdit.setEchoMode(QLineEdit.Password)
 
 
 def update_userprofile(self, user):

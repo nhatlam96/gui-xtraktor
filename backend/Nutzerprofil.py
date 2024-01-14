@@ -29,7 +29,7 @@ class UserprofileWindow(QMainWindow):
         # Signale
         self.aenderungenSpeichernButton.clicked.connect(self.handle_save_changes)
         self.aenderungenVerwerfenButton.clicked.connect(lambda: self.display_userprofile())
-        self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self))
+        self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self, "Userprofile"))
         self.logout_button.clicked.connect(lambda: self.logout())
 
         # load ui

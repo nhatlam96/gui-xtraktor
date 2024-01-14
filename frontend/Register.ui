@@ -44,7 +44,7 @@
        <item>
         <widget class="QFrame" name="frame_2">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
@@ -127,6 +127,29 @@ color: white;</string>
            </widget>
           </item>
           <item>
+           <widget class="QLineEdit" name="repeatPasswordLineEdit">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(127, 140, 141);
+color: white;</string>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+            </property>
+            <property name="maxLength">
+             <number>16</number>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+            <property name="placeholderText">
+             <string>Repeat Password</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="showPasswordCheckBox">
             <property name="font">
              <font>
@@ -175,7 +198,7 @@ color: white;</string>
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
