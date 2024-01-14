@@ -3,17 +3,15 @@ import locale
 import os.path
 
 from PyQt5 import uic
-from PyQt5.QtCore import Qt, pyqtSignal, QObject
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from Vollbild_Klasse import FullScreenImage
 
 import Helper
 import Helper2
 import Helper3
 import Helper_Accounts
 import switches
-
-import Sell
+from Vollbild_Klasse import FullScreenImage
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -27,13 +25,11 @@ class GebrauchtwarenWindow(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
-
         print("AUFRUF GEBRAUCHT")
 
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
-
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -170,17 +166,16 @@ class GebrauchtwarenWindow(QMainWindow):
 
         preis = float(self.bestOffer[1])
 
-        Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
-        Helper_Accounts.update_biddersBalance(account, int(preis))   # voller preis abzug von bidder
-        Helper_Accounts.update_accountsBalance(account, int(preis*0.99))     # 99 % von Wert für Verkäufer
-        Helper_Accounts.update_klausBalance(int(preis*0.01))     # 1 % Provision für Klaus
+        Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, account, timestamp)
+        Helper_Accounts.update_biddersBalance(account, int(preis))  # voller preis abzug von bidder
+        Helper_Accounts.update_accountsBalance(account, int(preis * 0.99))  # 99 % von Wert für Verkäufer
+        Helper_Accounts.update_klausBalance(int(preis * 0.01))  # 1 % Provision für Klaus
         print("verkauf bestätigt")
         Helper.show_toast(f"Der Verkauf über {locale.currency(int(preis), grouping=True)}€ "
                           f"wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
         switches.switch_to.Inventar(self)
-
 
     def convert_preis(self):
 
@@ -194,5 +189,5 @@ class GebrauchtwarenWindow(QMainWindow):
 
         Helper2.replace.text(self.product[4][:4], self.findChild(QLabel, "kauf_status"))
         Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
-        Helper2.replace.text(locale.currency((neu_preis-preis), grouping=True), self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency((neu_preis - preis), grouping=True), self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(neu_preis, grouping=True), self.findChild(QLabel, "neu_preis_status"))

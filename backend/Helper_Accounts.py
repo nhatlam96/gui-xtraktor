@@ -165,6 +165,7 @@ def update_accountsBalance(account, amount):
                 csv.writer(file).writerows(data)
                 return True
 
+
 def update_klausBalance(amount):
     with open(ACCOUNTS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
@@ -176,16 +177,18 @@ def update_klausBalance(amount):
                 csv.writer(file).writerows(data)
                 return True
 
+
 def update_biddersBalance(bidder, amount):
     with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
 
     for row in data:
         if bidder in row:
-            row[3] = str(int(float(row[3]) - amount)) # war row[3] für test
+            row[3] = str(int(float(row[3]) - amount))  # war row[3] für test
             with open(BIDDERS_FILE_PATH, 'w', newline='') as file:
                 csv.writer(file).writerows(data)
                 return True
+
 
 def readInventar():  # Get
     user = UserHandler.get_current_user()
@@ -217,16 +220,16 @@ def writeInventar(modell_name, anzahl, t_z, timestamp):
         return True
 
 
-def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
+def sellGebrauchtFromInventar(modell, anzahl, account, timestamp):
     with open(INVENTAR_FILE_PATH, 'r', newline='') as file:
         data = list(csv.reader(file))
 
     for row in data:
         if modell in row and account in row and timestamp in row:
             print("found", row)
-            row[1] = int(row[1]) - anzahl       # Bestand abziehen, weil verkauft
-            if row[1] <= 0:         # falls nach Verkauf, leer wäre
-                data.remove(row)        # eintrag löschen
+            row[1] = int(row[1]) - anzahl  # Bestand abziehen, weil verkauft
+            if row[1] <= 0:  # falls nach Verkauf, leer wäre
+                data.remove(row)  # eintrag löschen
             break
 
     # sort by user (index 3 in each row)
@@ -238,7 +241,7 @@ def sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp):
 
 # shopping list structure: [['Vario_1050', 2, 't'], ['9R_RT', 3, 't']]
 def update_seller_inventories(items_bought, user_role):
-    # Update inventory for type 't'
+    # Update inventory for type t
     with open(T_INVENTORY_PATH, 'r', newline='') as file:
         t_inventory = list(csv.reader(file))
 
@@ -289,11 +292,11 @@ def update_budgetsPerYear(years):
     for row in users_data[3:]:
         new_budget = Helper3.increasedBudget(float(row[2]), years)
         row[2] = str(int(float(new_budget)))
-        
+
     with open(ACCOUNTS_FILE_PATH, 'w', newline='') as file:
         csv.writer(file).writerows(users_data)
-    print("increased users budgets") 
-    
+    print("increased users budgets")
+
     # update Bidders
     with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
         bidders_data = list(csv.reader(file))

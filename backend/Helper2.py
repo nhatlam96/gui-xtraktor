@@ -58,7 +58,7 @@ class load:
         if replace_icon("home_Button", r"home.svg"):
             self.home_Button.clicked.connect(lambda: switches.switch_to.startseite())
         if replace_icon("acc_Button", r"user.svg"):
-            self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer(self))
+            self.acc_Button.clicked.connect(lambda: switches.switch_to.nutzer())
         if replace_icon("shopping_Button", r"shopping-cart.svg"):
             self.shopping_Button.clicked.connect(lambda: switches.switch_to.shopping_cart())
 

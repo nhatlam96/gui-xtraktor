@@ -62,8 +62,6 @@ class WindowHandler:
         WindowHandler.open_windows_dict = {}
 
 
-
-
 class switch_to:
 
     @staticmethod
@@ -92,7 +90,6 @@ class switch_to:
             WindowHandler.register_window(Startseite, window)
             WindowHandler.release_all_except(Startseite)
 
-
         else:
             if old_window is not None:
                 old_window.close()
@@ -108,7 +105,7 @@ class switch_to:
         WindowHandler.release_all_except(Login)
 
     @staticmethod
-    def nutzer(old_window):
+    def nutzer():
         if WindowHandler.check_window(UserprofileWindow) is True:
             window = UserprofileWindow()
             window.show()
@@ -136,7 +133,6 @@ class switch_to:
         window = SellWindow()
         window.show()
         WindowHandler.register_window(SellWindow, window)
-
 
     @staticmethod
     def Sell_item():

@@ -98,7 +98,7 @@ def show_toast(message, icon, button, time_in_ms):
     toast.setStandardButtons(button)
     toast.setWindowTitle("Notification")
 
-    # Toast Fernster immer vorner angezeigt
+    # Toast Fenster immer vorne angezeigt
     toast.setWindowFlags(toast.windowFlags() | Qt.WindowStaysOnTopHint)
 
     timer = QTimer(toast)

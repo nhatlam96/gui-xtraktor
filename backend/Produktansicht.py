@@ -30,11 +30,11 @@ class ProductWindow(QMainWindow):
         # übergabeparameter
         self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)
         self.loss = int(Helper2.load.loss(self.product[0]))
-        self.z_list = self.load_zub()    # kompatibles. Zubehör
+        self.z_list = self.load_zub()  # kompatibles. Zubehör
         self.acc = Helper_Accounts.UserHandler.get_current_user()
 
         # dyn. Layout
-        self.buttons = {}   # speichert dict von Button-aktionen für dyn. layout
+        self.buttons = {}  # speichert dict von Button-aktionen für dyn. layout
         self.anz = 0
 
         # Währungsumgebung laden
@@ -93,7 +93,6 @@ class ProductWindow(QMainWindow):
         new_value = preis * value
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
 
-
     def get_preis(self):
         jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
         verlustrate = (100 - self.loss) / 100
@@ -145,7 +144,7 @@ class ProductWindow(QMainWindow):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
                 Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
-                self.picture.setMaximumSize(450,450)
+                self.picture.setMaximumSize(450, 450)
 
     @staticmethod
     def load_zpic(name):
@@ -192,7 +191,7 @@ class ProductWindow(QMainWindow):
             label1 = QLabel(self.z_list[x][0])
             label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             label2 = QLabel()
-            label2.setMinimumSize(100,100)
+            label2.setMinimumSize(100, 100)
             label2.setStyleSheet("border: none;")
             label2.setPixmap(self.load_zpic(self.z_list[x][0]))
             if self.acc[3] == "Admin":

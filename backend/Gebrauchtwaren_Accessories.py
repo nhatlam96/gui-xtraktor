@@ -163,7 +163,7 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
 
         preis = float(self.bestOffer[1])
 
-        Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
+        Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, account, timestamp)
         Helper_Accounts.update_biddersBalance(account, int(preis))   # voller preis abzug
         Helper_Accounts.update_accountsBalance(account, int(preis*0.99))     # 99 % von Wert für Bidder
         Helper_Accounts.update_klausBalance(int(preis*0.01))     # 1 % Provision für Klaus

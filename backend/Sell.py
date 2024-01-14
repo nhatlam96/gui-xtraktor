@@ -3,15 +3,11 @@ import os.path
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
-
-import Helper_Accounts
 import Helper
 import Helper2
+import Helper_Accounts
 import switches
-
-
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 PIC_PATH = os.path.join("..", "resources", "pictures")
@@ -39,7 +35,6 @@ class SellWindow(QMainWindow):
         self.t_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.z_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
 
-
         # Buttons von dyn. Layout
         self.buttons_tab1 = {}
 
@@ -55,10 +50,6 @@ class SellWindow(QMainWindow):
         Helper2.load.complete_header(self)
         self.create_content()
         self.add_bidders_tab()
-
-
-
-
 
     def create_content(self):
 
