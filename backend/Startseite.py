@@ -1,14 +1,15 @@
 import locale
 import os
 import os.path
+
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
-import switches
+
 import Helper
 import Helper2
 import Helper4
 import Helper_Accounts
+import switches
 
 # Ressourcenpfade
 csv_path = os.path.join("..", "resources", "csv")

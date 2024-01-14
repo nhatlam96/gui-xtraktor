@@ -87,5 +87,5 @@ def update_program_time(months):
 launch_time = save_launch_time(Helper.get_program_time())
 while True:
     time.sleep(100000)
-    update_program_time(1)
+    update_program_time(0)
     
