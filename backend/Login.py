@@ -26,6 +26,7 @@ class Login(QMainWindow):
         # Signale
         self.goToRegisterButton.clicked.connect(lambda: switches.switch_to.register(self))
         self.loginButton.clicked.connect(lambda: self.login_check())
+        self.showPasswordCheckBox.stateChanged.connect(lambda: Helper_Accounts.toggle_password_visibility(self))
 
         # Budgets erhöhen pro Jahr
         timediff = Helper.get_time_difference_since_program_time("2022-01-01 12:00:00")
