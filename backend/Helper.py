@@ -1,6 +1,6 @@
 import os
 import arrow
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QMessageBox
 
 import Helper_Accounts
@@ -90,10 +90,6 @@ class current_Sell_Handler:
     def add_sell_item(product, anz, typ, user, zeit):
         current_Sell_Handler.current_sell_item = [product, anz, typ, user, zeit]
 
-    @staticmethod
-    def clear_sell_item(product, anz):
-        current_Sell_Handler.current_sell_item = []
-
 
 def show_toast(message, icon, button, time_in_ms):
     toast = QMessageBox()
@@ -101,6 +97,8 @@ def show_toast(message, icon, button, time_in_ms):
     toast.setIcon(icon)
     toast.setStandardButtons(button)
     toast.setWindowTitle("Notification")
+
+    toast.setWindowFlags(toast.windowFlags() | Qt.WindowStaysOnTopHint)
 
     timer = QTimer(toast)
     # https://stackoverflow.com/questions/64505166/cannot-find-reference-connect-in-function
@@ -130,7 +128,7 @@ def get_time_difference_since_program_time(buy_timestamp_str):
     current_time = get_program_time()
     difference = current_time - buy_timestamp
 
-    years = difference.days / 365.25 # zeitunterschied in jahren
+    years = difference.days / 365.25     # zeitunterschied in jahren
 
     # jahre mit nachkommastellen
     formatted_years = abs(float("{:.2f}".format(years)))

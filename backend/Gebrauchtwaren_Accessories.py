@@ -23,6 +23,8 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindowAccessories.ui"), self)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
         print("AUFRUF GEBRAUCHT ACCESSORIES")
 
@@ -30,10 +32,8 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
 
-
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
-
 
         # Produktseite laden
         self.load_ui()
@@ -43,19 +43,15 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         self.bidders_liste = Helper_Accounts.get_bidders()
         self.bestOffer = []
         self.sortedOffers = []
-        self.readInBidders()
-        
-
+        self.read_in_bidders()
 
         # dynamisches Widget laden
         self.add_widget()
-
 
         # Mausevent mit Bild verknüpfen
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
-        self.showFullScreen()
         self.show()
 
     def closeEvent(self, event):
@@ -73,21 +69,18 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         label.setPixmap(pixmap)
 
         Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
-        Helper2.replace.text(f"Zubehör - {self.product_info[0]}",
-                                 self.findChild(QLabel, "name_label"))
-        Helper2.replace.text(locale.currency(int(self.product_info[1]), grouping=True),
-                                 self.findChild(QLabel, "alt_preis_status"))
+        Helper2.replace.text(f"Zubehör - {self.product_info[0]}", self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(locale.currency(int(self.product_info[1]), grouping=True), self.findChild(QLabel, "alt_preis_status"))
         Helper2.load.complete_header(self)
         Helper2.replace.text(f"{str(self.load_hers())}", self.findChild(QLabel, "comp_label"))
 
         self.convert_preis()
 
-
     def load_hers(self):
         conv_text = ", ".join(self.product_info[3:])
         return conv_text
 
-    def readInBidders(self):
+    def read_in_bidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
             data = list(csv.reader(file))
 
@@ -98,8 +91,8 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
                 bidder.append("no")
             print("bidder", bidder)
         for bidder in data:
-            kaufangebot = Helper3.genKaufangebot(self.beispielGebot)#bidder[1]) # hier muss richtiges Gebot hin
-            if kaufangebot <= bidder[3]:    # kann nicht budget übersteigen
+            kaufangebot = Helper3.genKaufangebot(bidder[1])    # bidder[1] hier muss richtiges Gebot hin self.beispielGebot
+            if kaufangebot <= bidder[3]:                        # kann nicht budget übersteigen
                 bidder[1] = kaufangebot
             else:
                 bidder[1] = bidder[3]
@@ -157,17 +150,6 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
 
         scroll_area.setWidget(content_widget)
 
-    def make_button_click_handler(self, label):
-        def button_click_handler():
-            if label is not None:
-                text = label.text()
-                Helper.AccessoriesHandler.set_current_acc(text)
-                switches.switch_to.accessories()
-            else:
-                print("Label ist None")
-
-        return button_click_handler
-
     def button_handler(self):
         modell = self.product[0]
         anzahl = self.product[1]
@@ -176,9 +158,9 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         timestamp = self.product[4]
         preis = float(self.product_info[1])
         Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
-        Helper_Accounts.update_biddersBalance(account, preis) # voller preis abzug
-        Helper_Accounts.update_accountsBalance(account, preis*0.99) # 99% von Wert für Bidder
-        Helper_Accounts.update_klausBalance(preis*0.01) # 1% Provision für Klaus
+        Helper_Accounts.update_biddersBalance(account, preis)   # voller preis abzug
+        Helper_Accounts.update_accountsBalance(account, preis*0.99)     # 99 % von Wert für Bidder
+        Helper_Accounts.update_klausBalance(preis*0.01)     # 1 % Provision für Klaus
         print("verkauf bestätigt")
         Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
@@ -190,13 +172,12 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         print(preis)
         loss = int(Helper2.load.loss("Zusatz"))
         jahre = int(Helper.get_time_difference_since_program_time(self.product[4]))
-        verlustRate = (100 - loss) / 100
-        conv_preis = int(float(preis) * float(verlustRate ** jahre))
-        neu_preis = int(conv_preis)
+        verlustrate = (100 - loss) / 100
+        neu_preis = int(float(preis) * float(verlustrate ** jahre))
 
         self.conv_preis = neu_preis
 
         Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
-        Helper2.replace.text(locale.currency((conv_preis - preis), grouping=True),
+        Helper2.replace.text(locale.currency((neu_preis - preis), grouping=True),
                              self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(neu_preis, grouping=True), self.findChild(QLabel, "neu_preis_status"))

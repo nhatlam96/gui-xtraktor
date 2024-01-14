@@ -3,6 +3,7 @@ import locale
 import os.path
 
 from PyQt5 import uic
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from Vollbild_Klasse import FullScreenImage
 
@@ -22,7 +23,8 @@ class GebrauchtwarenWindow(QMainWindow):
     def __init__(self):
         super().__init__()  # vereinfacht das Erstellen weiterer
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
-
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
         print("AUFRUF GEBRAUCHT")
 
@@ -33,7 +35,6 @@ class GebrauchtwarenWindow(QMainWindow):
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
-
         # Produktseite laden
         self.load_ui()
 
@@ -42,8 +43,7 @@ class GebrauchtwarenWindow(QMainWindow):
         self.bidders_liste = Helper_Accounts.get_bidders()
         self.bestOffer = []
         self.sortedOffers = []
-        self.readInBidders()
-
+        self.read_in_bidders()
 
         # dynamisches Widget laden
         self.add_widget()
@@ -52,7 +52,6 @@ class GebrauchtwarenWindow(QMainWindow):
         picture_label = self.findChild(QLabel, "picture")
         picture_label.mousePressEvent = lambda event: self.show_fullscreen(event, picture_label.pixmap())
 
-        self.showFullScreen()
         self.show()
 
     def closeEvent(self, event):
@@ -69,10 +68,9 @@ class GebrauchtwarenWindow(QMainWindow):
         label = self.findChild(QLabel, "picture")
         label.setPixmap(pixmap)
 
-        Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}",
-                                 self.findChild(QLabel, "name_label"))
+        Helper2.replace.text(f"{self.product_info[0]} - {self.product_info[1]}", self.findChild(QLabel, "name_label"))
         Helper2.replace.text(locale.currency(float(self.product_info[4]), grouping=True),
-                                 self.findChild(QLabel, "alt_preis_status"))
+                             self.findChild(QLabel, "alt_preis_status"))
         Helper2.replace.text(f"{self.product[1]} Stück", self.findChild(QLabel, "anz_status"))
         Helper2.replace.text(self.product_info[2], self.findChild(QLabel, "ps_status"))
         Helper2.replace.text(self.product_info[3], self.findChild(QLabel, "kmh_status"))
@@ -81,7 +79,7 @@ class GebrauchtwarenWindow(QMainWindow):
 
         self.convert_preis()
 
-    def readInBidders(self):
+    def read_in_bidders(self):
         with open(BIDDERS_FILE_PATH, 'r', newline='') as file:
             data = list(csv.reader(file))
 
@@ -100,7 +98,6 @@ class GebrauchtwarenWindow(QMainWindow):
 
         self.bestOffer = max(data, key=lambda data: data[1])
         self.sortedOffers = sorted(data, key=lambda data: data[1], reverse=True)  # bid/offer
-
 
     def add_widget(self):
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
@@ -150,7 +147,6 @@ class GebrauchtwarenWindow(QMainWindow):
 
             content_layout.addWidget(new_widget)
 
-
         scroll_area.setWidget(content_widget)
 
     def button_handler(self):
@@ -161,26 +157,24 @@ class GebrauchtwarenWindow(QMainWindow):
         timestamp = self.product[4]
         preis = float(self.product_info[4])
         Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, t_z, account, timestamp)
-        Helper_Accounts.update_biddersBalance(account, preis) # voller preis abzug
-        Helper_Accounts.update_accountsBalance(account, preis*0.99) # 99% von Wert für Bidder
-        Helper_Accounts.update_klausBalance(preis*0.01) # 1% Provision für Klaus
+        Helper_Accounts.update_biddersBalance(account, preis)   # voller preis abzug von bidder
+        Helper_Accounts.update_accountsBalance(account, preis*0.99)     # 99 % von Wert für Verkäufer
+        Helper_Accounts.update_klausBalance(preis*0.01)     # 1 % Provision für Klaus
         print("verkauf bestätigt")
         Helper.show_toast(f"Der Verkauf über {preis}€ wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
-
 
     def convert_preis(self):
 
         preis = int(self.product_info[4])
         loss = int(Helper2.load.loss(self.product_info[0]))
         jahre = int(Helper.get_time_difference_since_program_time(self.product[4]))
-        verlustRate = (100 - loss) / 100
-        conv_preis = int(float(preis) * float(verlustRate ** jahre))
-        neu_preis = int(conv_preis)
+        verlustrate = (100 - loss) / 100
+        neu_preis = int(float(preis) * float(verlustrate ** jahre))
 
         self.conv_preis = neu_preis
 
         Helper2.replace.text(str(jahre), self.findChild(QLabel, "zeit_status"))
-        Helper2.replace.text(locale.currency((conv_preis-preis), grouping=True), self.findChild(QLabel, "wert_status"))
+        Helper2.replace.text(locale.currency((neu_preis-preis), grouping=True), self.findChild(QLabel, "wert_status"))
         Helper2.replace.text(locale.currency(neu_preis, grouping=True), self.findChild(QLabel, "neu_preis_status"))

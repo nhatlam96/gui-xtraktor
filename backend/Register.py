@@ -15,7 +15,7 @@ class Register(QMainWindow):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
 
-        # https://stackoverflow.com/a/47513327
+        # erklärung: https://stackoverflow.com/a/47513327
         rx = QRegExp("\d+")
         self.budgetLineEdit.setValidator(QRegExpValidator(rx))
 
@@ -34,7 +34,7 @@ class Register(QMainWindow):
 
     """ for future use, when a role-based budget is implemented
     def update_budget_line_edit(self):
-        if self.registerAsComboBox.currentText() == "Verkaeufer (Gebraucht)":
+        if self.registerAsComboBox.currentText() == "Verkäufer (Gebraucht)":
             self.budgetLineEdit.setText("0")
             self.budgetLineEdit.setEnabled(False)
         else:

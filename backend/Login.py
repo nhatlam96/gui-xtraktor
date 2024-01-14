@@ -6,7 +6,8 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-import Helper, Helper3, Helper_Accounts
+import Helper
+import Helper_Accounts
 import switches
 from Helper import show_toast
 from Helper_Accounts import UserHandler, check_credentials
@@ -20,7 +21,6 @@ class Login(QMainWindow):
     def __init__(self):
         super(Login, self).__init__()
         uic.loadUi(os.path.join("..", "frontend", "Login.ui"), self)
-
         self.setWindowTitle("X-Traktor")
 
         # Signale
@@ -28,9 +28,8 @@ class Login(QMainWindow):
         self.loginButton.clicked.connect(lambda: self.login_check())
 
         # Budgets erhöhen pro Jahr
-        timeDiff = Helper.get_time_difference_since_program_time("2022-01-01 12:00:00")
-        print("timeDiff", timeDiff)
-        Helper_Accounts.update_budgetsPerYear(int(timeDiff))
+        timediff = Helper.get_time_difference_since_program_time("2022-01-01 12:00:00")
+        Helper_Accounts.update_budgetsPerYear(int(timediff))
 
         # ui laden
         self.load_ui()
@@ -46,7 +45,7 @@ class Login(QMainWindow):
         password = self.passwordLineEdit.text()
 
         if check_credentials(username, password):
-            UserHandler.set_current_user(self, username)
+            UserHandler.set_current_user(username)
             Helper.InvHandler.def_inv()
             switches.switch_to.startseite(self)
         else:
@@ -57,7 +56,7 @@ def main():
     print("Starting Login window...")
     global time_master_process
 
-    # TimeMaster.py as separate process
+    # TimeMaster.py als parallelen prozess starten
     time_master_process = subprocess.Popen(["python", "-m", "TimeMaster"])
 
     app = QApplication(sys.argv)

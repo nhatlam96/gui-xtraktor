@@ -90,7 +90,7 @@ class WarenkorbWindow(QMainWindow):
                 # check if enough budget is available and then subtract the sum from the budget
                 if summe <= int(user[2]):
                     update_userBalance(user[0], -summe)
-                    Helper_Accounts.UserHandler.set_current_user(self, user[0])
+                    Helper_Accounts.UserHandler.set_current_user(user[0])
                     Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
                     # update the user inventory csv file
@@ -112,15 +112,14 @@ class WarenkorbWindow(QMainWindow):
                 else:
                     Helper.show_toast("Nicht genug Budget!", QMessageBox.Warning, QMessageBox.Ok, 1750)
 
-    def calc_sum(self, info_liste, shopping_liste):
+    @staticmethod
+    def calc_sum(info_liste, shopping_liste):
         summe = 0
-
         for x in range(len(shopping_liste)):
             if shopping_liste[x][2] == "t":
                 summe += (int(info_liste[x][4]) * int(shopping_liste[x][1]))
             if shopping_liste[x][2] == "z":
                 summe += (int(info_liste[x][1]) * int(shopping_liste[x][1]))
-
         return summe
 
     def add_sum_list(self, info_liste, shopping_liste):
@@ -147,7 +146,7 @@ class WarenkorbWindow(QMainWindow):
                 label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
 
             else:
-                label1 = QLabel(f"Zubehoer | {info_liste[x][0]}")
+                label1 = QLabel(f"Zubehör | {info_liste[x][0]}")
                 label2 = QLabel(locale.currency(int(float(info_liste[x][1])), grouping=True))
                 label3 = QLabel(f"   {shopping_liste[x][1]} Stück")
 
@@ -190,7 +189,7 @@ class WarenkorbWindow(QMainWindow):
                 self.convert_preis(x)
                 label2 = QLabel(f"{info_liste[x][0]} | {shopping_liste[x][0]}")
             elif shopping_liste[x][2] == "z":
-                label2 = QLabel(f"Zubehoer | {shopping_liste[x][0]}")
+                label2 = QLabel(f"Zubehör | {shopping_liste[x][0]}")
             else:
                 label2 = QLabel()
 
@@ -273,8 +272,8 @@ class WarenkorbWindow(QMainWindow):
         preis = int(self.info_list[row][4])
         loss = int(Helper2.load.loss(self.info_list[row][0]))
         jahre = int(Helper.get_time_difference_since_program_time(f"{self.info_list[row][5]}-01-01 12:00:00"))
-        verlustRate = (100 - loss) / 100
-        conv_preis = int(float(preis) * float(verlustRate ** jahre))
+        verlustrate = (100 - loss) / 100
+        conv_preis = int(float(preis) * float(verlustrate ** jahre))
         neu_preis = int(float(conv_preis) * 0.65) if self.acc[3] == "Admin" else int(conv_preis)
 
         self.info_list[row][4] = neu_preis

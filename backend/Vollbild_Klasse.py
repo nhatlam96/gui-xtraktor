@@ -2,6 +2,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QLabel, QSizePolicy, QScrollArea
 from PyQt5.QtCore import Qt
 
+
 class FullScreenImage(QMainWindow):
     def __init__(self, image_path):
         super().__init__()
@@ -47,12 +48,8 @@ class FullScreenImage(QMainWindow):
         pic_zoomed = self.pixmap.transformed(QTransform().scale(self.zoom_wert, self.zoom_wert))
         self.label.setPixmap(pic_zoomed)
 
-
     @staticmethod
     def show_fullscreen(event, pixmap):
         if event.button() == Qt.LeftButton:
             fullscreen_window = FullScreenImage(pixmap)
             fullscreen_window.show()
-
-    def close_fullscreen(self, event):
-        self.close()

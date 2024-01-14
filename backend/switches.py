@@ -80,6 +80,8 @@ class switch_to:
             window.show()
             WindowHandler.register_window(Startseite, window)
             WindowHandler.release_all_except(Startseite)
+
+
         else:
             if old_window is not None:
                 old_window.close()
