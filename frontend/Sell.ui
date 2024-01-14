@@ -459,6 +459,17 @@ border-radius: 10px;</string>
                     <height>40</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(76, 117, 163);
+color: white;
+</string>
+                  </property>
                   <property name="text">
                    <string>Traktoren</string>
                   </property>
@@ -471,6 +482,16 @@ border-radius: 10px;</string>
                     <width>0</width>
                     <height>40</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(41, 128, 185);
+color: white;</string>
                   </property>
                   <property name="text">
                    <string>Zubehör</string>
@@ -501,7 +522,7 @@ border-radius: 10px;</string>
                       <x>0</x>
                       <y>0</y>
                       <width>996</width>
-                      <height>668</height>
+                      <height>652</height>
                      </rect>
                     </property>
                    </widget>
@@ -527,8 +548,8 @@ border-radius: 10px;</string>
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>996</width>
-                      <height>652</height>
+                      <width>100</width>
+                      <height>30</height>
                      </rect>
                     </property>
                    </widget>

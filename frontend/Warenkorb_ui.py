@@ -14,15 +14,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1500, 800)
-        MainWindow.setMinimumSize(QtCore.QSize(1500, 800))
+        MainWindow.resize(1920, 1080)
+        MainWindow.setMinimumSize(QtCore.QSize(1920, 1080))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.main_frame = QtWidgets.QFrame(self.centralwidget)
         self.main_frame.setStyleSheet("QFrame#main_frame {\n"
-"    background-color: rgb(19, 20, 24);\n"
+"    background-color: rgb(44, 62, 80);\n"
 "}")
         self.main_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.main_frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.main_frame)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.header_frame = QtWidgets.QFrame(self.main_frame)
-        self.header_frame.setStyleSheet("background-color: rgb(52, 70, 93);")
+        self.header_frame.setStyleSheet("")
         self.header_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.header_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.header_frame.setObjectName("header_frame")
@@ -41,7 +41,8 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         font.setBold(True)
         self.l_header_frame.setFont(font)
-        self.l_header_frame.setStyleSheet("background-color: white;\n"
+        self.l_header_frame.setStyleSheet("background-color: rgb(0, 191, 165);\n"
+"border-radius: 5px;\n"
 "")
         self.l_header_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.l_header_frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -73,7 +74,9 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.r_header_frame.sizePolicy().hasHeightForWidth())
         self.r_header_frame.setSizePolicy(sizePolicy)
-        self.r_header_frame.setStyleSheet("background-color: white;")
+        self.r_header_frame.setStyleSheet("background-color: rgb(0, 191, 165);\n"
+"border-radius: 5px;\n"
+"")
         self.r_header_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.r_header_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.r_header_frame.setObjectName("r_header_frame")
@@ -124,14 +127,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.r_header_frame, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_6.addWidget(self.header_frame)
         self.content_frame = QtWidgets.QFrame(self.main_frame)
-        self.content_frame.setStyleSheet("background-color: rgb(19, 20, 24);")
+        self.content_frame.setStyleSheet("background-color: rgb(44, 62, 80);")
         self.content_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.content_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.content_frame.setObjectName("content_frame")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.content_frame)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.items_frame = QtWidgets.QFrame(self.content_frame)
-        self.items_frame.setStyleSheet("background-color: rgb(19, 20, 24);")
+        self.items_frame.setStyleSheet("background-color: rgb(44, 62, 80);")
         self.items_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.items_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.items_frame.setObjectName("items_frame")
@@ -149,7 +152,7 @@ class Ui_MainWindow(object):
         self.dyn_scrollarea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.dyn_scrollarea.setObjectName("dyn_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1062, 660))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1377, 940))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.dyn_scrollarea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_2.addWidget(self.dyn_scrollarea)
@@ -194,7 +197,7 @@ class Ui_MainWindow(object):
         self.summe_scrollarea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.summe_scrollarea.setObjectName("summe_scrollarea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 332, 422))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 437, 609))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.summe_scrollarea.setWidget(self.scrollAreaWidgetContents_2)
         self.verticalLayout_8.addWidget(self.summe_scrollarea)
@@ -237,7 +240,7 @@ class Ui_MainWindow(object):
         self.buy_Button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.buy_Button.setStyleSheet("QPushButton#buy_Button {\n"
 "    color: white;\n"
-"    height : 30px;\n"
+"    height : 55px;\n"
 "    background-color: rgb(255, 87, 0);\n"
 "    border-radius: 10px;\n"
 "}\n"

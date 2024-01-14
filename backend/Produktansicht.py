@@ -132,6 +132,7 @@ class ProductWindow(QMainWindow):
         else:
             Helper2.replace.img(os.path.join(ICON_PATH, r"cross.svg"), self.findChild(QLabel, "bestand_icon"))
             self.bestand_icon.setMaximumSize(32, 32)
+            self.bestand_icon.setStyleSheet("background-color: red;")
             self.buy_Button.setDisabled(True)
             Helper2.replace.text("ausverkauft", self.findChild(QPushButton, "buy_Button"))
             return False
@@ -144,6 +145,7 @@ class ProductWindow(QMainWindow):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
                 Helper2.replace.img(voll_pfad, self.findChild(QLabel, "picture"))
+                self.picture.setMaximumSize(450,450)
 
     @staticmethod
     def load_zpic(name):
@@ -154,7 +156,7 @@ class ProductWindow(QMainWindow):
             if gesucht in dateiname:
                 voll_pfad = os.path.join(pfad, dateiname)
                 pixmap = QPixmap(voll_pfad)
-                scaled_pixmap = pixmap.scaled(64, 64)
+                scaled_pixmap = pixmap.scaled(100, 100)
                 return scaled_pixmap
 
     @staticmethod
@@ -190,6 +192,7 @@ class ProductWindow(QMainWindow):
             label1 = QLabel(self.z_list[x][0])
             label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
             label2 = QLabel()
+            label2.setMinimumSize(100,100)
             label2.setStyleSheet("border: none;")
             label2.setPixmap(self.load_zpic(self.z_list[x][0]))
             if self.acc[3] == "Admin":
@@ -203,6 +206,7 @@ class ProductWindow(QMainWindow):
                     border-radius: 10px;
                     background-color: rgb(100, 221, 23);
                     color: white;
+                    font-size: 15px;
                     font-weight: bold;
                     min-height: 30px;
                     border: none;
@@ -224,6 +228,7 @@ class ProductWindow(QMainWindow):
             inner_layout.addWidget(label2)
             inner_layout.addWidget(label3)
             inner_layout.addWidget(button)
+            inner_layout.setAlignment(Qt.AlignCenter)
 
             layout.addWidget(new_widget)  # widget dem container hinzufügen
 

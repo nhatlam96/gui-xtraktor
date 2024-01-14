@@ -111,15 +111,19 @@ class GebrauchtwarenWindow(QMainWindow):
         print("SORTED OFFERS")
         print(self.sortedOffers)
 
+        stylesheet = "QLabel {color: white; font-size: 16px; font-weight: bold;}"
         for index in range(len(self.sortedOffers)):
             offer = self.sortedOffers[index]
             print(offer)
 
             new_widget = QWidget()
+            new_widget.setStyleSheet(stylesheet)
+
             inner_layout = QHBoxLayout(new_widget)
 
             if index == 0:
                 name = QLabel(f"Meistbietende/r: {offer[0]}")
+                # name.setStyleSheet("font-size: 20px; font-weight: bold; ")
             else:
                 name = QLabel(f"Bieter: {offer[0]}")
             inner_layout.addWidget(name, 1)
@@ -139,8 +143,9 @@ class GebrauchtwarenWindow(QMainWindow):
                         border-radius: 10px;
                         background-color: rgb(230,126,34);
                         color: white;
+                        font-size: 16px;
                         font-weight: bold;
-                        min-height: 30px;
+                        min-height: 40px;
                     }
                     QPushButton:hover {
                         background-color: rgb(253,139,37);

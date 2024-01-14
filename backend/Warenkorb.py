@@ -133,8 +133,13 @@ class WarenkorbWindow(QMainWindow):
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
 
+        stylesheet = """
+            QWidget {border: 2px solid rgb(127, 140, 141); border-radius: 10px;}
+            QLabel {color: white; font-size: 16px; font-weight: 500; border: none;}
+        """
         for x in range(len(shopping_liste)):
             new_widget = QWidget()
+            new_widget.setStyleSheet(stylesheet)
             new_widget.setMaximumHeight(100)
 
             inner_layout = QVBoxLayout(new_widget)
@@ -159,9 +164,6 @@ class WarenkorbWindow(QMainWindow):
             top_layer.addWidget(label3)
             bottom_layer.addWidget(label2)
 
-            label1.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
-            label2.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
-            label3.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
             layout.addWidget(new_widget)
 
         scroll_area.setWidget(content_widget)
@@ -171,9 +173,15 @@ class WarenkorbWindow(QMainWindow):
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
-
+        stylesheet = """
+            QWidget {border: 2px solid rgb(127, 140, 141);}
+            QLabel {border: none;}
+            QPushButton {border: none;}
+            QSpinBox {border: none;}
+        """
         for x in range(len(shopping_liste)):
             new_widget = QWidget()
+            new_widget.setStyleSheet(stylesheet)
             new_widget.setMaximumHeight(200)
 
             inner_layout = QHBoxLayout(new_widget)  # v-layout für widget
@@ -214,7 +222,7 @@ class WarenkorbWindow(QMainWindow):
                 font-size: 16px;
                 font-weight: 500;
                 background-color: grey;
-                min-height: 25px;
+                min-height: 30px;
             """)
             label4.setMinimum(1)
             label4.setValue(shopping_liste[x][1])

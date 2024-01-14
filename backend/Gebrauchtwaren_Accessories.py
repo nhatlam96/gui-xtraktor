@@ -106,11 +106,13 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         content_widget = QWidget()
         content_layout = QVBoxLayout(content_widget)
 
+        stylesheet = "QLabel {color: white; font-size: 16px; font-weight: bold;}"
         for index in range(len(self.sortedOffers)):
             offer = self.sortedOffers[index]
             print(offer)
 
             new_widget = QWidget()
+            new_widget.setStyleSheet(stylesheet)
             inner_layout = QHBoxLayout(new_widget)
 
             if index == 0:
@@ -131,8 +133,9 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
                         border-radius: 10px;
                         background-color: rgb(230,126,34);
                         color: white;
+                        font-size: 16px;
                         font-weight: bold;
-                        min-height: 30px;
+                        min-height: 40px;
                     }
                     QPushButton:hover {
                         background-color: rgb(253,139,37);

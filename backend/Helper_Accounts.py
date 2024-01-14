@@ -36,6 +36,7 @@ class UserHandler:
 def check_credentials(username, password):
     with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
+
         for row in reader:
             # noinspection PyTypeChecker
             if row['username'] == username and row['password'] == password:
