@@ -10,10 +10,10 @@ import Helper2
 import Helper4
 import Helper_Accounts
 
-
 # Ressourcenpfade
 csv_path = os.path.join("..", "resources", "csv")
 image_path = os.path.join("..", "resources", "Traktoren")
+
 
 class Startseite(QMainWindow):
 
@@ -267,7 +267,7 @@ class Startseite(QMainWindow):
             if self.acc[3] == "Admin":
                 label6.setText(f"VK-Preis: {locale.currency(int(preis), grouping=True)}")
                 label6.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
-                label7 = QLabel(f"EK-Preis: {locale.currency(int(float(preis)*0.65), grouping=True)}")
+                label7 = QLabel(f"EK-Preis: {locale.currency(int(float(preis) * 0.65), grouping=True)}")
                 label7.setStyleSheet("color: white; font-size: 16px; font-weight: 500;")
                 value_layout.addWidget(label7)
                 value_layout.setAlignment(label7, QtCore.Qt.AlignHCenter)
@@ -361,14 +361,12 @@ class Startseite(QMainWindow):
         print(neue_liste)
 
         if sort == "Höchster Preis zuerst":
-
             # sortiert nach preis
             sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][4]), reverse=True)
 
             # Listen spalten
             self.traktor_sorted_Liste = [item[0] for item in sorted_combined]
             self.traktor_sorted_infos = [item[1] for item in sorted_combined]
-
 
         if sort == "Niedrigster Preis zuerst":
             # sortiert nach preis

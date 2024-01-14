@@ -247,8 +247,9 @@ class ProductWindow(QMainWindow):
         current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
         total_quantity = sum(item[1] for item in current_shopping_list if item[0] == self.product[1])
+        current_user = Helper_Accounts.UserHandler.get_current_user()
 
-        if total_quantity + value > available_quantity:
+        if (total_quantity + value > available_quantity) and (current_user[3] != "Admin"):
             adjusted_quantity = min(value, available_quantity - total_quantity)
             self.anz_spinBox.setValue(adjusted_quantity)
             self.anz = adjusted_quantity

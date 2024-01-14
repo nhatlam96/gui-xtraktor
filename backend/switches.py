@@ -11,6 +11,7 @@ from Sell import SellWindow
 from Gebrauchtwaren import GebrauchtwarenWindow
 from Gebrauchtwaren_Accessories import GebrauchtwarenWindowAccessories
 
+
 class WindowHandler:
     open_windows = {}
     windows_dict = {}
@@ -53,6 +54,7 @@ class WindowHandler:
         WindowHandler.windows_dict = {alias: WindowHandler.windows_dict.get(alias)}
         WindowHandler.open_windows_dict = {}
 
+
 class switch_to:
 
     @staticmethod
@@ -87,8 +89,6 @@ class switch_to:
                 old_window.close()
             WindowHandler.release_all_except(Startseite)
 
-
-
     @staticmethod
     def login(old_window=None):
         if old_window is not None:
@@ -98,7 +98,6 @@ class switch_to:
         WindowHandler.register_window(Login, window)
         WindowHandler.release_all_except(Login)
 
-
     @staticmethod
     def nutzer(old_window):
         if WindowHandler.check_window(UserprofileWindow) is True:
@@ -106,14 +105,12 @@ class switch_to:
             window.show()
             WindowHandler.register_window(UserprofileWindow, window)
 
-
     @staticmethod
     def accessories():
         if WindowHandler.check_window(accessoriesWindow) is True:
             window = accessoriesWindow()
             window.show()
             WindowHandler.register_window(accessoriesWindow, window)
-
 
     @staticmethod
     def shopping_cart():
@@ -137,11 +134,9 @@ class switch_to:
             window.show()
             WindowHandler.register_window(GebrauchtwarenWindow, window)
 
-
     @staticmethod
     def Sell_item_Access():
         if WindowHandler.check_window(GebrauchtwarenWindowAccessories) is True:
             window = GebrauchtwarenWindowAccessories()
             window.show()
             WindowHandler.register_window(GebrauchtwarenWindow, window)
-

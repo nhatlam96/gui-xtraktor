@@ -32,7 +32,7 @@ class SellWindow(QMainWindow):
         # Lokale Währungsumgebung laden
         Helper2.conf.locale_setup(self)
 
-        #Signale
+        # Signale
         self.t_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.z_Button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
 
@@ -51,10 +51,6 @@ class SellWindow(QMainWindow):
         self.create_content()
         self.add_bidders_tab()
 
-
-
-
-
     def create_content(self):
 
         scroll_area = self.findChild(QScrollArea, "scrollArea")
@@ -65,7 +61,6 @@ class SellWindow(QMainWindow):
 
         content_widget2 = QWidget()
         layout2 = QVBoxLayout(content_widget2)
-
 
         for x in range(len(self.inventar_liste)):
             new_widget = QWidget()
@@ -162,8 +157,9 @@ class SellWindow(QMainWindow):
             """)
             self.buttons_tab1[x] = label5
             label5.clicked.connect(lambda nr=x, label=self.inventar_liste[x][0], typ=self.inventar_liste[x][2],
-                                    zeit=self.inventar_liste[x][4], user=self.inventar_liste[x][3],
-                                    spin=spinbox: self.make_button_click_handler(label, spin.value(), typ, user, zeit))
+                                          zeit=self.inventar_liste[x][4], user=self.inventar_liste[x][3],
+                                          spin=spinbox: self.make_button_click_handler(label, spin.value(), typ, user,
+                                                                                       zeit))
 
             value_innerlayout = QHBoxLayout()
 
@@ -171,7 +167,8 @@ class SellWindow(QMainWindow):
 
             label6.setStyleSheet("color: red; font-size: 16px; font-weight: 500; border:none;")
 
-            label7 = QLabel(f"Alter: {int(Helper.get_time_difference_since_program_time(self.inventar_liste[x][4]))} Jahre")
+            label7 = QLabel(
+                f"Alter: {int(Helper.get_time_difference_since_program_time(self.inventar_liste[x][4]))} Jahre")
             label7.setStyleSheet("color: white; font-size: 16px; font-weight: 500; border: none;")
 
             value_innerlayout.addWidget(label7)
@@ -191,7 +188,6 @@ class SellWindow(QMainWindow):
         scroll_area.setWidget(content_widget)
         scroll_area2.setWidget(content_widget2)
 
-
     def add_bidders_tab(self):
 
         scroll_area = self.findChild(QScrollArea, "bidders_scrollArea")
@@ -208,7 +204,6 @@ class SellWindow(QMainWindow):
 
         print("BIDDER LISTE")
         print(self.bidders_liste)
-
 
         for item in self.bidders_liste:
             new_widget = QWidget()
@@ -240,7 +235,8 @@ class SellWindow(QMainWindow):
     def convert_preis(self, row):
 
         preis = int(self.info_liste[row][4]) if self.inventar_liste[row][2] == "t" else int(self.info_liste[row][1])
-        loss = int(Helper2.load.loss(self.info_liste[row][0])) if self.inventar_liste[row][2] == "t" else int(Helper2.load.loss("Zusatz"))
+        loss = int(Helper2.load.loss(self.info_liste[row][0])) if self.inventar_liste[row][2] == "t" else int(
+            Helper2.load.loss("Zusatz"))
         jahre = int(Helper.get_time_difference_since_program_time(self.inventar_liste[row][4]))
         verlustrate = (100 - loss) / 100
         conv_preis = int(float(preis) * float(verlustrate ** jahre))
