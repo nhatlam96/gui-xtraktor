@@ -1,7 +1,7 @@
 username,password,budget,role
-Klaus,1234,5350603,Admin
-Oskar,1234,345678,User
-Benni,1234,4657524,User
-Daniela,1234,4430937,User
-Horst,1234,4718293,User
-Sieglinde,1234,3341577,User
+Klaus,1234,3000000,Admin
+Oskar,1234,270000,User
+Benni,1234,250000,User
+Daniela,1234,200000,User
+Horst,1234,550000,User
+Sieglinde,1234,800000,User
