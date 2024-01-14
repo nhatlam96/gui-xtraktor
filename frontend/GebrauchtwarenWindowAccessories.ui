@@ -313,8 +313,8 @@ QFrame#frame_3 &gt; QFrame &gt; QFrame{
                   <property name="styleSheet">
                    <string notr="true">QFrame#frame_4{
 	background-color: rgb(52, 73, 94);
-	border-radius: 10px;
 	border: 2px solid rgb(46, 204, 113);
+	border-radius: 10px;
 }</string>
                   </property>
                   <property name="frameShape">
@@ -412,6 +412,13 @@ QFrame#frame_3 &gt; QFrame &gt; QFrame{
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_10">
+                  <property name="styleSheet">
+                   <string notr="true">QFrame#frame_10{
+	background-color: rgb(52, 73, 94);
+	border-radius: 10px;
+	border: 2px solid rgb(46, 204, 113);
+}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>

@@ -243,6 +243,7 @@ class Startseite(QMainWindow):
                     background-color: rgb(100, 221, 23);
                     color: white;
                     font-weight: bold;
+                    font-size: 15px;
                     min-height: 30px;
                 }
                 QPushButton:hover {

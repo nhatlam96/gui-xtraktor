@@ -399,6 +399,7 @@ margin-bottom: 3px;</string>
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
+                       <bold>true</bold>
                       </font>
                      </property>
                      <property name="styleSheet">
@@ -610,7 +611,7 @@ border-radius: 15px;</string>
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
-                       <bold>false</bold>
+                       <bold>true</bold>
                       </font>
                      </property>
                      <property name="cursor">
@@ -620,7 +621,7 @@ border-radius: 15px;</string>
                       <string notr="true">QPushButton#buy_Button {
 	background-color: rgb(243, 156, 18);
 	color: white;
-	height: 25px;
+	height: 35px;
 	border-radius: 10px;
 	
 }

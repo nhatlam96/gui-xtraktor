@@ -123,15 +123,17 @@ class SellWindow(QMainWindow):
 
             spinbox = QSpinBox()
             spinbox.setSuffix(" Stück")
+            spinbox.setPrefix("    ")
             spinbox.setMaximum(int(self.inventar_liste[x][1]))
 
             spinbox.setStyleSheet("""
-                background-color: rgb(52, 73, 94);
+                background-color: rgb(109, 135, 100);
                 color: white;
                 min-height: 30px;
                 font-size: 16px;
                 font-weight: 500;
                 border: none;
+                border-radius: none;
             """)
             label5 = QPushButton("Verkaufen")
 
@@ -139,7 +141,7 @@ class SellWindow(QMainWindow):
                 QPushButton {
                     background-color: rgb(230, 126, 34);
                     border-radius: 10px;
-                    min-height: 30px;
+                    min-height: 35px;
                     color: white;
                     font-size: 16px;
                     font-weight: 500;

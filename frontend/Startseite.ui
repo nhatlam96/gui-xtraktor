@@ -127,10 +127,16 @@ border-radius: 5px;
              </property>
              <item>
               <widget class="QPushButton" name="sell_Button">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>140</width>
-                 <height>35</height>
+                 <width>154</width>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -161,7 +167,8 @@ border-radius: 5px;
                 <string notr="true">QPushButton#sell_Button{
 	background-color: orange;
 	border-radius: 10px;
-	min-height: 35px;
+	height: 40px;
+	width: 200px;
 }
 
 QPushButton#sell_Button:hover {
@@ -323,6 +330,10 @@ border-radius: 5px;</string>
                 </item>
                 <item>
                  <widget class="QComboBox" name="comboBox_hersteller">
+                  <property name="styleSheet">
+                   <string notr="true">height: 25px;
+</string>
+                  </property>
                   <property name="editable">
                    <bool>false</bool>
                   </property>
@@ -364,7 +375,12 @@ border-radius: 5px;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="typ_comboBox"/>
+                 <widget class="QComboBox" name="typ_comboBox">
+                  <property name="styleSheet">
+                   <string notr="true">height: 25px;
+</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -403,6 +419,10 @@ border-radius: 5px;</string>
                 </item>
                 <item>
                  <widget class="QSpinBox" name="baujahr_spinBox">
+                  <property name="styleSheet">
+                   <string notr="true">height: 25px;
+</string>
+                  </property>
                   <property name="minimum">
                    <number>1900</number>
                   </property>
@@ -609,6 +629,10 @@ border-radius: 5px;</string>
                        <bold>true</bold>
                       </font>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">height: 25px;
+</string>
+                     </property>
                      <property name="suffix">
                       <string> €</string>
                      </property>
@@ -630,6 +654,10 @@ border-radius: 5px;</string>
                        <pointsize>10</pointsize>
                        <bold>true</bold>
                       </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">height: 25px;
+</string>
                      </property>
                      <property name="suffix">
                       <string> €</string>
@@ -837,6 +865,10 @@ QPushButton#search_pushButton:pressed {
                     <pointsize>10</pointsize>
                     <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">height: 25px;
+</string>
                   </property>
                   <property name="editable">
                    <bool>false</bool>

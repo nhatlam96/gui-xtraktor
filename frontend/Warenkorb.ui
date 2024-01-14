@@ -25,7 +25,7 @@
      <widget class="QFrame" name="main_frame">
       <property name="styleSheet">
        <string notr="true">QFrame#main_frame {
-	background-color: rgb(19, 20, 24);
+	background-color: rgb(44, 62, 80);
 }</string>
       </property>
       <property name="frameShape">
@@ -225,7 +225,7 @@ border-radius: 5px;
        <item>
         <widget class="QFrame" name="content_frame">
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(19, 20, 24);</string>
+          <string notr="true">background-color: rgb(44, 62, 80);</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -237,7 +237,7 @@ border-radius: 5px;
           <item>
            <widget class="QFrame" name="items_frame">
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(19, 20, 24);</string>
+             <string notr="true">background-color: rgb(44, 62, 80);</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -441,7 +441,7 @@ paddding: 5px;</string>
                   <property name="styleSheet">
                    <string notr="true">QPushButton#buy_Button {
 	color: white;
-	height : 30px;
+	height : 55px;
 	background-color: rgb(255, 87, 0);
 	border-radius: 10px;
 }
