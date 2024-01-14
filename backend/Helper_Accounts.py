@@ -228,7 +228,7 @@ def sellGebrauchtFromInventar(modell, anzahl, account, timestamp):
         if modell in row and account in row and timestamp in row:
             print("found", row)
             row[1] = int(row[1]) - anzahl  # Bestand abziehen, weil verkauft
-            if row[1] <= 0:  # falls nach Verkauf, leer wäre
+            if int(row[1]) <= 0:  # falls nach Verkauf, leer wäre
                 data.remove(row)  # eintrag löschen
             break
 
