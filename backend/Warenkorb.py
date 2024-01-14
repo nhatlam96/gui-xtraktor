@@ -97,11 +97,11 @@ class WarenkorbWindow(QMainWindow):
                         update_userBalance(user[0], -summe)
                     Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
-                    # update the user inventory csv file
-                    for item in self.shopping_list:
-                        Helper_Accounts.writeInventar(item[0], item[1], item[2], get_program_time().format("YYYY-MM"
-                                                                                                           "-DD "
-                                                                                                           "HH:mm:ss"))
+                    # update the User inventory csv file (not for Admin Klaus)
+                    if user[3] != "Admin":
+                        for item in self.shopping_list:
+                            Helper_Accounts.writeInventar(item[0], item[1], item[2],
+                                                          get_program_time().format("YYYY-MM-DD HH:mm:ss"))
 
                     # update the seller inventories csv file
                     Helper_Accounts.update_seller_inventories(self.shopping_list)
