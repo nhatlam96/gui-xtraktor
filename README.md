@@ -1,3 +1,5 @@
-# Dev channel
+# Aufgabe 4 - Gruppe A (PyQT)
+Teilnehmer: Julian Bluem, Mathias Dornes, Nhat-Lam Luong, Tu Ngoc Ngo
 
-This channel is used to test new features before they are released to the stable channel. If you want to see what's coming next, this is the channel to follow.
+# Instructions
+Login.py starten
