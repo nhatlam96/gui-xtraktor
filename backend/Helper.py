@@ -103,7 +103,6 @@ def show_toast(message, icon, button, time_in_ms):
 
     timer = QTimer(toast)
     # https://stackoverflow.com/questions/64505166/cannot-find-reference-connect-in-function
-    # noinspection PyUnresolvedReferences
     timer.timeout.connect(toast.close)
     timer.start(time_in_ms)
 

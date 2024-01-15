@@ -25,11 +25,10 @@ class GebrauchtwarenWindow(QMainWindow):
         uic.loadUi(os.path.join("..", "frontend", "GebrauchtwarenWindow.ui"), self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
-        print("AUFRUF GEBRAUCHT")
-
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
+        self.conv_preis = 0
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -38,7 +37,7 @@ class GebrauchtwarenWindow(QMainWindow):
         self.load_ui()
 
         # simulierte bidders
-        self.beispielGebot = self.conv_preis
+        self.gebot = self.conv_preis
         self.bidders_liste = Helper_Accounts.get_bidders()
         self.bestOffer = []
         self.sortedOffers = []
@@ -84,14 +83,13 @@ class GebrauchtwarenWindow(QMainWindow):
 
         for bidder in data:
             if Helper3.isInterested():
-                kaufangebot = Helper3.genKaufangebot(self.beispielGebot)  # bidder[1] # hier muss richtiges Gebot hin
+                kaufangebot = Helper3.genKaufangebot(self.gebot)
                 if int(kaufangebot) <= int(bidder[3]):  # kann nicht budget übersteigen
                     bidder[1] = kaufangebot
                 else:
                     bidder[1] = bidder[3]
             else:
                 bidder[1] = "0"
-            print("bidder", bidder)
 
         self.bestOffer = max(data, key=lambda data: int(data[1]))
         self.sortedOffers = sorted(data, key=lambda data: int(data[1]), reverse=True)  # bid/offer
@@ -160,7 +158,6 @@ class GebrauchtwarenWindow(QMainWindow):
     def button_handler(self):
         modell = self.product[0]
         anzahl = self.product[1]
-        t_z = self.product[2]
         account = self.product[3]
         timestamp = self.product[4]
 

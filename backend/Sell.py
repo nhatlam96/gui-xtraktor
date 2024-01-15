@@ -26,7 +26,6 @@ class SellWindow(QMainWindow):
         self.info_liste = Helper2.load.product_info(self, self.inventar_liste)
         print(self.info_liste)
         self.bidders_liste = Helper_Accounts.get_bidders()
-        print("AUFRUF SELL")
 
         # Lokale Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -41,7 +40,6 @@ class SellWindow(QMainWindow):
         # UI laden
         self.load_ui()
 
-        print("WORKS")
         self.showFullScreen()
         self.show()
 
@@ -204,9 +202,6 @@ class SellWindow(QMainWindow):
         content_widget.setStyleSheet("background-color: rgb(52, 73, 94);")
         layout = QVBoxLayout(content_widget)
 
-        print("BIDDER LISTE")
-        print(self.bidders_liste)
-
         for item in self.bidders_liste:
             new_widget = QWidget()
             new_widget.setMaximumHeight(100)
@@ -239,7 +234,8 @@ class SellWindow(QMainWindow):
         preis = int(self.info_liste[row][4]) if self.inventar_liste[row][2] == "t" else int(self.info_liste[row][1])
         loss = int(Helper2.load.loss(self.info_liste[row][0])) if self.inventar_liste[row][2] == "t" else int(
             Helper2.load.loss("Zusatz"))
-        jahre = int(Helper.get_time_difference_since_program_time(self.inventar_liste[row][4]))
+        jahre_anz = self.inventar_liste[row][4] if self.inventar_liste[row][2] == "z" else f"{self.info_liste[row][-2]}-01-01 12:00:00"
+        jahre = int(Helper.get_time_difference_since_program_time(jahre_anz))
         verlustrate = (100 - loss) / 100
         conv_preis = int(float(preis) * float(verlustrate ** jahre))
         neu_preis = int(conv_preis)

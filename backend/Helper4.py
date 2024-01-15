@@ -3,7 +3,6 @@ import os
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 
-
 class FilterHandler:
     Filter_dict = {
         "Hersteller": '',

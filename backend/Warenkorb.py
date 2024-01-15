@@ -20,15 +20,10 @@ class WarenkorbWindow(QMainWindow):
         super().__init__()  # vereinfacht das Erstellen weiterer Subklassen
         uic.loadUi(os.path.join("..", "frontend", "Warenkorb.ui"), self)
 
-        print("AUFRUF WARENKORB")
-
         # Übergabeparameter
         self.acc = UserHandler.get_current_user()
         self.shopping_list = Helper.BuyHandler.get_current_shoppinglist()
         self.info_list = Helper2.load.product_info(self, self.shopping_list) if self.shopping_list else []
-
-        print("INFO")
-        print(self.info_list)
 
         # dyn.Layout buttons
         self.buttons = {}
@@ -53,9 +48,6 @@ class WarenkorbWindow(QMainWindow):
                              self.findChild(QLabel, "summe_status"))
 
     def check_quantity(self, number, value):
-        print(f"Warenkorb.py - check params: {number}, {value}")  # Debug
-        print(f"Warenkorb.py - shopping list: {self.shopping_list}")  # Debug
-        print(f"Warenkorb.py - info list: {self.info_list}")  # Debug
 
         product_name = self.shopping_list[number][0]
         if self.shopping_list[number][2] == "t":
@@ -67,7 +59,7 @@ class WarenkorbWindow(QMainWindow):
             adjusted_quantity = min(value, available_quantity)
             self.spinBoxes[number].setValue(adjusted_quantity)
             self.shopping_list[number][1] = adjusted_quantity
-            message = f"Not enough quantity in the Lager for {product_name}."
+            message = f"Nicht genug Bestand für {product_name}."
             Helper.show_toast(message, QMessageBox.Warning, QMessageBox.Ok, 1750)
         else:
             self.shopping_list[number][1] = value
@@ -77,17 +69,18 @@ class WarenkorbWindow(QMainWindow):
                              self.findChild(QLabel, "summe_status"))
 
     def buy(self, user):
-        print(f"Warenkorb.py - Shopping Liste: {self.shopping_list}")  # Debug
-        # Check if the shopping list is empty
+
+        # Prüfe ob shopping_liste leer ist
         if not self.shopping_list:
-            Helper.show_toast("Shopping list is empty!", QMessageBox.Warning, QMessageBox.Ok, 1750)
+            Helper.show_toast("Einkaufsliste ist leer!", QMessageBox.Warning, QMessageBox.Ok, 1750)
             return
         else:
-            confirmation = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
-            if confirmation == QMessageBox.Yes:
+            confirm = Helper.show_toast_confirmation(self, "Kauf bestätigen?")
+            if confirm == QMessageBox.Yes:
 
                 summe = self.calc_sum(self.info_list, self.shopping_list)
-                # check if enough budget is available and then subtract the sum from the budget
+
+                # Prüfe ob genung Budget
                 if summe <= int(user[2]):
                     Helper_Accounts.UserHandler.set_current_user(user[0])
                     if user[3] == "User":
@@ -97,13 +90,13 @@ class WarenkorbWindow(QMainWindow):
                         update_userBalance(user[0], -summe)
                     Helper.show_toast("Kauf erfolgreich!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
-                    # update the User inventory csv file (not for Admin Klaus)
+                    # kommt ins Inventar, außer Klaus
                     if user[3] != "Admin":
                         for item in self.shopping_list:
                             Helper_Accounts.writeInventar(item[0], item[1], item[2],
                                                           get_program_time().format("YYYY-MM-DD HH:mm:ss"))
 
-                    # update the seller inventories csv file
+                    # Lagerbestand aktualisieren
                     Helper_Accounts.update_seller_inventories(self.shopping_list, user[3])
 
                     Helper.BuyHandler.clear_current_shoppinglist()

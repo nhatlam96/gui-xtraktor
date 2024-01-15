@@ -25,8 +25,6 @@ class accessoriesWindow(QMainWindow):
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
-        print("AUFRUF ACCESSORIES")
-
         # übergabeparameter
         model = Helper.AccessoriesHandler.get_current_acc()
         self.product = Helper2.load.product_info(self, [[model, 1, "z"]])[0]
@@ -115,6 +113,11 @@ class accessoriesWindow(QMainWindow):
                 scaled_pixmap = pixmap.scaled(64, 64)
                 return scaled_pixmap
 
+    def calc_preis(self, value):
+        preis = int(float(self.product[1]) * 0.65) if self.acc[3] == "Admin" else int(self.product[1])
+        new_value = preis * value
+        Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "ges_status"))
+
     def calc_wert(self, jahre):
         normalpreis = int(float(self.product[1]) * 0.65) if self.acc[3] == "Admin" else int(self.product[1])
         verlustrate = (100 - self.loss) / 100
@@ -124,7 +127,7 @@ class accessoriesWindow(QMainWindow):
         Helper2.replace.text(locale.currency(new_value, grouping=True), self.findChild(QLabel, "rest_status"))
 
     def check_quantity(self, value):
-        self.calc_wert(value)
+        self.calc_preis(value)
         available_quantity = int(self.product[2])
         current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
@@ -135,7 +138,7 @@ class accessoriesWindow(QMainWindow):
             adjusted_quantity = min(value, available_quantity - total_quantity)
             self.anz_spinBox.setValue(adjusted_quantity)
             self.anz = adjusted_quantity
-            message = f"Not enough quantity in the Lager for {self.product[0]}."
+            message = f"Kein Bestand für {self.product[0]}."
             Helper.show_toast(message, QMessageBox.Warning, QMessageBox.Ok, 2300)
         else:
             self.anz_spinBox.setValue(value)
@@ -146,7 +149,7 @@ class accessoriesWindow(QMainWindow):
         if anz > 0:
             current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
-            # Check if product already in shopping list
+            # Prüfe ob bereits in shopping list
             for item in current_shopping_list:
                 if item[0] == model:
                     item[1] += anz
@@ -156,7 +159,7 @@ class accessoriesWindow(QMainWindow):
                     print(Helper.BuyHandler.get_current_shoppinglist())
                     return
 
-            # If product not in shopping list, then add
+            # wenn nicht, neu einfügen
             Helper.show_toast(f"Sie haben {anz}x {model} dem Warenkorb hinzugefügt.",
                               QMessageBox.Information, QMessageBox.Ok, 2500)
             Helper.BuyHandler.add_to_current_shoppinglist(model, anz, typ)

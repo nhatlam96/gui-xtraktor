@@ -60,14 +60,14 @@ class Startseite(QMainWindow):
         # Signale UI
         self.sort_comboBox.currentTextChanged.connect(lambda value: self.get_sorted_list(value))
         self.search_pushButton.clicked.connect(lambda: self.search_handler())
-        self.searchbar_Lineedit.editingFinished.connect(lambda: self.search_handler())  # press "enter" to finish
+        self.searchbar_Lineedit.editingFinished.connect(lambda: self.search_handler())  # Enter Taste
 
         # lokale Umgebung laden
         Helper2.conf.locale_setup(self)
 
         # Button dict. von dyn. Layout
         self.buttons = {}
-
+        self.pictures = {}
         # Seite laden
         self.setup_waren_ui()
         self.load_ui()
@@ -89,6 +89,8 @@ class Startseite(QMainWindow):
         self.sort_comboBox.clear()
         self.sort_comboBox.addItems([""])
         self.sort_comboBox.addItems(["Höchster Preis zuerst", "Niedrigster Preis zuerst"])
+        if self.acc[3] == "Admin":
+            self.sort_comboBox.addItems(["Nach Lagerbestand"])
         self.sort_comboBox.blockSignals(False)
         self.home_Button.blockSignals(True)
 
@@ -121,47 +123,40 @@ class Startseite(QMainWindow):
         Helper4.FilterHandler.set_Filter(her=value)
         self.model_Liste = Helper4.load.get_model(value)
         self.typ_comboBox.setCurrentText("")
-        self.typ_comboBox.blockSignals(True)  # connect unterbrechen
+        self.typ_comboBox.blockSignals(True)
         self.typ_comboBox.clear()
         self.typ_comboBox.addItem("")
         self.typ_comboBox.addItems(self.model_Liste)
         self.typ_comboBox.blockSignals(False)
-        print("HERSTELLER")
 
     @staticmethod
     def filter_changed_typ(value):
         Helper4.FilterHandler.set_Filter(typ=value)
-        print("TYP")
 
     @staticmethod
     def filter_changed_baujahr(value):
         Helper4.FilterHandler.set_Filter(bau=value)
-        print("baujahr")
 
     def filter_changed_leistung(self, value):
         Helper4.FilterHandler.set_Filter(lei=value)
-        self.leistung_anzeigt.setText(f"Aktueller Wert: {value}")
-        print("leistung")
+        self.leistung_anzeigt.setText(f"Minimum Lesitung: {value}")
 
     def filter_changed_km(self, value):
         Helper4.FilterHandler.set_Filter(ges=value)
-        self.km_anzeigt.setText(f"Aktueller Wert: {value}")
-        print("kmh")
+        self.km_anzeigt.setText(f"Minimum Km/h: {value}")
 
     @staticmethod
     def filter_changed_min_preis(value):
         Helper4.FilterHandler.set_Filter(pre_min=value)
-        print("minPreis")
 
     @staticmethod
     def filter_changed_max_preis(value):
         Helper4.FilterHandler.set_Filter(pre_max=value)
-        print("maxPreis")
 
     def get_preis(self):
         jahre = int(Helper.get_time_difference_since_program_time(f"{self.product[5]}-01-01 12:00:00"))
         verlustrate = (100 - self.loss) / 100
-        preis = int(float(self.product[4]) * float(verlustrate ** jahre))  # ** -> Potenz
+        preis = int(float(self.product[4]) * float(verlustrate ** jahre))  # ** -> Potenz -> Zinseszins
         neu_preis = int(preis)
 
         return neu_preis
@@ -172,24 +167,16 @@ class Startseite(QMainWindow):
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
 
-        print("ZONE BETRETEN")
+        # Endprodukt ist sortierte Liste
         liste = self.traktor_sorted_Liste
         info_liste = self.traktor_sorted_infos
 
-        print(liste)
-        print(info_liste)
-        print("ZONE VERLASSEN")
 
         for x in range(len(liste)):
 
             self.product = Helper2.load.traktor_data(self, liste[x][0])
             self.loss = int(Helper2.load.loss(self.product[0]))
             preis = self.get_preis()
-
-            print("PRODUCT VON LOSS")
-            print(self.product)
-            print(self.loss)
-            print(preis)
 
             new_widget = QWidget()
             new_widget.setMaximumHeight(200)
@@ -281,8 +268,6 @@ class Startseite(QMainWindow):
 
             layout.addWidget(new_widget)  # widget dem container hinzufügen
 
-            # erstellten Container einfügen in QScrollArea
-
         scroll_area.setWidget(content_widget)
 
     @staticmethod
@@ -293,18 +278,12 @@ class Startseite(QMainWindow):
                 Helper.ProductHandler.set_current_product(text)
                 switches.switch_to.product()
 
-            else:
-                print("Label ist None")
-
         return button_click_handler
 
     def get_filtered_list(self):
 
         filtered_list = []
-
         filter_dict = Helper4.FilterHandler.get_Filter()
-        print("NEUE FILTER")
-        print(filter_dict)
 
         her = filter_dict['Hersteller'] if filter_dict['Hersteller'] != '' else None
         typ = filter_dict['Typ'] if filter_dict['Typ'] != '' else None
@@ -313,9 +292,6 @@ class Startseite(QMainWindow):
         ges = filter_dict['Geschwindigkeit'] if filter_dict['Geschwindigkeit'] != '' else None
         min_pre = filter_dict['Preis'][0] if filter_dict['Preis'][0] != '' else None
         max_pre = filter_dict['Preis'][1] if filter_dict['Preis'][1] != '' else None
-
-        print("FILTER IN SUCHLISTE")
-        print(self.search_infos)
 
         for x in range(len(self.search_infos)):
             if her is not None:
@@ -348,8 +324,6 @@ class Startseite(QMainWindow):
 
             filtered_list.append(self.search_Liste[x])
 
-        print(filtered_list)
-
         return filtered_list
 
     def get_sorted_list(self, value=''):
@@ -357,13 +331,11 @@ class Startseite(QMainWindow):
         sort = value if value is not None else ''
         liste = self.get_filtered_list()
         liste_infos = Helper2.load.product_info(self, liste)
-
         self.convert_list(liste_infos)
 
-        # zip kombiniert beide listen damit die beiden zusammen bleiben
+        # primärschlüssel mit infos vereinigen
         neue_liste = list(zip(liste, liste_infos))
-        print("NEUE SORTED LISTE")
-        print(neue_liste)
+
 
         if sort == "Höchster Preis zuerst":
             # sortiert nach preis
@@ -377,27 +349,24 @@ class Startseite(QMainWindow):
             # sortiert nach preis
             sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][4]), reverse=False)
 
-            # nur die Liste mit primärschlüssel ist nötig
-            sorted_list = [item[0] for item in sorted_combined]
+            # Listen spalten
+            self.traktor_sorted_Liste = [item[0] for item in sorted_combined]
+            self.traktor_sorted_infos = [item[1] for item in sorted_combined]
 
-            print("SORT!!!")
-            print(sorted_list)
+        if sort == "Nach Lagerbestand":
+            # sortiert nach Lagerbestand
+            sorted_combined = sorted(neue_liste, key=lambda x: int(x[1][-1]), reverse=False)
 
-            self.traktor_sorted_Liste = sorted_list
-            self.traktor_sorted_infos = Helper2.load.product_info(self, self.traktor_sorted_Liste)
+            # Listen spalten
+            self.traktor_sorted_Liste = [item[0] for item in sorted_combined]
+            self.traktor_sorted_infos = [item[1] for item in sorted_combined]
 
         if not sort:
             self.sort_comboBox.setCurrentText("")
             self.traktor_sorted_Liste = liste
             self.traktor_sorted_infos = liste_infos
 
-        print("FINALE LISTE")
-        print(self.traktor_sorted_Liste)
-        print(self.traktor_sorted_infos)
-
         self.setup_waren_ui()
-
-        print("UI GELADEN")
 
     def empty_search_info(self):
 
@@ -437,31 +406,20 @@ class Startseite(QMainWindow):
 
     def search_handler(self):
         search_text = self.searchbar_Lineedit.text() if self.searchbar_Lineedit.text() is not None else ""
-        print(f"\"{search_text}\"")
 
         if search_text == "":
             self.search_Liste = self.traktor_Liste
             self.search_infos = self.traktor_infos
         else:
-            print("SEARCHBAR SUCHT")
-
             liste = self.traktor_Liste
             liste_infos = self.traktor_infos
 
             filtered_list = []
 
+            # Überprüfe, ob Suchtext in Hersteller / Modell
             for key, info in zip(liste, liste_infos):
                 if search_text.lower() in info[0].lower() or search_text.lower() in info[1].lower():
-                    print("GEFUNDEN")
-                    print(info[0])
-                    print(info[1])
-                    print(search_text)
-                    print(key)
-                    # Überprüfe, ob der Suchtext in den ersten beiden Elementen von info enthalten ist
                     filtered_list.append(key)
-
-            print("GESUCHTE LISTE")
-            print(filtered_list)
 
             self.search_Liste = filtered_list
             self.search_infos = Helper2.load.product_info(self, filtered_list)

@@ -21,8 +21,6 @@ class UserprofileWindow(QMainWindow):
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
-        print("AUFRUF NUTZER")
-
         # Übergabeparameter
         self.user = UserHandler.get_current_user()[0]
 
@@ -49,12 +47,12 @@ class UserprofileWindow(QMainWindow):
         switches.switch_to.login()
 
     def handle_save_changes(self):
-        confirmation = show_toast_confirmation(self, "Are you sure you want to save changes?")
+        confirmation = show_toast_confirmation(self, "Willst du die Änderungen übernehmen?")
         if confirmation == QMessageBox.Yes:
             user = UserHandler.get_current_user()[0]
             add_user_to_csv(user, self.passwordLineEdit.text(), self.budgetLineEdit.text(),
                             self.loginStatusLabel.text())
-            show_toast("Changes saved!", QMessageBox.Information, QMessageBox.Ok, 1750)
+            show_toast("Änderungen gespeichert!", QMessageBox.Information, QMessageBox.Ok, 1750)
 
     def display_userprofile(self):
         with open(ACCOUNTS_FILE_PATH, newline='') as csvfile:

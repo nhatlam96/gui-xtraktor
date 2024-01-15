@@ -15,12 +15,9 @@ class Register(QMainWindow):
         super().__init__()
         uic.loadUi(os.path.join("..", "frontend", "Register.ui"), self)
 
-        # erklärung: https://stackoverflow.com/a/47513327
+        # Gelernt von https://stackoverflow.com/a/47513327
         rx = QRegExp("\d+")
         self.budgetLineEdit.setValidator(QRegExpValidator(rx))
-
-        # for future use, when a role-based budget is implemented
-        # self.registerAsComboBox.currentIndexChanged.connect(lambda: self.update_budget_line_edit())
 
         self.goToLoginButton = self.findChild(QPushButton, "goToLoginButton")
         self.goToLoginButton.clicked.connect(lambda: switches.switch_to.login(self))
@@ -31,15 +28,6 @@ class Register(QMainWindow):
         self.showPasswordCheckBox.stateChanged.connect(lambda: toggle_password_visibility(self, "Register"))
 
         self.show()
-
-    """ for future use, when a role-based budget is implemented
-    def update_budget_line_edit(self):
-        if self.registerAsComboBox.currentText() == "Verkäufer (Gebraucht)":
-            self.budgetLineEdit.setText("0")
-            self.budgetLineEdit.setEnabled(False)
-        else:
-            self.budgetLineEdit.setEnabled(True)
-    """
 
     def register_user(self):
         username = self.usernameLineEdit.text()

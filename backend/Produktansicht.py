@@ -6,6 +6,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
+
 import Helper_Accounts
 import Helper
 import switches
@@ -25,12 +27,10 @@ class ProductWindow(QMainWindow):
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
-        print("AUFRUF PRODUKT")
-
         # übergabeparameter
         self.product = Helper2.load.traktor_data(self, Helper.ProductHandler.current_product)
         self.loss = int(Helper2.load.loss(self.product[0]))
-        self.z_list = self.load_zub()  # kompatibles. Zubehör
+        self.z_list = self.load_zub()
         self.acc = Helper_Accounts.UserHandler.get_current_user()
 
         # dyn. Layout
@@ -207,7 +207,8 @@ class ProductWindow(QMainWindow):
                     color: white;
                     font-size: 15px;
                     font-weight: bold;
-                    min-height: 30px;
+                    min-height: 50px;
+                    min-width: 100px;
                     border: none;
                 }
                 QPushButton:hover {
@@ -223,11 +224,14 @@ class ProductWindow(QMainWindow):
 
             button.clicked.connect(self.button_handler(label1))
 
-            inner_layout.addWidget(label1)
-            inner_layout.addWidget(label2)
-            inner_layout.addWidget(label3)
-            inner_layout.addWidget(button)
-            inner_layout.setAlignment(Qt.AlignCenter)
+            inner_layout.addWidget(label1, 1)
+            inner_layout.addWidget(label2, 2)
+            inner_layout.addWidget(label3, 1)
+            inner_layout.addWidget(button, 2)
+            inner_layout.setAlignment(label1, Qt.AlignHCenter)
+            inner_layout.setAlignment(label2, Qt.AlignHCenter)
+            inner_layout.setAlignment(label3, Qt.AlignHCenter)
+            inner_layout.setAlignment(button, Qt.AlignHCenter)
 
             layout.addWidget(new_widget)  # widget dem container hinzufügen
 
@@ -240,14 +244,11 @@ class ProductWindow(QMainWindow):
             if label is not None:
                 Helper.AccessoriesHandler.set_current_acc(label.text())
                 switches.switch_to.accessories()
-            else:
-                print("Label ist None")
 
         return button_click_handler
 
     def check_quantity(self, value):
         self.calc_preis(value)
-        print(f"Produktansicht: {self.product}")
         available_quantity = int(self.product[6])
         current_shopping_list = Helper.BuyHandler.get_current_shoppinglist()
 
@@ -258,7 +259,7 @@ class ProductWindow(QMainWindow):
             adjusted_quantity = min(value, available_quantity - total_quantity)
             self.anz_spinBox.setValue(adjusted_quantity)
             self.anz = adjusted_quantity
-            message = f"Not enough quantity in the Lager for {self.product[1]}."
+            message = f"Kein Bestand für {self.product[1]}."
             Helper.show_toast(message, QMessageBox.Warning, QMessageBox.Ok, 2300)
         else:
             self.anz_spinBox.setValue(value)

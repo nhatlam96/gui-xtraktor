@@ -5,12 +5,10 @@ import os.path
 
 CSV_PATH = os.path.join("..", "resources", "csv")
 
-
 # Zufallszahl 1
 def isInterested():
     interest = random.uniform(0, 1)
     return False if interest < 0.6 else True
-
 
 # Zufallszahl 2
 def genKaufangebot(curGebPreis):

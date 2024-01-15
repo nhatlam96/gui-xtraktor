@@ -26,11 +26,10 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint)
 
-        print("AUFRUF GEBRAUCHT ACCESSORIES")
-
         # übergabeparameter
         self.product = Helper.current_Sell_Handler.get_current_sell_item()
         self.product_info = Helper2.load.product_info(self, [self.product])[0]
+        self.conv_preis = 0
 
         # Währungsumgebung laden
         Helper2.conf.locale_setup(self)
@@ -93,10 +92,9 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
                     bidder[1] = bidder[3]
             else:
                 bidder[1] = "0"
-            print("bidder", bidder)
 
-        self.bestOffer = max(data, key=lambda data: data[1])
-        self.sortedOffers = sorted(data, key=lambda data: data[1], reverse=True)  # bid/offer
+        self.bestOffer = max(data, key=lambda data: int(data[1]))
+        self.sortedOffers = sorted(data, key=lambda data: int(data[1]), reverse=True)  # bid/offer
 
     def add_widget(self):
         scroll_area = self.findChild(QScrollArea, "dyn_scrollarea")
@@ -164,20 +162,19 @@ class GebrauchtwarenWindowAccessories(QMainWindow):
         preis = float(self.bestOffer[1])
 
         Helper_Accounts.sellGebrauchtFromInventar(modell, anzahl, account, timestamp)
-        Helper_Accounts.update_biddersBalance(account, int(preis))   # voller preis abzug
+        Helper_Accounts.update_biddersBalance(account, int(preis))      # voller preis abzug
         Helper_Accounts.update_accountsBalance(account, int(preis*0.99))     # 99 % von Wert für Bidder
-        Helper_Accounts.update_klausBalance(int(preis*0.01))     # 1 % Provision für Klaus
+        Helper_Accounts.update_klausBalance(int(preis*0.01))                # 1 % Provision für Klaus
         print("verkauf bestätigt")
         Helper.show_toast(f"Der Verkauf über {locale.currency(int(preis), grouping=True)}€ "
                           f"wurde erfolgreich abgeschlossen.",
                           QMessageBox.Information,
                           QMessageBox.Ok, 2000)
-        self.close()
+        switches.switch_to.Inventar(self)
 
     def convert_preis(self):
 
         preis = int(self.product_info[1])
-        print(preis)
         loss = int(Helper2.load.loss("Zusatz"))
         jahre = int(Helper.get_time_difference_since_program_time(self.product[4]))
         verlustrate = (100 - loss) / 100
