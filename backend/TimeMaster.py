@@ -86,6 +86,5 @@ def update_program_time(months):
 # initialises the LaunchTime at every program launch
 launch_time = save_launch_time(Helper.get_program_time())
 while True:
-    time.sleep(100000)
-    update_program_time(0)
-    
+    time.sleep(150)  # 2.5 minutes
+    update_program_time(12)  # 1 year
